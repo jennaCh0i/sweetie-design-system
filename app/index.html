@@ -680,7 +680,7 @@ kw.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();startNe
 renderSugs();
 async function runPool(screenEl,label='Finding your bowl…'){
   const pool=$('.pool',screenEl); pool.classList.remove('done'); $('.lbl',pool).textContent=label;
-  screenEl.classList.add('loading'); await wait(2600); // ≥2 s of looping (two full 1.2 s ripples) before it settles
+  screenEl.classList.add('loading'); await wait(800+2400); // 0.8 s fade-in, then 2.4 s of looping (two full 1.2 s ripples) before it settles
   pool.classList.add('done'); $('.lbl',pool).textContent='Bowl ready'; await wait(800);
 }
 let busy=false;
