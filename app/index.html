@@ -144,13 +144,13 @@ body.full .fs-exit{display:grid}
 #s-start .next{position:absolute;right:45px;top:738px;width:145px;height:50px;border-radius:40px;background:var(--green-950);color:var(--cream-100);font-size:15px;transition:transform .3s var(--ease),opacity .6s var(--ease)}
 #s-start .next:active{transform:scale(.97)}
 /* Pool loader (WK01) inside the glass */
-.pool{position:absolute;left:50%;top:50%;width:280px;height:280px;margin:-170px 0 0 -140px;opacity:0;visibility:hidden;transition:opacity .8s var(--ease),visibility .8s}
+.pool{position:absolute;left:50%;top:50%;width:196px;height:196px;margin:-120px 0 0 -98px;opacity:0;visibility:hidden;transition:opacity .8s var(--ease),visibility .8s}
 .pool svg{position:absolute;left:50%;top:50%;overflow:visible;transform:translate(-50%,-50%);filter:drop-shadow(0 6px 16px rgba(0,50,35,.16))}
 .pool path{fill:url(#sweetie-glow);stroke:rgba(255,255,255,.85);stroke-width:1;vector-effect:non-scaling-stroke;transition:fill var(--settle) var(--ease)}
-.pool .lbl{position:absolute;left:50%;top:312px;transform:translateX(-50%);font-size:18px;letter-spacing:-.02em;color:var(--green-950);white-space:nowrap}
+.pool .lbl{position:absolute;left:50%;top:222px;transform:translateX(-50%);font-size:18px;letter-spacing:-.02em;color:var(--green-950);white-space:nowrap}
 .loading .pool{opacity:1;visibility:visible}
-.loading .pool svg{animation:ripple var(--breath) var(--ease) infinite}
-.loading .pool .p2{animation-delay:.3s}.loading .pool .p1{animation-delay:.6s}
+.loading .pool svg{animation:ripple 1.2s var(--ease) infinite}
+.loading .pool .p2{animation-delay:.12s}.loading .pool .p1{animation-delay:.24s}
 .loading .pool.done path{fill:#DBE4CB}
 .loading .pool.done svg{animation:none;filter:drop-shadow(0 0 14px rgba(255,255,255,.75))}
 @keyframes ripple{0%,100%{transform:translate(-50%,-50%) scale(.94);opacity:.75}50%{transform:translate(-50%,-50%) scale(1.04);opacity:1}}
@@ -530,8 +530,8 @@ function hexD(w,h,r,flat=true){
   const POOL={p1:{w:149.5502,h:149.0056,d:'M54.8298 11.4735C67.178 4.37021 82.3722 4.37021 94.7204 11.4735L119.478 25.715C131.884 32.852 139.532 46.0743 139.532 60.3875L139.532 88.6181C139.532 102.931 131.884 116.154 119.478 123.291L94.7204 137.532C82.3722 144.635 67.178 144.635 54.8298 137.532L30.0726 123.291C17.6658 116.154 10.018 102.931 10.018 88.6181L10.018 60.3875C10.018 46.0743 17.6658 32.852 30.0726 25.715L54.8298 11.4735Z'},
     p2:{w:123.6325,h:123.1823,d:'M41.8709 11.4735C54.2191 4.37022 69.4133 4.37022 81.7615 11.4735L95.296 19.2592C107.703 26.3962 115.351 39.6185 115.351 53.9317L115.351 69.2506C115.351 83.5638 107.703 96.7861 95.296 103.923L81.7615 111.709C69.4133 118.812 54.2191 118.812 41.8709 111.709L28.3365 103.923C15.9296 96.7861 8.2818 83.5638 8.2818 69.2506L8.2818 53.9317C8.2818 39.6185 15.9296 26.3962 28.3365 19.2592L41.8709 11.4735Z'},
     p3:{w:90.7098,h:90.3795,d:'M25.7157 11.2974C37.8411 4.32228 52.8687 4.32228 64.9941 11.2974C77.1108 18.2675 84.6334 31.2114 84.6334 45.1898C84.6334 59.1681 77.1108 72.112 64.9941 79.0821C52.8687 86.0573 37.8411 86.0573 25.7157 79.0821C13.599 72.112 6.0764 59.1681 6.0764 45.1898C6.0764 31.2114 13.599 18.2675 25.7157 11.2974Z'}};
-  // all three rings share the outer Pool hexagon, scaled 268 / 217 / 160 px wide (one shape, three sizes)
-  $$('.pool').forEach(pool=>[['p1',1.79],['p2',1.45],['p3',1.07]].forEach(([c,k])=>{
+  // all three rings share the outer Pool hexagon, scaled 188 / 152 / 112 px wide (30% smaller) (one shape, three sizes)
+  $$('.pool').forEach(pool=>[['p1',1.253],['p2',1.015],['p3',.749]].forEach(([c,k])=>{
     const g=POOL.p1, s=$('.'+c,pool); s.setAttribute('width',(g.h*k).toFixed(1)); s.setAttribute('height',(g.w*k).toFixed(1)); s.setAttribute('viewBox',`0 0 ${g.h} ${g.w}`);
     const p=$('path',s); p.setAttribute('d',g.d); p.setAttribute('transform',`matrix(0 1 -1 0 ${g.h} 0)`);}));
 })();
@@ -680,7 +680,7 @@ kw.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();startNe
 renderSugs();
 async function runPool(screenEl,label='Finding your bowl…'){
   const pool=$('.pool',screenEl); pool.classList.remove('done'); $('.lbl',pool).textContent=label;
-  screenEl.classList.add('loading'); await wait(2100);
+  screenEl.classList.add('loading'); await wait(2600); // ≥2 s of looping (two full 1.2 s ripples) before it settles
   pool.classList.add('done'); $('.lbl',pool).textContent='Bowl ready'; await wait(800);
 }
 let busy=false;
