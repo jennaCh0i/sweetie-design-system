@@ -84,8 +84,8 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;paddin
 /* ═════════════ SET 1 · SERENE — ingredient bar ═════════════ */
 .sbar{position:relative;flex:1;min-width:0;height:55px;border-radius:40px;background:var(--cream-200);box-shadow:inset 0 0 0 1.5px var(--n-300);cursor:ew-resize}
 .sbar:focus-visible{outline-offset:4px}
-.sbar .fill{position:absolute;top:0;bottom:0;left:0;width:calc(var(--p)*100%);border-radius:40px;background:var(--c);box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.14);transition:width .6s var(--serene-ease),background .6s var(--serene-ease),box-shadow .6s var(--serene-ease)}
-.sbar.is-zero .fill{background:var(--cream-200);box-shadow:inset 0 0 0 1.5px rgba(0,0,0,0)}
+.sbar .fill{position:absolute;top:0;bottom:0;left:0;width:calc(var(--p)*100%);border-radius:40px;background:var(--c);box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.14);transition:width .6s var(--serene-ease),background .6s var(--serene-ease),box-shadow .6s var(--serene-ease),opacity .5s var(--serene-ease)}
+.sbar.is-zero .fill{opacity:0}
 .sbar.is-drag .fill{transition:width .08s linear}
 .sbar .name{position:absolute;left:28px;top:50%;transform:translateY(-50%);font-size:25px;line-height:30px;letter-spacing:-.03em;color:var(--ink);white-space:nowrap;pointer-events:none;transition:color .6s var(--serene-ease)}
 .sbar.is-zero .name{color:var(--n-600)}
@@ -102,7 +102,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;paddin
 .sbar.is-drag .bubble,.sbar:focus-visible .bubble{opacity:1;transform:translate(calc(var(--p)*-100%),0)}
 .sbar .bubble i{font-style:normal;font-weight:400;opacity:.7}
 .sbar.glow .fill{background:var(--glow)}
-.sbar.glow.is-zero .fill{background:var(--cream-200)}
+.sbar.glow.is-zero .fill{opacity:0}
 
 /* Phone — bowl builder */
 .phone{width:100%;max-width:402px;border-radius:44px;background:var(--cream-100);box-shadow:0 0 0 10px #1A1A1A,0 30px 60px rgba(0,0,0,.18);padding:56px 20px 28px;position:relative;overflow:hidden}
