@@ -113,6 +113,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;paddin
 .rows{display:flex;flex-direction:column;gap:12px}
 .irow{display:flex;align-items:center;gap:10px;transition:opacity .4s var(--serene-ease),transform .4s var(--serene-ease)}
 .irow.out{opacity:0;transform:translateX(-12px)}
+.irow.will-remove .x{color:var(--tomato);box-shadow:inset 0 0 0 1.5px var(--tomato)}
 .x{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--n-400);box-shadow:inset 0 0 0 1.5px var(--n-300);background:var(--white);transition:color .3s,background .3s}
 .x:hover{color:var(--green-950);background:var(--cream-200)}
 .x svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round}
@@ -179,7 +180,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;paddin
     <a class="back" href="../">← Sweetie</a>
     <p class="eyebrow">Advanced Interface · WK04 · Sliders</p>
     <h1>Sliders</h1>
-    <p class="lede">In the bowl builder, every ingredient bar is a slider. Slide across a bar and it tells you how much you're getting: Less, Good amount, More, A lot. Three tones, each with one stepped slider and one continuous slider, all about the same thing: how much goes in your bowl.</p>
+    <p class="lede">In the bowl builder, every ingredient bar is a slider. Slide across a bar and it tells you how much you're getting: None, Less, Good amount, More, A lot. Slide down to None and the ingredient leaves your bowl. Three tones, each with one stepped slider and one continuous slider, all about the same thing: how much goes in your bowl.</p>
     <nav class="jump" aria-label="Sections">
       <a href="#serene"><i>01</i> Serene · Ingredient bars</a>
       <a href="#playful"><i>02</i> Playful · Heat &amp; tomatoes</a>
@@ -200,13 +201,13 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;paddin
   <p class="set-num">01</p>
   <h2 class="set-title">Serene · Ingredient bars</h2>
   <p class="set-desc">The ingredient bar from the bowl builder is now the slider. Put your finger anywhere on the bar and slide: the colored fill follows you, small dots show where the portions are, and a deep green bubble names the portion you're on. Let go and the fill slowly settles on the nearest portion. The continuous version (dressing) uses the same bar with the Sweetie gradient and reads out a percentage.</p>
-  <div class="tokens"><span>drag anywhere on the bar</span><span>settle 600 ms</span><span>cubic-bezier(.45, 0, .2, 1)</span><span>4 portions</span><span>no bounce</span></div>
+  <div class="tokens"><span>drag anywhere on the bar</span><span>settle 600 ms</span><span>cubic-bezier(.45, 0, .2, 1)</span><span>5 portions · None removes</span><span>no bounce</span></div>
   <div class="set-body">
     <div class="set-left">
       <div class="panel">
         <span class="kind">Stepped</span>
         <h3>Portion</h3>
-        <p>4 stops: Less · Good amount · More · A lot. The shortest portion always leaves room for the ingredient name (name + 56 px, at least 34% of the track). The other stops are spaced evenly up to 100%.</p>
+        <p>5 stops: None · Less · Good amount · More · A lot. At None the bar empties back to cream. In the bowl builder, sliding to None and letting go removes the ingredient from the list. The fill always leaves room for the name (name + 56 px, at least 34%); the stops are spaced evenly up to 100%.</p>
         <div class="stage"><div id="s-step"></div></div>
         <p class="readout" id="s-step-out"></p>
       </div>
@@ -229,7 +230,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;paddin
         <button class="ph-cta" type="button">Add to bag</button>
         <p class="ph-sum" id="ph-sum"></p>
       </div>
-      <p class="phone-hint">Live prototype: slide any bar, tap × to remove, tap Add ingredients.</p>
+      <p class="phone-hint">Live prototype: slide any bar. Slide all the way down to None and let go to remove it, or tap ×.</p>
     </div>
   </div>
   <div class="spec">
@@ -260,6 +261,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;paddin
       <div class="spec-row"><span>Easing</span><b>cubic-bezier(.45, 0, .2, 1)</b></div>
       <div class="spec-row"><span>Bubble</span><b>fade + rise 6 · 300 ms</b></div>
       <div class="spec-row"><span>Continuous</span><b>step 1 · Sweetie Glow gradient</b></div>
+      <div class="spec-row"><span>Remove</span><b>None + release → 450 ms → row fades left 12 · 380 ms</b></div>
     </div>
   </div>
 </section>
@@ -422,8 +424,8 @@ function slider(el,o){
 }
 
 /* ═════════════ 01 · SERENE ═════════════ */
-const PORTIONS=['Less','Good amount','More','A lot'];
-const SHORT=['Less','Good','More','A lot']; // resting label on narrow bars
+const PORTIONS=['None','Less','Good amount','More','A lot'];
+const SHORT=['None','Less','Good','More','A lot']; // resting label on narrow bars
 const ING={
   Lettuce:{c:'var(--lettuce)',ink:'#000'}, Kale:{c:'#41834F',ink:'#fff'}, 'Wild rice':{c:'#8A6A4F',ink:'#fff'},
   Tortilla:{c:'var(--tortilla)',ink:'#000'}, Onion:{c:'var(--onion)',ink:'#fff'}, Avocado:{c:'#47883A',ink:'#fff'},
@@ -462,10 +464,13 @@ function serenebar(host,name,value,opts={}){
         el.classList.toggle('is-zero',v===0);place();opts.onChange&&opts.onChange(v,word(v));}});
   } else {
     api=slider(el,{stops:PORTIONS,value,range,label:name+' portion',text:i=>PORTIONS[i],
-      onChange(i,st){bub.textContent=PORTIONS[i];portion.textContent=(el.clientWidth<400?SHORT:PORTIONS)[i];
+      onChange(i,st){
+        bub.innerHTML=i===0&&opts.removable?'None <i>· let go to remove</i>':PORTIONS[i];
+        portion.textContent=(el.clientWidth<400?SHORT:PORTIONS)[i];
+        el.classList.toggle('is-zero',i===0);
         dots.forEach((d,k)=>d.classList.toggle('on',k<=i));
         if(!st.drag) place();
-        opts.onChange&&opts.onChange(i,PORTIONS[i]);}});
+        opts.onChange&&opts.onChange(i,PORTIONS[i],st);}});
   }
   BARS.push({el,layout,api}); layout(); api.set(api.get());
   return api;
@@ -474,29 +479,44 @@ const relayout=()=>{for(let i=BARS.length-1;i>=0;i--){const b=BARS[i]; if(!b.el.
 addEventListener('resize',relayout); document.fonts&&document.fonts.ready.then(relayout);
 // Demo panels
 const sStepOut=document.getElementById('s-step-out'), sContOut=document.getElementById('s-cont-out');
-serenebar(document.getElementById('s-step'),'Lettuce',1,{onChange:(i,w)=>sStepOut.innerHTML=`Value · <b>${w}</b> (stop ${i+1} of 4)`});
+serenebar(document.getElementById('s-step'),'Lettuce',2,{onChange:(i,w)=>sStepOut.innerHTML=`Value · <b>${w}</b> (stop ${i+1} of 5)${i===0?' · in the bowl builder this removes the ingredient':''}`});
 serenebar(document.getElementById('s-cont'),'Dressing',45,{cont:true,glow:true,onChange:(v,w)=>sContOut.innerHTML=`Value · <b>${v}%</b> · ${w}`});
 document.getElementById('s-step').style.display='flex';
 document.getElementById('s-cont').style.display='flex';
 
 // Bowl builder (phone)
 const X='<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>';
-const GROUPS={bases:{max:2,list:[['Lettuce',1]],pool:['Kale','Wild rice']},
-              tops:{max:10,list:[['Tortilla',0],['Onion',1],['Avocado',1],['Olive',0],['Tomato',2]],pool:['Cucumber','Radish','Chickpea','Corn']}};
+const GROUPS={bases:{max:2,list:[['Lettuce',2]],pool:['Kale','Wild rice']},
+              tops:{max:10,list:[['Tortilla',1],['Onion',2],['Avocado',2],['Olive',1],['Tomato',3]],pool:['Cucumber','Radish','Chickpea','Corn']}};
 const state={};
 function renderGroup(key){
   const g=GROUPS[key], host=document.getElementById('r-'+key); host.innerHTML='';
-  g.list.forEach(([name,val],idx)=>{
+  g.list.forEach(entry=>{
+    const [name,val]=entry;
     const row=document.createElement('div'); row.className='irow'; host.appendChild(row);
-    serenebar(row,name,val,{onChange:i=>{g.list[idx][1]=i;summary();}});
+    let timer=null, gone=false;
+    const remove=()=>{
+      if(gone) return; gone=true; row.classList.add('out');
+      const rows=[...host.querySelectorAll('.irow')], at=rows.indexOf(row), hadFocus=row.contains(document.activeElement);
+      setTimeout(()=>{
+        const k=g.list.indexOf(entry); if(k>-1) g.list.splice(k,1); g.pool.unshift(name); renderGroup(key);
+        if(hadFocus){const n=host.querySelectorAll('.sbar')[at]||host.querySelector('.add')||host.querySelectorAll('.sbar')[at-1]; n&&n.focus({preventScroll:true});}
+      },380);
+    };
+    // sliding to None and letting go removes the ingredient (keyboard: after a short pause at None)
+    serenebar(row,name,val,{removable:true,onChange:(i,w,st)=>{
+      entry[1]=i; summary(); clearTimeout(timer);
+      row.classList.toggle('will-remove',i===0);
+      if(i===0&&st&&!st.drag) timer=setTimeout(remove,st.changed?700:450);
+    }});
     const x=document.createElement('button'); x.className='x'; x.type='button'; x.setAttribute('aria-label','Remove '+name); x.innerHTML=X;
-    x.onclick=()=>{row.classList.add('out');setTimeout(()=>{g.pool.unshift(name);g.list.splice(idx,1);renderGroup(key);},380)};
+    x.onclick=remove;
     row.appendChild(x);
   });
   if(g.list.length<g.max){
     const add=document.createElement('button'); add.className='add'; add.type='button'; add.textContent='Add ingredients';
     add.disabled=!g.pool.length;
-    add.onclick=()=>{const n=g.pool.shift(); if(!n) return; g.list.push([n,1]); renderGroup(key);
+    add.onclick=()=>{const n=g.pool.shift(); if(!n) return; g.list.push([n,2]); renderGroup(key);
       const bars=host.querySelectorAll('.sbar'); bars[bars.length-1].focus({preventScroll:true});};
     host.appendChild(add);
   }
@@ -505,7 +525,7 @@ function renderGroup(key){
 }
 function summary(){
   const all=[...GROUPS.bases.list,...GROUPS.tops.list];
-  const more=all.filter(([,i])=>i>=2).map(([n,i])=>`${PORTIONS[i].toLowerCase()} ${n.toLowerCase()}`);
+  const more=all.filter(([,i])=>i>=3).map(([n,i])=>`${PORTIONS[i].toLowerCase()} ${n.toLowerCase()}`);
   document.getElementById('ph-sum').textContent=all.length?`${all.length} ingredients${more.length?' · '+more.join(', '):''}`:'Empty bowl';
 }
 renderGroup('bases'); renderGroup('tops');
