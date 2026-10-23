@@ -145,7 +145,7 @@ body.full .fs-exit{display:grid}
 #s-start .next:active{transform:scale(.97)}
 /* Pool loader (WK01) inside the glass */
 .pool{position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-120px 0 0 -100px;opacity:0;visibility:hidden;transition:opacity .8s var(--ease),visibility .8s}
-.pool svg{position:absolute;left:50%;top:50%;overflow:visible}
+.pool svg{position:absolute;left:50%;top:50%;overflow:visible;transform:translate(-50%,-50%)}
 .pool path{fill:url(#sweetie-glow);stroke:rgba(255,255,255,.8);stroke-width:1.5;transition:fill var(--settle) var(--ease)}
 .pool .lbl{position:absolute;left:50%;top:230px;transform:translateX(-50%);font-size:20px;letter-spacing:-.02em;color:var(--cream-100);white-space:nowrap}
 .loading .pool{opacity:1;visibility:visible}
@@ -154,6 +154,7 @@ body.full .fs-exit{display:grid}
 .loading .pool.done path{fill:#DBE4CB}
 .loading .pool.done svg{animation:none;filter:drop-shadow(0 0 14px rgba(255,255,255,.75))}
 @keyframes ripple{0%,100%{transform:translate(-50%,-50%) scale(.94);opacity:.75}50%{transform:translate(-50%,-50%) scale(1.04);opacity:1}}
+.loading .pool.done svg{transform:translate(-50%,-50%)}
 #s-start.loading .picker,#s-start.loading .word-side{opacity:0;filter:blur(8px)}
 
 /* ═════════════ 02 · DISCOVER ═════════════ */
@@ -165,6 +166,8 @@ body.full .fs-exit{display:grid}
 .khex svg path{fill:var(--cream-100);transition:fill .7s var(--ease)}
 .khex span{position:relative;font-size:20px;letter-spacing:-.02em;color:var(--green-950);transition:color .7s var(--ease)}
 .khex:hover svg{transform:scale(1.04)}
+.khex:focus,.khex:focus-visible{outline:none}
+.khex:focus-visible svg path{stroke:var(--green-950);stroke-width:3}
 .khex.sel svg path{fill:var(--green-950)}
 .khex.sel span{color:var(--cream-100)}
 .khex.sel svg{transform:scale(1.08)}
@@ -509,8 +512,8 @@ const ICON={chev:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>',down:
 
 /* rounded hexagon path (flat = points left/right) */
 function hexD(w,h,r,flat=true){
-  const cx=w/2,cy=h/2,rx=w/2,ry=h/2;
-  const P=Array.from({length:6},(_,i)=>{const a=(flat?60*i:-90+60*i)*Math.PI/180;return[cx+rx*Math.cos(a),cy+ry*Math.sin(a)]});
+  const cx=w/2,cy=h/2,R=flat?Math.min(w/2,h/Math.sqrt(3)):Math.min(h/2,w/Math.sqrt(3));
+  const P=Array.from({length:6},(_,i)=>{const a=(flat?60*i:-90+60*i)*Math.PI/180;return[cx+R*Math.cos(a),cy+R*Math.sin(a)]});
   let d='';P.forEach((p,i)=>{const a=P[(i+5)%6],b=P[(i+1)%6];
     const la=Math.hypot(a[0]-p[0],a[1]-p[1]),lb=Math.hypot(b[0]-p[0],b[1]-p[1]),k=Math.min(r,la/2,lb/2);
     const p1=[p[0]+(a[0]-p[0])*k/la,p[1]+(a[1]-p[1])*k/la],p2=[p[0]+(b[0]-p[0])*k/lb,p[1]+(b[1]-p[1])*k/lb];
@@ -523,7 +526,7 @@ function hexD(w,h,r,flat=true){
   $('.pane',g).style.clipPath=`path('${d}')`; $('.pane',g).style.webkitClipPath=`path('${d}')`;
   const rim=$('svg.rim',g); rim.setAttribute('viewBox','0 0 633 593'); $('path',rim).setAttribute('d',d);
   $$('svg.hexb path').forEach(p=>{p.setAttribute('d',hexD(57,52,9));p.parentNode.setAttribute('viewBox','-1.5 -4 60 60');p.setAttribute('stroke-width','.9')});
-  $$('.pool').forEach(pool=>[['p1',150,140],['p2',122,114],['p3',90,84]].forEach(([c,w,h])=>{
+  $$('.pool').forEach(pool=>[['p1',150,130],['p2',122,106],['p3',90,78]].forEach(([c,w,h])=>{
     const s=$('.'+c,pool); s.setAttribute('width',w); s.setAttribute('height',h); s.setAttribute('viewBox',`0 0 ${w} ${h}`); $('path',s).setAttribute('d',hexD(w,h,w*.18));}));
 })();
 
