@@ -155,7 +155,9 @@ body.full .fs-exit{display:grid}
 .loading .pool.done svg{animation:none;filter:drop-shadow(0 0 14px rgba(255,255,255,.75))}
 @keyframes ripple{0%,100%{transform:translate(-50%,-50%) scale(.94);opacity:.75}50%{transform:translate(-50%,-50%) scale(1.04);opacity:1}}
 .loading .pool.done svg{transform:translate(-50%,-50%)}
-#s-start.loading .picker,#s-start.loading .word-side{opacity:0;filter:blur(8px)}
+/* while the loader runs, only the green gradient and the loader stay on screen */
+#s-start>*:not(.pool),#s-discover>*:not(.pool){transition:opacity .8s var(--ease),filter .8s var(--ease)}
+#s-start.loading>*:not(.pool),#s-discover.loading>*:not(.pool){opacity:0 !important;filter:blur(8px) !important;pointer-events:none}
 
 /* ═════════════ 02 · DISCOVER ═════════════ */
 #s-discover{background:var(--glow);overflow:hidden;touch-action:none;cursor:grab}
