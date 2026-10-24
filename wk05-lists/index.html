@@ -241,6 +241,36 @@ section.set{padding:72px 0;border-top:1px solid var(--n-300)}
 
 footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;color:var(--text-secondary);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important}}
+
+/* ───────────── In the prototype (live tablet embed + pins) ───────────── */
+.proto{padding:72px 0;border-top:1px solid var(--n-300)}
+.proto-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:40px;margin-top:36px;align-items:start}
+.proto-grid+.proto-grid{margin-top:56px}
+@media (max-width:1060px){.proto-grid{grid-template-columns:minmax(0,1fr)}}
+.tab-name{margin:0 0 12px 4px;font-size:15px;color:var(--text-brand)}
+.tab-name span{color:var(--text-secondary)}
+.tab{position:relative;border-radius:30px;background:#151915;padding:14px;box-shadow:0 30px 60px rgba(0,0,0,.16)}
+.tab-in{position:relative;aspect-ratio:1210/834;overflow:hidden;border-radius:18px;background:var(--cream-100)}
+.tab-sc{position:absolute;left:0;top:0;width:1210px;height:834px;transform-origin:0 0;transform:scale(var(--k,.5))}
+.tab-sc iframe{display:block;width:1210px;height:834px;border:0}
+.pin{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--green-950);color:var(--cream-100);display:grid;place-items:center;font:600 21px/1 Figtree,system-ui,sans-serif;box-shadow:0 0 0 4px rgba(255,255,255,.92),0 6px 16px rgba(0,0,0,.25);pointer-events:none;transition:opacity .5s,transform .4s;animation:pinp 2.6s ease-in-out infinite}
+.pin.hot{transform:scale(1.25)}
+@keyframes pinp{50%{box-shadow:0 0 0 12px rgba(255,255,255,.3),0 6px 16px rgba(0,0,0,.25)}}
+.tab.nopins .pin{opacity:0}
+.tab-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+.tab-bar small{font-size:12px;color:var(--text-secondary)}
+.tab-bar div{display:flex;gap:8px;flex-wrap:wrap}
+.tab-bar a,.tab-bar button{padding:8px 14px;border-radius:40px;background:var(--white);font-size:13px;color:var(--text-brand);text-decoration:none;cursor:pointer;border:0;font-family:inherit}
+.tab-bar a:hover,.tab-bar button:hover{background:var(--green-100)}
+.key{list-style:none;display:grid;gap:10px;margin:0;padding:0}
+.key li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;background:var(--white);border-radius:20px;padding:14px 16px;font-size:14px;line-height:1.4;color:var(--text-secondary);transition:background .3s}
+.key li:hover{background:var(--green-100)}
+.key li i{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--green-950);color:var(--cream-100);display:grid;place-items:center;font-size:13px;font-weight:600}
+.key li b{display:block;font-weight:500;font-size:15px;color:var(--text-brand);margin-bottom:2px}
+.usage{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.usage span{padding:6px 12px;border-radius:40px;font-size:12px}
+.usage .yes{background:var(--green-950);color:var(--cream-100)}
+.usage .no{background:var(--white);color:var(--text-secondary);box-shadow:inset 0 0 0 1px var(--n-300)}
 </style>
 </head>
 <body>
@@ -253,6 +283,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
     <nav class="jump" aria-label="Sections">
       <a href="#serene"><i>01</i> Serene · Your orders</a>
       <a href="#elegant"><i>02</i> Elegant · Account</a>
+      <a href="#in-prototype"><i>→</i> In the prototype</a>
     </nav>
     <div class="req">
       <div><b>Structure</b>Leading: icon / avatar / thumbnail / none · Text: 1 or 2 lines · Trailing: text / icon / both / none</div>
@@ -260,6 +291,37 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
       <div><b>States</b>Enabled · Hover · Pressed, shown side by side and live on every interactive row</div>
     </div>
   </header>
+</div>
+
+<div class="wrap">
+<section class="proto" id="in-prototype">
+  <p class="set-num">In the prototype</p>
+  <h2 class="set-title">Where the lists live in Sweetie</h2>
+  <p class="set-desc">The Serene list builds both side sheets of the tablet prototype: the order details in Your orders (flow 05) and the profile sheet. Both frames below are the real prototype — expand, navigate and tap the rows yourself. Phone isn’t built yet — the prototype is tablet only for now.</p>
+  <div class="usage"><span class="yes">Used · 01 Serene · display, expand and navigate rows</span><span class="yes">Used · leading dot · trailing text / chevron</span><span class="no">Not in the prototype yet · 02 Elegant</span><span class="no">Not yet · leading icon, avatar, bowl thumbnail</span><span class="no">Not yet · push to a deeper screen with back</span></div>
+  <div class="proto-grid">
+    <div>
+      <p class="tab-name">05 · Your orders <span>· tap a bowl → order details</span></p>
+      <div class="tab"><div class="tab-in"><div class="tab-sc">
+        <iframe src="../app/index.html?embed#orders/detail" data-src="../app/index.html?embed#orders/detail" title="Sweetie tablet prototype — 05 · Your orders" loading="lazy"></iframe>
+        <span class="pin" data-n="1" style="left:712px;top:174px">1</span><span class="pin" data-n="2" style="left:712px;top:466px">2</span><span class="pin" data-n="3" style="left:712px;top:684px">3</span>
+      </div></div></div>
+      <div class="tab-bar"><small>Live prototype, tablet landscape 1210 × 834 — you can use it right here.</small><div><button type="button" data-act="replay">Replay</button><button type="button" data-act="pins">Hide pins</button><a href="../app/index.html#orders/detail" target="_blank" rel="noopener">Open full prototype ↗</a></div></div>
+    </div>
+    <ol class="key"><li data-pin="1"><i>1</i><span><b>Display rows · In this bowl</b>Leading colour dot, one-line label and trailing text (the portion). No action, so no hover state.</span></li><li data-pin="2"><i>2</i><span><b>Expand row · Nutrition</b>Chevron turns 180°, then calories, protein, carbs and fat stagger in (0.75 s, Serene ease).</span></li><li data-pin="3"><i>3</i><span><b>Navigate row · Edit in bowl builder</b>Chevron nudges right on hover; tapping opens this bowl in the builder (flow 03).</span></li></ol>
+  </div>
+  <div class="proto-grid">
+    <div>
+      <p class="tab-name">Profile <span>· tap the profile icon</span></p>
+      <div class="tab"><div class="tab-in"><div class="tab-sc">
+        <iframe src="../app/index.html?embed#profile" data-src="../app/index.html?embed#profile" title="Sweetie tablet prototype — Profile" loading="lazy"></iframe>
+        <span class="pin" data-n="1" style="left:712px;top:234px">1</span><span class="pin" data-n="2" style="left:712px;top:284px">2</span><span class="pin" data-n="3" style="left:712px;top:510px">3</span><span class="pin" data-n="4" style="left:712px;top:589px">4</span>
+      </div></div></div>
+      <div class="tab-bar"><small>Live prototype, tablet landscape 1210 × 834 — you can use it right here.</small><div><button type="button" data-act="replay">Replay</button><button type="button" data-act="pins">Hide pins</button><a href="../app/index.html#profile" target="_blank" rel="noopener">Open full prototype ↗</a></div></div>
+    </div>
+    <ol class="key"><li data-pin="1"><i>1</i><span><b>Navigate row · Your orders</b>Trailing count (8) and chevron; opens flow 05.</span></li><li data-pin="2"><i>2</i><span><b>Expand row · Dietary preferences</b>Opens WK03 Serene checkboxes; the trailing “2 on” updates as you tick them.</span></li><li data-pin="3"><i>3</i><span><b>Expand row · Default payment</b>Opens WK03 Serene radios; the trailing text shows the chosen card.</span></li><li data-pin="4"><i>4</i><span><b>Card with header · Notifications</b>Two-line rows (label + description) with WK03 Serene switches.</span></li></ol>
+  </div>
+</section>
 </div>
 
 <main class="wrap" id="sets"></main>
@@ -549,6 +611,20 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.
 document.querySelectorAll('.phone').forEach(p=>{p.classList.add('no-anim');requestAnimationFrame(()=>requestAnimationFrame(()=>p.classList.remove('no-anim')));});
 document.fonts?.ready.then(annotateAll);addEventListener('load',annotateAll);
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(annotateAll,120);});annotateAll();
+</script>
+
+<script>
+/* In the prototype: scale the live 1210 × 834 tablet into its frame; pins sit in prototype pixels */
+document.querySelectorAll('.tab').forEach(tab=>{
+  const inn=tab.querySelector('.tab-in'), sc=tab.querySelector('.tab-sc'), fr=tab.querySelector('iframe');
+  const fit=()=>sc.style.setProperty('--k',(inn.clientWidth/1210).toFixed(4));
+  new ResizeObserver(fit).observe(inn); fit();
+  const grid=tab.closest('.proto-grid');
+  grid.querySelectorAll('[data-act=pins]').forEach(b=>b.onclick=()=>{const off=tab.classList.toggle('nopins');b.textContent=off?'Show pins':'Hide pins';});
+  grid.querySelectorAll('[data-act=replay]').forEach(b=>b.onclick=()=>{fr.src=fr.dataset.src+'&t='+Date.now();});
+  grid.querySelectorAll('.key li[data-pin]').forEach(li=>{const p=tab.querySelector('.pin[data-n="'+li.dataset.pin+'"]');
+    li.onmouseenter=()=>p&&p.classList.add('hot'); li.onmouseleave=()=>p&&p.classList.remove('hot');});
+});
 </script>
 </body>
 </html>

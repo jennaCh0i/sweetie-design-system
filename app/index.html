@@ -45,6 +45,7 @@ body.framed #device{--r:28px;--frame:0 0 0 12px #0B0D0B,0 0 0 13px #3A403B,0 40p
 body:not(.framed) .flowbar,body:not(.framed) .notes{display:none}
 .fs-exit{position:fixed;right:10px;bottom:10px;z-index:60;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.3);color:#fff;font-size:13px;display:none;place-items:center;opacity:.18}
 body.full .fs-exit{display:grid}
+body.embed .fs-exit{display:none!important}
 .fs-exit:hover{opacity:1}
 
 /* ═════════════ Nav bar (75) ═════════════ */
@@ -539,7 +540,9 @@ function hexD(w,h,r,flat=true){
 })();
 
 /* ═════════════ Device fit ═════════════ */
-let full=false; try{full=localStorage.getItem('sweetie-full')==='1'}catch(e){}
+const EMBED=new URLSearchParams(location.search).has('embed'); // shown inside the WK pages
+let full=EMBED; if(!EMBED){try{full=localStorage.getItem('sweetie-full')==='1'}catch(e){}}
+if(EMBED) document.body.classList.add('embed');
 function fit(){
   const W=innerWidth,H=innerHeight, framed=!full&&W>=900&&H>=560;
   document.body.classList.toggle('framed',framed); document.body.classList.toggle('full',!framed);
@@ -1098,8 +1101,33 @@ $('#prof').onclick=()=>{
 /* ═════════════ boot ═════════════ */
 buildBowl('Refreshing'); state.built=false; // ready if someone jumps straight to the builder
 $('#notes').innerHTML=NOTES.start; $$('.flowbar [data-flow]')[0].setAttribute('aria-current','true');
-ENTER.start();
 document.fonts&&document.fonts.ready.then(()=>allItems().forEach(i=>i.bar&&i.bar.relayout()));
+
+/* ═════════════ deep links: #builder · #builder/demo · #orders/detail · #profile ═════════════
+   used by the WK pages to open the prototype exactly where a component lives */
+let demoOn=false;
+async function builderDemo(){ // slides one ingredient bar through its portions, showing the drag bubble
+  demoOn=true; const stop=()=>{demoOn=false;}; addEventListener('pointerdown',stop,{once:true}); addEventListener('keydown',stop,{once:true});
+  await wait(1400);
+  while(demoOn){
+    const it=state.bowl.toppings.find(i=>i.name==='Onion')||state.bowl.toppings[1]; if(!it||!it.bar) break;
+    const el=it.bar.el; el.classList.add('is-drag');
+    for(const v of [3,4,1,2]){ if(!demoOn) break; it.bar.set(v); await wait(850); }
+    el.classList.remove('is-drag'); it.bar.set(it.v); await wait(2600);
+  }
+}
+function route(){
+  const [scr,act]=decodeURIComponent(location.hash.slice(1)).split('/');
+  if(!scr||!ENTER.hasOwnProperty(scr)&&scr!=='orders'&&scr!=='profile') return false;
+  if(scr==='builder'&&!state.built){ buildBowl('Refreshing'); }
+  if(scr==='profile'){ go('orders',{push:false}); setTimeout(()=>{ $('#prof').click(); setTimeout(()=>{const d=$$('#sheet button.li[aria-expanded]')[0]; d&&d.click();},700); },300); return true; }
+  go(scr,{push:false});
+  if(scr==='orders'&&act==='detail') setTimeout(()=>{ openOrder(ORDERS[2]); setTimeout(()=>{ const n=$('#sheet button.li[aria-expanded]'); n&&n.click(); setTimeout(()=>$('#sheet-in').scrollTo({top:1e4,behavior:'smooth'}),500); },900); },300);
+  if(scr==='builder'&&act==='demo') builderDemo();
+  return true;
+}
+if(!route()) ENTER.start();
+addEventListener('hashchange',route);
 </script>
 </body>
 </html>
