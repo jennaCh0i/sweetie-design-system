@@ -348,6 +348,19 @@ body.forced #fs-exit{display:none}
 .nut span{display:block;margin-top:2px;font-size:13px;color:var(--n-600)}
 .scard.solo{padding:10px}
 .li .lab small{display:block;margin-top:2px;font-size:13px;color:var(--n-600)}
+/* order details: no card boxes — sections separated by space and hairlines */
+.order .scard{background:none;border-radius:0;padding:0;margin-top:30px}
+.order .scard+.scard{margin-top:30px}
+.order .scard h4{padding:0 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--n-600)}
+.order .nut{padding:0;gap:10px}
+.order .nut div{background:none;border-radius:0;padding:6px 0 0;text-align:left;border-top:1px solid var(--n-300)}
+.order .scard .li{padding:12px 0;border-radius:0;border-bottom:1px solid rgba(0,0,0,.08)}
+.order .scard .li:last-child{border-bottom:0}
+.order .scard .li .dot{margin:0 4px 0 0}
+.order .scard.solo{padding:0;border-top:1px solid var(--n-300)}
+.order .scard.solo .li{padding:16px 0;border-radius:12px}
+.order .scard.solo button.li:hover{background:none}
+.order .scard.solo button.li:hover .lab{color:var(--green-950)}
 .scard{background:var(--green-100);border-radius:30px;padding:18px 10px 10px}
 .scard+.scard{margin-top:14px}
 .scard h4{padding:0 20px 6px;font-size:20px;font-weight:400;color:var(--green-950)}
