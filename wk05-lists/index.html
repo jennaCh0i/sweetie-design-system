@@ -253,10 +253,9 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
 .tab-in{position:relative;aspect-ratio:1210/834;overflow:hidden;border-radius:18px;background:var(--cream-100)}
 .tab-sc{position:absolute;left:0;top:0;width:1210px;height:834px;transform-origin:0 0;transform:scale(var(--k,.5))}
 .tab-sc iframe{display:block;width:1210px;height:834px;border:0}
-.pin{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--green-950);color:var(--cream-100);display:grid;place-items:center;font:600 21px/1 Figtree,system-ui,sans-serif;box-shadow:0 0 0 4px rgba(255,255,255,.92),0 6px 16px rgba(0,0,0,.25);pointer-events:none;transition:opacity .5s,transform .4s;animation:pinp 2.6s ease-in-out infinite}
-.pin.hot{transform:scale(1.25)}
+.pin{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--green-950);color:var(--cream-100);display:grid;place-items:center;font:600 21px/1 Figtree,system-ui,sans-serif;box-shadow:0 0 0 4px rgba(255,255,255,.92),0 6px 16px rgba(0,0,0,.25);pointer-events:none;opacity:0;transform:scale(.6);transition:opacity .35s ease,transform .45s cubic-bezier(.34,1.5,.5,1);animation:pinp 2.6s ease-in-out infinite}
+.pin.hot{opacity:1;transform:scale(1.15)}
 @keyframes pinp{50%{box-shadow:0 0 0 12px rgba(255,255,255,.3),0 6px 16px rgba(0,0,0,.25)}}
-.tab.nopins .pin{opacity:0}
 .tab-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
 .tab-bar small{font-size:12px;color:var(--text-secondary)}
 .tab-bar div{display:flex;gap:8px;flex-wrap:wrap}
@@ -264,7 +263,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
 .tab-bar a:hover,.tab-bar button:hover{background:var(--green-100)}
 .key{list-style:none;display:grid;gap:10px;margin:0;padding:0}
 .key li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;background:var(--white);border-radius:20px;padding:14px 16px;font-size:14px;line-height:1.4;color:var(--text-secondary);transition:background .3s}
-.key li:hover{background:var(--green-100)}
+.key li{cursor:default}.key li:hover,.key li.on,.key li:focus-visible{background:var(--green-100);outline:none}
 .key li i{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--green-950);color:var(--cream-100);display:grid;place-items:center;font-size:13px;font-weight:600}
 .key li b{display:block;font-weight:500;font-size:15px;color:var(--text-brand);margin-bottom:2px}
 .usage{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
@@ -306,7 +305,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
         <iframe src="../app/index.html?embed#orders/detail" data-src="../app/index.html?embed#orders/detail" title="Sweetie tablet prototype — 05 · Your orders" loading="lazy"></iframe>
         <span class="pin" data-n="1" style="left:712px;top:174px">1</span><span class="pin" data-n="2" style="left:712px;top:466px">2</span><span class="pin" data-n="3" style="left:712px;top:684px">3</span>
       </div></div></div>
-      <div class="tab-bar"><small>Live prototype, tablet landscape 1210 × 834 — you can use it right here.</small><div><button type="button" data-act="replay">Replay</button><button type="button" data-act="pins">Hide pins</button><a href="../app/index.html#orders/detail" target="_blank" rel="noopener">Open full prototype ↗</a></div></div>
+      <div class="tab-bar"><small>Live prototype, tablet landscape 1210 × 834. Hover a number on the right to see where it is.</small><div><button type="button" data-act="replay">Replay</button><a href="../app/index.html#orders/detail" target="_blank" rel="noopener">Open full prototype ↗</a></div></div>
     </div>
     <ol class="key"><li data-pin="1"><i>1</i><span><b>Display rows · In this bowl</b>Leading colour dot, one-line label and trailing text (the portion). No action, so no hover state.</span></li><li data-pin="2"><i>2</i><span><b>Expand row · Nutrition</b>Chevron turns 180°, then calories, protein, carbs and fat stagger in (0.75 s, Serene ease).</span></li><li data-pin="3"><i>3</i><span><b>Navigate row · Edit in bowl builder</b>Chevron nudges right on hover; tapping opens this bowl in the builder (flow 03).</span></li></ol>
   </div>
@@ -317,7 +316,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
         <iframe src="../app/index.html?embed#profile" data-src="../app/index.html?embed#profile" title="Sweetie tablet prototype — Profile" loading="lazy"></iframe>
         <span class="pin" data-n="1" style="left:712px;top:234px">1</span><span class="pin" data-n="2" style="left:712px;top:284px">2</span><span class="pin" data-n="3" style="left:712px;top:510px">3</span><span class="pin" data-n="4" style="left:712px;top:589px">4</span>
       </div></div></div>
-      <div class="tab-bar"><small>Live prototype, tablet landscape 1210 × 834 — you can use it right here.</small><div><button type="button" data-act="replay">Replay</button><button type="button" data-act="pins">Hide pins</button><a href="../app/index.html#profile" target="_blank" rel="noopener">Open full prototype ↗</a></div></div>
+      <div class="tab-bar"><small>Live prototype, tablet landscape 1210 × 834. Hover a number on the right to see where it is.</small><div><button type="button" data-act="replay">Replay</button><a href="../app/index.html#profile" target="_blank" rel="noopener">Open full prototype ↗</a></div></div>
     </div>
     <ol class="key"><li data-pin="1"><i>1</i><span><b>Navigate row · Your orders</b>Trailing count (8) and chevron; opens flow 05.</span></li><li data-pin="2"><i>2</i><span><b>Expand row · Dietary preferences</b>Opens WK03 Serene checkboxes; the trailing “2 on” updates as you tick them.</span></li><li data-pin="3"><i>3</i><span><b>Expand row · Default payment</b>Opens WK03 Serene radios; the trailing text shows the chosen card.</span></li><li data-pin="4"><i>4</i><span><b>Card with header · Notifications</b>Two-line rows (label + description) with WK03 Serene switches.</span></li></ol>
   </div>
@@ -620,10 +619,15 @@ document.querySelectorAll('.tab').forEach(tab=>{
   const fit=()=>sc.style.setProperty('--k',(inn.clientWidth/1210).toFixed(4));
   new ResizeObserver(fit).observe(inn); fit();
   const grid=tab.closest('.proto-grid');
-  grid.querySelectorAll('[data-act=pins]').forEach(b=>b.onclick=()=>{const off=tab.classList.toggle('nopins');b.textContent=off?'Show pins':'Hide pins';});
   grid.querySelectorAll('[data-act=replay]').forEach(b=>b.onclick=()=>{fr.src=fr.dataset.src+'&t='+Date.now();});
-  grid.querySelectorAll('.key li[data-pin]').forEach(li=>{const p=tab.querySelector('.pin[data-n="'+li.dataset.pin+'"]');
-    li.onmouseenter=()=>p&&p.classList.add('hot'); li.onmouseleave=()=>p&&p.classList.remove('hot');});
+  // pins stay hidden; hovering (or tapping / focusing) a key item shows only its pin
+  const lis=[...grid.querySelectorAll('.key li[data-pin]')];
+  const show=li=>{lis.forEach(o=>{const on=o===li;o.classList.toggle('on',on);const p=tab.querySelector('.pin[data-n="'+o.dataset.pin+'"]');p&&p.classList.toggle('hot',on);});};
+  lis.forEach(li=>{li.tabIndex=0;
+    li.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')show(li)});
+    li.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')show(null)});
+    li.addEventListener('click',()=>show(li.classList.contains('on')&&matchMedia('(hover:none)').matches?null:li));
+    li.addEventListener('focus',()=>show(li)); li.addEventListener('blur',()=>show(null));});
 });
 </script>
 </body>
