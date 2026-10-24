@@ -82,7 +82,7 @@ section.set{padding:72px 0;border-top:1px solid var(--border-default)}
 [data-tone=serene] .card{background:var(--bg-sage);border-radius:var(--r-lg);padding:30px 10px 20px}
 [data-tone=serene] .card-title{color:var(--text-brand)}
 [data-tone=serene] .card-sub,[data-tone=serene] .desc{color:var(--text-secondary)}
-[data-tone=serene]{--s-dur:1.1s;--s-in:1.2s;--s-out:.9s;--s-ease:cubic-bezier(.45,0,.2,1);--sweetie-grad:radial-gradient(closest-side,#41834F 0%,#95CC62 49%,#C0E396 70%,#F5F3E8 100%)}
+[data-tone=serene]{--s-dur:.38s;--s-in:.42s;--s-out:.32s;--s-ease:cubic-bezier(.45,0,.2,1);--sweetie-grad:radial-gradient(closest-side,#41834F 0%,#95CC62 49%,#C0E396 70%,#F5F3E8 100%)}
 [data-tone=serene] .row{border-radius:var(--r-md);transition:background .9s var(--s-ease)}
 [data-tone=serene] .row:hover{background:rgba(255,255,255,.35)}
 /* Hover: the Sweetie radial gradient slowly fades into the control (inside the shape — no glow) */
@@ -99,19 +99,19 @@ section.set{padding:72px 0;border-top:1px solid var(--border-default)}
 [data-tone=serene] .sw{width:52px;height:32px;border-radius:40px;background:var(--bg-panel);box-shadow:inset 0 0 0 1px var(--border-default)}
 [data-tone=serene] .sw .fill{background:var(--action-primary);opacity:0;transition:opacity var(--s-in) var(--s-ease)}
 [data-tone=serene] .sw .knob{z-index:2;left:3px;top:3px;width:26px;height:26px;background:var(--white);box-shadow:var(--shadow-soft);transition:transform var(--s-dur) var(--s-ease)}
-[data-tone=serene] .sw .knob .tick{width:14px;height:14px;opacity:0;transition:opacity .8s var(--s-ease)}
+[data-tone=serene] .sw .knob .tick{width:14px;height:14px;opacity:0;transition:opacity .28s var(--s-ease)}
 [data-tone=serene] .sw .knob .tick path{stroke:var(--action-primary);stroke-width:2;stroke-dashoffset:0}
 [data-tone=serene] .sel:checked+.sw .fill{opacity:1}
 [data-tone=serene] .sel:checked+.sw .knob{transform:translateX(20px)}
-[data-tone=serene] .sel:checked+.sw .knob .tick{opacity:1;transition-delay:.35s}
+[data-tone=serene] .sel:checked+.sw .knob .tick{opacity:1;transition-delay:.12s}
 /* Checkbox — fill settles in, check drifts up into place */
 [data-tone=serene] .cb{width:24px;height:24px;border-radius:7px;background:var(--white);box-shadow:inset 0 0 0 1.5px var(--border-strong);transition:box-shadow var(--s-dur) var(--s-ease)}
 [data-tone=serene] .cb .ink{background:var(--action-primary);opacity:0;transition:opacity var(--s-dur) var(--s-ease)}
-[data-tone=serene] .cb .tick{z-index:2;width:16px;height:16px;opacity:0;transform:translate(-50%,-38%) scale(.9);transition:opacity .9s var(--s-ease),transform var(--s-in) var(--s-ease)}
+[data-tone=serene] .cb .tick{z-index:2;width:16px;height:16px;opacity:0;transform:translate(-50%,-38%) scale(.9);transition:opacity .3s var(--s-ease),transform var(--s-in) var(--s-ease)}
 [data-tone=serene] .cb .tick path{stroke:var(--white);stroke-width:2;stroke-dashoffset:0}
 [data-tone=serene] .sel:checked+.cb{box-shadow:inset 0 0 0 1.5px var(--action-primary)}
 [data-tone=serene] .sel:checked+.cb .ink{opacity:1}
-[data-tone=serene] .sel:checked+.cb .tick{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:.25s}
+[data-tone=serene] .sel:checked+.cb .tick{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:.08s}
 /* Radio — dot blooms slowly from the centre */
 [data-tone=serene] .rd{width:24px;height:24px;border-radius:50%;background:var(--white);box-shadow:inset 0 0 0 1.5px var(--border-strong);transition:box-shadow var(--s-dur) var(--s-ease)}
 [data-tone=serene] .rd .dot{z-index:2;width:12px;height:12px;background:var(--action-primary);opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity var(--s-dur) var(--s-ease),transform var(--s-in) var(--s-ease)}
@@ -372,7 +372,7 @@ const LISTS={
     ['Apple Pay','Default on this device',true],['Visa ending 4417','Expires 08/28',false],['Sweetie gift card','$12.50 balance',false]]},
 };
 const SETS=[
-  {id:'serene',n:'01',name:'Serene',desc:'Sweetie’s default. Sage cards, cream canvas, deep green for On. Hover a row and the Sweetie gradient slowly fades into the control, pooling from under the switch knob. Selecting is one slow, even move: the knob glides, the fill settles in, the check drifts up into place and the radio dot blooms from the centre. No bounce, no glow.',tokens:['gradient on hover','1.1–1.2 s','cubic-bezier(.45, 0, .2, 1)','no glow']},
+  {id:'serene',n:'01',name:'Serene',desc:'Sweetie’s default. Sage cards, cream canvas, deep green for On. Hover a row and the Sweetie gradient slowly fades into the control, pooling from under the switch knob. Selecting is one quick, even move: the knob glides, the fill settles in, the check drifts up into place and the radio dot blooms from the centre. No bounce, no glow.',tokens:['gradient on hover','0.3–0.4 s','cubic-bezier(.45, 0, .2, 1)','no glow']},
   {id:'playful',n:'02',name:'Playful',desc:'Toppings energy, after Chris Gannon’s Stretchy Toggle. The hexagon knob stretches toward where it’s going, snaps there with an elastic wobble and spins 30°; the track bumps back. The hexagon checkbox squashes and pops, the cherry tomato bounces in with its leaf.',tokens:['stretch → elastic snap','0.18 s + 0.9 s','elastic.out(1, .45)','hexagon knob']},
   {id:'energetic',n:'03',name:'Energetic',desc:'Pre-workout energy on deep green. The thumb moves like a worm: its leading edge shoots ahead, then the tail catches up, while a soft lettuce smear trails inside the track and clears when it lands. Radio buttons share one liquid dot that stretches from the old choice to the new one.',tokens:['worm stretch','≈ 0.35 s','power2.in → power3.out','smear clears at rest']},
   {id:'elegant',n:'04',name:'Elegant',desc:'A tasting-menu feel in a single 1 px line. Deep green ink flows in from exactly where you tap, slowly and evenly, and drains back out the same way; hairlines draw in from the side you enter. The Light / Dark switch flips the whole set with a circle that opens from your cursor.',tokens:['ink from pointer','750 ms','cubic-bezier(.45, 0, .2, 1)','no glow']},
