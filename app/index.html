@@ -33,7 +33,7 @@ h1,h2,h3,h4{font-weight:400}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ═════════════ Device stage ═════════════ */
-#device{position:absolute;left:50%;top:var(--top,50%);width:1210px;height:834px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:50% 50%;background:var(--cream-100);overflow:hidden;border-radius:var(--r,0);box-shadow:var(--frame,none)}
+#device{position:absolute;left:50%;top:var(--top,50%);width:1210px;height:834px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:50% 50%;background:var(--cream-100);overflow:hidden;overflow:clip;border-radius:var(--r,0);box-shadow:var(--frame,none)}
 body.framed #device{--r:28px;--frame:0 0 0 12px #0B0D0B,0 0 0 13px #3A403B,0 40px 80px rgba(0,0,0,.5)}
 .flowbar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px;border-radius:40px;background:rgba(255,255,255,.08);color:#E8EDE4;font-size:13px;white-space:nowrap;z-index:50}
 .flowbar button{padding:8px 14px;border-radius:40px;color:#C9D2C6;transition:background .4s var(--ease),color .4s var(--ease)}
@@ -356,23 +356,50 @@ button.li[data-nav]:hover .ch{transform:translateX(3px)}
 .scrim.show{opacity:1;visibility:visible}
 
 /* Profile sheet: WK03 Serene selectors */
-.sel{position:absolute;opacity:0;pointer-events:none}
-.ctl{flex:none;position:relative}
+/* WK03 Serene selectors — same treatment as the WK03 page, a little quicker */
+.sheet{--s-dur:.3s;--s-in:.34s;--s-out:.26s;--s-ease:cubic-bezier(.45,0,.2,1);--sweetie-grad:radial-gradient(closest-side,#41834F 0%,#95CC62 49%,#C0E396 70%,#F5F3E8 100%)}
+label.li{position:relative;cursor:pointer;user-select:none;-webkit-user-select:none;transition:background .6s var(--s-ease)}
+label.li:hover{background:rgba(255,255,255,.35)}
+.sel{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none;clip-path:inset(50%)}
+.ctl{position:relative;flex:none;display:inline-block}
+.ctl .fill,.ctl .ink{position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.ctl .knob{position:absolute;display:grid;place-items:center;border-radius:999px}
+.ctl svg{display:block;overflow:visible}
+.ctl .tick path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ctl.cb .tick,.ctl.sw .knob .tick{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.ctl.rd .dot{position:absolute;left:50%;top:50%;border-radius:50%}
+/* hover: the Sweetie radial gradient fades into the control (inside the shape — no glow) */
+.ctl::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;pointer-events:none;opacity:0;transition:opacity var(--s-out) var(--s-ease),background-position var(--s-dur) var(--s-ease)}
+label.li:hover .ctl::before,.sel:focus-visible+.ctl::before{transition-duration:var(--s-in),var(--s-dur)}
+.sw::before{background:var(--sweetie-grad) no-repeat;background-size:200% 220%;background-position:100% 50%}
+.sel:checked+.sw::before{background-position:0% 50%}
+label.li:hover .sw::before{opacity:.75}
+label.li:hover .sel:checked+.sw::before{opacity:.9}
+.cb::before,.rd::before{inset:1.5px;background:var(--sweetie-grad);background-size:140% 140%;background-position:50% 50%}
+label.li:hover .cb::before,label.li:hover .rd::before{opacity:.45}
+label.li:hover .sel:checked+.cb::before{opacity:.85}
+/* switch — calm slide, check settles in the knob */
 .sw{width:52px;height:32px;border-radius:40px;background:var(--cream-200);box-shadow:inset 0 0 0 1px var(--n-300)}
-.sw .f{position:absolute;inset:0;border-radius:40px;background:var(--green-950);opacity:0;transition:opacity .32s var(--ease)}
-.sw .k{position:absolute;left:3px;top:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:var(--shadow-soft);transition:transform .38s var(--ease)}
-.sel:checked+.sw .f{opacity:1}.sel:checked+.sw .k{transform:translateX(20px)}
-.cb{width:24px;height:24px;border-radius:7px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--n-500);transition:box-shadow .38s var(--ease)}
-.cb .f{position:absolute;inset:0;border-radius:7px;background:var(--green-950);opacity:0;transition:opacity .38s var(--ease)}
-.cb svg{position:absolute;left:50%;top:50%;width:16px;height:16px;opacity:0;transform:translate(-50%,-38%) scale(.9);transition:opacity .3s var(--ease),transform .42s var(--ease)}
-.cb svg path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.sel:checked+.cb{box-shadow:inset 0 0 0 1.5px var(--green-950)}.sel:checked+.cb .f{opacity:1}
-.sel:checked+.cb svg{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:.08s}
-.rd{width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px var(--n-500);transition:box-shadow .38s var(--ease)}
-.rd .f{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:50%;background:var(--green-950);opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity .38s var(--ease),transform .42s var(--ease)}
-.sel:checked+.rd{box-shadow:inset 0 0 0 1.5px var(--green-950)}.sel:checked+.rd .f{opacity:1;transform:translate(-50%,-50%) scale(1)}
-label.li{cursor:pointer}
-label.li:hover{background:rgba(255,255,255,.5)}
+.sw .fill{background:var(--green-950);opacity:0;transition:opacity var(--s-in) var(--s-ease)}
+.sw .knob{z-index:2;left:3px;top:3px;width:26px;height:26px;background:#fff;box-shadow:var(--shadow-soft);transition:transform var(--s-dur) var(--s-ease)}
+.sw .knob .tick{width:14px;height:14px;opacity:0;transition:opacity .22s var(--s-ease)}
+.sw .knob .tick path{stroke:var(--green-950);stroke-width:2}
+.sel:checked+.sw .fill{opacity:1}
+.sel:checked+.sw .knob{transform:translateX(20px)}
+.sel:checked+.sw .knob .tick{opacity:1;transition-delay:.1s}
+/* checkbox — fill settles in, check drifts up into place */
+.cb{width:24px;height:24px;border-radius:7px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--n-500);transition:box-shadow var(--s-dur) var(--s-ease)}
+.cb .ink{background:var(--green-950);opacity:0;transition:opacity var(--s-dur) var(--s-ease)}
+.cb .tick{z-index:2;width:16px;height:16px;opacity:0;transform:translate(-50%,-38%) scale(.9);transition:opacity .24s var(--s-ease),transform var(--s-in) var(--s-ease)}
+.cb .tick path{stroke:#fff;stroke-width:2}
+.sel:checked+.cb{box-shadow:inset 0 0 0 1.5px var(--green-950)}
+.sel:checked+.cb .ink{opacity:1}
+.sel:checked+.cb .tick{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:.06s}
+/* radio — dot blooms from the centre */
+.rd{width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px var(--n-500);transition:box-shadow var(--s-dur) var(--s-ease)}
+.rd .dot{z-index:2;width:12px;height:12px;background:var(--green-950);opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity var(--s-dur) var(--s-ease),transform var(--s-in) var(--s-ease)}
+.sel:checked+.rd{box-shadow:inset 0 0 0 1.5px var(--green-950)}
+.sel:checked+.rd .dot{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .sel:focus-visible+.ctl{outline:2px solid var(--green-950);outline-offset:3px}
 .avatar{display:flex;align-items:center;gap:16px;margin:6px 0 22px}
 .avatar .sg{position:relative}
@@ -389,7 +416,7 @@ label.li:hover{background:rgba(255,255,255,.5)}
 </defs></svg>
 
 <div id="device">
-<div id="app" data-screen="start">
+<div id="app" data-screen="start" style="position:absolute;inset:0;overflow:hidden;overflow:clip">
 
   <!-- ═════════════ NAV ═════════════ -->
   <header class="nav">
@@ -1078,11 +1105,11 @@ function buildBowlFromOrder(o){
 }
 
 /* ═════════════ Profile sheet: WK03 Serene selectors + WK05 list ═════════════ */
-const TICK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const TICK='<svg class="tick" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.6 7.3 5.7 10.2 11.4 3.9"/></svg>'; // WK03 tick
 $('#prof').onclick=()=>{
-  const cb=(l,on)=>`<label class="li"><span class="lab">${l}</span><input class="sel" type="checkbox"${on?' checked':''}><span class="ctl cb"><span class="f"></span>${TICK}</span></label>`;
-  const sw=(l,d,on)=>`<label class="li"><span class="lab">${l}<br><small style="font-size:13px;color:var(--n-600)">${d}</small></span><input class="sel" type="checkbox" role="switch"${on?' checked':''}><span class="ctl sw"><span class="f"></span><span class="k"></span></span></label>`;
-  const rd=(l,d,on)=>`<label class="li"><span class="lab">${l}<br><small style="font-size:13px;color:var(--n-600)">${d}</small></span><input class="sel" type="radio" name="pay"${on?' checked':''}><span class="ctl rd"><span class="f"></span></span></label>`;
+  const cb=(l,on)=>`<label class="li"><span class="lab">${l}</span><input class="sel" type="checkbox"${on?' checked':''}><span class="ctl cb" aria-hidden="true"><span class="ink"></span>${TICK}</span></label>`;
+  const sw=(l,d,on)=>`<label class="li"><span class="lab">${l}<br><small style="font-size:13px;color:var(--n-600)">${d}</small></span><input class="sel" type="checkbox" role="switch"${on?' checked':''}><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label>`;
+  const rd=(l,d,on)=>`<label class="li"><span class="lab">${l}<br><small style="font-size:13px;color:var(--n-600)">${d}</small></span><input class="sel" type="radio" name="pay"${on?' checked':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
   openSheet(`<div class="sh-top"><div class="avatar"><span class="sg ink"><svg class="hexb" viewBox="-1.5 -4 60 60"><path d="${hexD(57,52,12)}" stroke-width=".9"/></svg><span>M</span></span><div><b>Matt</b><small>Member since 2024 · 38 bowls</small></div></div>${closeBtn}</div>
     <div class="scard"><button class="li" type="button" data-nav="orders"><span class="lab">Your orders</span><span class="tr">${ORDERS.length}</span><span class="ch">${ICON.chev}</span></button>
       <button class="li" type="button" aria-expanded="false"><span class="lab">Dietary preferences</span><span class="tr">2 on</span><span class="ch">${ICON.down}</span></button>
