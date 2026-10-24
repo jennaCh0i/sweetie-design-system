@@ -357,7 +357,7 @@ button.li[data-nav]:hover .ch{transform:translateX(3px)}
 
 /* Profile sheet: WK03 Serene selectors */
 /* WK03 Serene selectors — same treatment as the WK03 page, a little quicker */
-.sheet{--s-dur:.3s;--s-in:.34s;--s-out:.26s;--s-ease:cubic-bezier(.45,0,.2,1);--sweetie-grad:radial-gradient(closest-side,#41834F 0%,#95CC62 49%,#C0E396 70%,#F5F3E8 100%)}
+.sheet{--s-dur:.345s;--s-in:.39s;--s-out:.3s;--s-ease:cubic-bezier(.45,0,.2,1);--sweetie-grad:radial-gradient(closest-side,#41834F 0%,#95CC62 49%,#C0E396 70%,#F5F3E8 100%)}
 label.li{position:relative;cursor:pointer;user-select:none;-webkit-user-select:none;transition:background .6s var(--s-ease)}
 label.li:hover{background:rgba(255,255,255,.35)}
 .sel{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none;clip-path:inset(50%)}
@@ -367,7 +367,7 @@ label.li:hover{background:rgba(255,255,255,.35)}
 .ctl svg{display:block;overflow:visible}
 .ctl .tick path{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .ctl.cb .tick,.ctl.sw .knob .tick{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
-.ctl.rd .dot{position:absolute;left:50%;top:50%;border-radius:50%}
+.ctl.rd .dot{position:absolute;left:50%;top:50%;margin:0;border-radius:50%;box-shadow:none}
 /* hover: the Sweetie radial gradient fades into the control (inside the shape — no glow) */
 .ctl::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;pointer-events:none;opacity:0;transition:opacity var(--s-out) var(--s-ease),background-position var(--s-dur) var(--s-ease)}
 label.li:hover .ctl::before,.sel:focus-visible+.ctl::before{transition-duration:var(--s-in),var(--s-dur)}
@@ -382,19 +382,19 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 .sw{width:52px;height:32px;border-radius:40px;background:var(--cream-200);box-shadow:inset 0 0 0 1px var(--n-300)}
 .sw .fill{background:var(--green-950);opacity:0;transition:opacity var(--s-in) var(--s-ease)}
 .sw .knob{z-index:2;left:3px;top:3px;width:26px;height:26px;background:#fff;box-shadow:var(--shadow-soft);transition:transform var(--s-dur) var(--s-ease)}
-.sw .knob .tick{width:14px;height:14px;opacity:0;transition:opacity .22s var(--s-ease)}
+.sw .knob .tick{width:14px;height:14px;opacity:0;transition:opacity .25s var(--s-ease)}
 .sw .knob .tick path{stroke:var(--green-950);stroke-width:2}
 .sel:checked+.sw .fill{opacity:1}
 .sel:checked+.sw .knob{transform:translateX(20px)}
-.sel:checked+.sw .knob .tick{opacity:1;transition-delay:.1s}
+.sel:checked+.sw .knob .tick{opacity:1;transition-delay:.115s}
 /* checkbox — fill settles in, check drifts up into place */
 .cb{width:24px;height:24px;border-radius:7px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--n-500);transition:box-shadow var(--s-dur) var(--s-ease)}
 .cb .ink{background:var(--green-950);opacity:0;transition:opacity var(--s-dur) var(--s-ease)}
-.cb .tick{z-index:2;width:16px;height:16px;opacity:0;transform:translate(-50%,-38%) scale(.9);transition:opacity .24s var(--s-ease),transform var(--s-in) var(--s-ease)}
+.cb .tick{z-index:2;width:16px;height:16px;opacity:0;transform:translate(-50%,-38%) scale(.9);transition:opacity .28s var(--s-ease),transform var(--s-in) var(--s-ease)}
 .cb .tick path{stroke:#fff;stroke-width:2}
 .sel:checked+.cb{box-shadow:inset 0 0 0 1.5px var(--green-950)}
 .sel:checked+.cb .ink{opacity:1}
-.sel:checked+.cb .tick{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:.06s}
+.sel:checked+.cb .tick{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:.07s}
 /* radio — dot blooms from the centre */
 .rd{width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px var(--n-500);transition:box-shadow var(--s-dur) var(--s-ease)}
 .rd .dot{z-index:2;width:12px;height:12px;background:var(--green-950);opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity var(--s-dur) var(--s-ease),transform var(--s-in) var(--s-ease)}
