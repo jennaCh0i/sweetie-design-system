@@ -248,17 +248,9 @@ body.embed .fs-exit{display:none!important}
 .sbar .bubble i{font-style:normal;font-weight:400;opacity:.7}
 .sbar:focus-visible{outline-offset:4px}
 
-/* WK01 Capsule loader — order veil */
-.veil{position:absolute;inset:0;z-index:35;display:grid;place-items:center;background:rgba(245,243,232,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility .7s}
+/* Order loader — the same WK01 Pool loader on the green gradient */
+.veil{position:absolute;inset:0;z-index:19;background:var(--glow);opacity:0;visibility:hidden;transition:opacity .8s var(--ease),visibility .8s}
 .veil.show{opacity:1;visibility:visible}
-.caps{display:grid;gap:12px;justify-items:center}
-.caps .cp{position:relative;width:120px;height:32px;border-radius:16px;background:linear-gradient(90deg,#41834F,#95CC62 60%,#C0E396);box-shadow:inset 0 0 0 1px rgba(0,71,61,.15)}
-.caps .cp i{position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15);animation:glide 3.2s var(--ease) infinite alternate}
-.caps .cp:nth-child(2) i{animation-delay:-1.07s}.caps .cp:nth-child(3) i{animation-delay:-2.13s}
-@keyframes glide{to{transform:translateX(88px)}}
-.caps p{margin-top:18px;font-size:20px;letter-spacing:-.02em;color:var(--green-950)}
-.veil.done .cp{background:var(--green-100)}
-.veil.done .cp i{animation:none;transform:translateX(88px)}
 
 /* ═════════════ 04 · CHAT WITH INGREDIENTS ═════════════ */
 #s-chat{overflow:hidden}
@@ -492,7 +484,7 @@ label.li:hover{background:rgba(255,255,255,.5)}
   <!-- shared layers -->
   <div class="scrim" id="scrim"></div>
   <aside class="sheet" id="sheet" aria-label="Details"><div class="sheet-in" id="sheet-in"></div><div class="sh-foot" id="sheet-foot"></div></aside>
-  <div class="veil" id="veil" aria-live="polite"><div class="caps"><span class="cp"><i></i></span><span class="cp"><i></i></span><span class="cp"><i></i></span><p id="veil-t">Placing your order…</p></div></div>
+  <div class="veil" id="veil"><div class="pool" aria-live="polite"><svg class="p1"><path/></svg><svg class="p2"><path/></svg><svg class="p3"><path/></svg><span class="lbl">Placing your order…</span></div></div>
   <div class="toast" id="toast" role="status"></div>
 </div>
 </div>
@@ -603,7 +595,7 @@ const cap=s=>s.replace(/(^|\s)\w/g,m=>m.toUpperCase());
 const NOTES={
   start:'<b>01 Start</b> · WK02 sg badge “New” + rich tooltip · WK02 location &amp; bag tooltips · WK01 Pool loader on next',
   discover:'<b>02 Discover</b> · drag the honeycomb · WK02 move-canvas tooltip · WK01 Pool loader when you pick a word',
-  builder:'<b>03 Bowl builder</b> · WK04 ingredient sliders (None removes) · WK02 ingredient tags + badges · WK01 Capsule loader on Order',
+  builder:'<b>03 Bowl builder</b> · WK04 ingredient sliders (None removes) · WK02 ingredient tags + badges · WK01 Pool loader on Order (same as 01 → 03)',
   chat:'<b>04 Chat</b> · WK02 carrot question badge &amp; move-canvas rich tooltip · WK01 Petal typing indicator · status pill fills as pickup nears',
   orders:'<b>05 Your orders</b> · WK05 Serene list (expand + navigate) in the detail sheet · WK02 bag badge · profile: WK03 Serene selectors'
 };
@@ -917,14 +909,15 @@ $('#adjust').addEventListener('submit',async e=>{
   reply.textContent=done.length?`Done — ${done.join(', ')}.`:'Try “more avocado”, “no onion” or “add chickpea”.';
   await wait(80); reply.classList.add('show'); clearTimeout(reply._t); reply._t=setTimeout(()=>reply.classList.remove('show'),3800);
 });
-// Order → WK01 Capsule loader → chat
+// Order → WK01 Pool loader (same as Start / Discover) → chat
 async function placeOrder(fromBuilder){
   if(busy) return; busy=true; $('#bag-host').classList.remove('show');
   if(fromBuilder) addToBag(state.bowlName);
-  const v=$('#veil'); v.classList.remove('done'); $('#veil-t').textContent='Placing your order…'; v.classList.add('show');
-  await wait(2200); v.classList.add('done'); $('#veil-t').textContent='Order placed'; await wait(800);
+  // same Pool loader as Start / Discover: green gradient only, ≥2 s of looping, then settles
+  const v=$('#veil'), pool=$('.pool',v); pool.classList.remove('done'); $('.lbl',pool).textContent='Placing your order…'; v.classList.add('show','loading');
+  await wait(800+2400); pool.classList.add('done'); $('.lbl',pool).textContent='Order placed'; await wait(800);
   state.lastOrder=state.bag.map(x=>x.name); state.bag=[]; bagRender(); startPickup();
-  go('chat'); await wait(300); v.classList.remove('show'); busy=false;
+  go('chat'); await wait(300); v.classList.remove('show'); setTimeout(()=>v.classList.remove('loading'),850); busy=false;
 }
 $('#order').onclick=()=>placeOrder(true);
 ENTER.builder=()=>{ setTimeout(()=>allItems().forEach(i=>i.bar&&i.bar.relayout()),60); };
