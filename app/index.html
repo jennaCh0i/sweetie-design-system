@@ -79,7 +79,7 @@ body.forced #fs-exit{display:none}
 .nav [data-on]{display:none}
 .nav .circ{--d:grid}.nav .icon{--d:grid}.nav .tiphost{--d:inline-flex}.nav .pill{--d:inline-flex}.nav .logo,.nav .order-btn{--d:block}
 #app[data-screen=start] .nav [data-on~=start],#app[data-screen=discover] .nav [data-on~=discover],#app[data-screen=builder] .nav [data-on~=builder],
-#app[data-screen=chat] .nav [data-on~=chat],#app[data-screen=orders] .nav [data-on~=orders],#app[data-screen=bag] .nav [data-on~=bag]{display:var(--d,flex)}
+#app[data-screen=chat] .nav [data-on~=chat],#app[data-screen=orders] .nav [data-on~=orders],#app[data-screen=bag] .nav [data-on~=bag],#app[data-screen=done] .nav [data-on~=done],#app.picking .nav .status{display:var(--d,flex)}
 
 /* ═════════════ WK02 · badges & tooltips (Serene) ═════════════ */
 .b{position:absolute;pointer-events:none;opacity:0;transform:scale(.6);filter:blur(2px);transition:opacity var(--drift) var(--ease),transform var(--drift) var(--ease),filter var(--drift) var(--ease)}
@@ -500,6 +500,52 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 .co-foot small{display:block;margin-top:8px;text-align:center;font-size:12px;color:var(--n-600)}
 #s-bag.empty .right{opacity:.5;pointer-events:none}
 
+
+/* ═════════════ dietary tags · sold out · confirmation ═════════════ */
+.diet{margin:-34px 0 26px;display:grid;gap:10px}
+.dtags{display:flex;flex-wrap:wrap;gap:6px}
+.dtags.center{justify-content:center;margin-top:12px}
+.dtag{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 11px;border-radius:40px;background:var(--green-100);color:var(--green-950);font-size:12px}
+.dtag svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.dtag.mine{background:var(--green-950);color:var(--cream-100)}
+.dtag.none{background:var(--cream-200);color:var(--n-600)}
+.warn,.sold-note{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:16px;background:#FBEFC4;color:#5A4300;font-size:13px;line-height:1.4}
+.warn svg,.sold-note svg{flex:none;width:18px;height:18px;margin-top:1px;fill:none;stroke:#8A6400;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.warn b,.sold-note b{font-weight:600}
+.sold-note{flex-basis:100%;margin:0}
+.sh-foot{flex-wrap:wrap}
+.chip.sold{opacity:.55;cursor:not-allowed;text-decoration:line-through;text-decoration-color:rgba(0,0,0,.35)}
+.chip.sold em{font-style:normal;text-decoration:none;display:inline-block;margin-left:4px;padding:1px 7px;border-radius:10px;background:var(--cream-200);font-size:11px;color:var(--n-600)}
+.so{font-style:normal;margin-left:6px;padding:2px 8px;border-radius:10px;background:#FBEFC4;color:#5A4300;font-size:11px}
+#s-done .left{position:absolute;left:0;top:75px;width:690px;bottom:0;padding:92px 64px 40px}
+.dn-mark{display:block;width:96px;height:84px}
+.dn-mark svg{width:100%;height:100%}
+.dn-mark path:first-child{fill:var(--green-950)}
+.dn-mark .ck{fill:none;stroke:var(--cream-100);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:46;stroke-dashoffset:46}
+#s-done.on .dn-mark .ck{animation:ck .5s var(--snap) .35s forwards}
+@keyframes ck{to{stroke-dashoffset:0}}
+.dn-label{margin-top:30px;font-size:var(--t-cap);letter-spacing:.06em;text-transform:uppercase;color:var(--n-600)}
+.dn-when{margin-top:8px;white-space:nowrap;font-size:var(--t-display);font-weight:400;letter-spacing:-.045em;line-height:1.05;color:var(--green-950)}
+.dn-sub{margin-top:10px;font-size:var(--t-body);color:var(--n-800);font-variant-numeric:tabular-nums}
+.dn-steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:40px}
+.dn-steps li{position:relative;padding-top:18px;font-size:14px;color:var(--n-500);transition:color .5s var(--snap)}
+.dn-steps li i{position:absolute;left:0;right:0;top:0;height:6px;border-radius:4px;background:var(--cream-200);overflow:hidden}
+.dn-steps li i::after{content:"";position:absolute;inset:0;width:0;background:linear-gradient(90deg,#41834F,#95CC62);transition:width 1.2s var(--snap)}
+.dn-steps li.on{color:var(--green-950)}
+.dn-steps li.on i::after{width:100%}
+.dn-btns{display:flex;gap:12px;margin-top:52px}
+.dn-btns .btn{flex:none;padding:0 28px}
+#s-done .right{position:absolute;left:690px;right:0;top:75px;bottom:0;background:var(--cream-200);border-left:1px solid var(--n-300)}
+#s-done .co{padding:36px 36px 24px}
+.dn-it{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.08)}
+.dn-it img{flex:none;width:56px;height:53px;object-fit:contain}
+.dn-it span{flex:1;min-width:0}
+.dn-it b{display:block;font-weight:400;font-size:var(--t-body)}
+.dn-it small{font-size:var(--t-cap);color:var(--n-600)}
+.dn-it em{font-style:normal;font-size:15px;font-variant-numeric:tabular-nums}
+#dn-sum{margin-top:14px}
+.dn-paid{margin-top:14px;font-size:var(--t-cap);color:var(--n-600)}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}}
 </style>
 </head>
@@ -515,7 +561,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
   <!-- ═════════════ NAV ═════════════ -->
   <header class="nav">
     <div class="nav-l">
-      <button class="logo" data-on="start discover orders" data-go="start" aria-label="sweetgreen, home">sweetgreen</button>
+      <button class="logo" data-on="start discover orders done" data-go="start" aria-label="sweetgreen, home">sweetgreen</button>
       <button class="circ" data-on="builder chat bag" id="back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></svg></button>
       <div class="tiphost" id="loc-host">
         <button class="pill loc-btn" aria-describedby="loc-tip"><svg viewBox="0 0 24 30" fill="none" stroke="#BDBDBD" stroke-width="1.5"><path d="M12 28.5 4.6 20.2a10.3 10.3 0 1 1 14.8 0Z" stroke-linejoin="round"/><circle cx="12" cy="11.5" r="4.6"/></svg><span>Saratoga + Campbell</span></button>
@@ -524,11 +570,11 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     </div>
     <div class="nav-r">
       <div class="pill status" data-on="chat"><span class="sfill"></span><span id="status-t">Pick up in 4 min</span></div>
-            <div class="tiphost" id="bag-host" data-on="start discover builder chat orders bag">
+            <div class="tiphost" id="bag-host" data-on="start discover builder chat orders bag done">
         <button class="icon" id="bag" aria-label="Bag" aria-describedby="bag-tip"><svg viewBox="0 0 26 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 10h20l-1.4 14.6a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8Z"/><path d="M9 10V7.5a4 4 0 0 1 8 0V10"/></svg><span class="b bag-b" id="bag-b"></span></button>
         <div class="tip down right rich" role="tooltip" id="bag-tip"></div>
       </div>
-      <button class="icon" data-on="start discover builder chat orders bag" id="prof" aria-label="Profile"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="14" cy="14" r="12.25"/><circle cx="14" cy="11.5" r="4.25"/><path d="M6.4 23.2c1.6-3.3 4.4-5 7.6-5s6 1.7 7.6 5"/></svg></button>
+      <button class="icon" data-on="start discover builder chat orders bag done" id="prof" aria-label="Profile"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="14" cy="14" r="12.25"/><circle cx="14" cy="11.5" r="4.25"/><path d="M6.4 23.2c1.6-3.3 4.4-5 7.6-5s6 1.7 7.6 5"/></svg></button>
     </div>
   </header>
 
@@ -613,6 +659,19 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     </aside>
   </section>
 
+  <!-- ═════════════ ORDER PLACED ═════════════ -->
+  <section class="screen" id="s-done" aria-label="Order placed">
+    <div class="left">
+      <span class="dn-mark" aria-hidden="true"><svg viewBox="0 0 96 84"><path d="M30 2h36q8 0 12 7l14 24q4 7 0 14L78 75q-4 7-12 7H30q-8 0-12-7L4 47q-4-7 0-14L18 9q4-7 12-7Z"/><path class="ck" d="M33 43l10 10 21-22"/></svg></span>
+      <p class="dn-label">Order placed</p>
+      <h1 class="dn-when" id="dn-when"></h1>
+      <p class="dn-sub" id="dn-sub"></p>
+      <ol class="dn-steps" id="dn-steps"><li class="on"><i></i>Placed</li><li><i></i>Preparing</li><li><i></i>Ready on the pickup shelf</li></ol>
+      <div class="dn-btns"><button class="btn pri" id="dn-chat">Chat with your ingredients</button><button class="btn sec" id="dn-done">Done</button></div>
+    </div>
+    <aside class="right" aria-label="Receipt"><div class="co"><h4>Receipt</h4><div id="dn-items"></div><div class="sum" id="dn-sum"></div></div></aside>
+  </section>
+
   <!-- shared layers -->
   <div class="scrim" id="scrim"></div>
   <aside class="sheet" id="sheet" aria-label="Details"><div class="sheet-in" id="sheet-in"></div><div class="sh-foot" id="sheet-foot"></div></aside>
@@ -635,6 +694,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const app=$('#app'), device=$('#device');
+const WARN='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.8 18 16.8H2Z"/><path d="M10 8v4M10 14.4v.1"/></svg>';
 const ICON={chev:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>',down:'<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
   x:'<svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1 1 11"/></svg>',
   bag:'<svg viewBox="0 0 26 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 10h20l-1.4 14.6a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8Z"/><path d="M9 10V7.5a4 4 0 0 1 8 0V10"/></svg>',
@@ -689,11 +749,11 @@ try{localStorage.removeItem('sweetie-full')}catch(e){} // clear the old remember
 /* ═════════════ Data ═════════════ */
 // name: [colour, ink, kcal at "Good amount", price at "Good amount"] — every calorie and price in the app comes from here
 const ING={
-  Lettuce:['#B5CF8A','#1F2A12',15,.40],Spinach:['#6F8F5E','#fff',20,.40],Kale:['#4F6E47','#fff',35,.50],Quinoa:['#E4D3AE','#2B2416',170,.90],'Wild rice':['#8E7763','#fff',190,.90],Rice:['#F2ECDF','#2B2416',210,.80],
-  Tortilla:['#E8C48F','#2B2416',110,.50],Onion:['#C98BB4','#fff',15,.40],Avocado:['#7E9B5B','#fff',130,1.75],Olive:['#6E5550','#fff',60,.60],Tomato:['#D46A5C','#fff',25,.60],Cabbage:['#8B6A86','#fff',15,.40],
-  Chicken:['#EFE6D2','#2B2416',180,2.95],Broccoli:['#5F7F4E','#fff',50,.75],Parmesan:['#F3ECDA','#2B2416',90,.90],'Sweet potato':['#DE9A63','#2B2416',110,.85],Salmon:['#E5A487','#2B2416',220,4.25],Cucumber:['#C7D9A8','#1F2A12',10,.40],
-  Steak:['#8A5A4A','#fff',200,3.75],Chickpea:['#E2C99A','#2B2416',120,.75],Corn:['#EAC97A','#2B2416',70,.60],Apple:['#CF6F63','#fff',45,.60],Carrot:['#E39A5A','#2B2416',25,.40],Feta:['#F3EFE4','#2B2416',80,.90],
-  Mustard:['#DDBF6A','#2B2416',140,0],'Lime cilantro':['#A8C483','#1F2A12',160,0],Pesto:['#7F9A55','#fff',150,0],'Hot sauce':['#D27455','#fff',15,0],'Miso sesame':['#CFB088','#2B2416',170,0],'Lemon squeeze':['#EBDC97','#2B2416',5,0],Caesar:['#EDE4CC','#2B2416',170,0]
+  Lettuce:['#8ED924','#000',15,.40],Spinach:['#41834F','#fff',20,.40],Kale:['#2F6B3A','#fff',35,.50],Quinoa:['#E9CB8F','#000',170,.90],'Wild rice':['#8A6A4F','#fff',190,.90],Rice:['#FFFFFF','#000',210,.80],
+  Tortilla:['#F5BD72','#000',110,.50],Onion:['#F220C8','#fff',15,.40],Avocado:['#258928','#fff',130,1.75],Olive:['#643B3B','#fff',60,.60],Tomato:['#F22021','#fff',25,.60],Cabbage:['#5E3B3B','#fff',15,.40],
+  Chicken:['#F3EFDC','#000',180,2.95],Broccoli:['#258928','#fff',50,.75],Parmesan:['#F9F6E6','#000',90,.90],'Sweet potato':['#F2843A','#000',110,.85],Salmon:['#F7A07A','#000',220,4.25],Cucumber:['#C0E396','#000',10,.40],
+  Steak:['#7A3B2E','#fff',200,3.75],Chickpea:['#E9CB8F','#000',120,.75],Corn:['#F5BD72','#000',70,.60],Apple:['#E8352B','#fff',45,.60],Carrot:['#F58A1F','#000',25,.40],Feta:['#F9F6E6','#000',80,.90],
+  Mustard:['#F5C33B','#000',140,0],'Lime cilantro':['#95CC62','#000',160,0],Pesto:['#6E9F2B','#fff',150,0],'Hot sauce':['#F25A3A','#fff',15,0],'Miso sesame':['#D9B37A','#000',170,0],'Lemon squeeze':['#F5E27A','#000',5,0],Caesar:['#F3EFDC','#000',170,0]
 };
 const POOL={bases:['Lettuce','Spinach','Kale','Quinoa','Wild rice','Rice'],
   toppings:['Tortilla','Onion','Avocado','Tomato','Cabbage','Chicken','Broccoli','Parmesan','Sweet potato','Salmon','Cucumber','Steak','Chickpea','Corn','Apple','Carrot','Feta','Olive'],
@@ -701,6 +761,15 @@ const POOL={bases:['Lettuce','Spinach','Kale','Quinoa','Wild rice','Rice'],
 const MAX={bases:2,toppings:10,dressings:2}, GNAME={bases:'Bases',toppings:'Toppings',dressings:'Dressings'};
 const PORTIONS=['None','Less','Good amount','More','A lot'], SHORT=['None','Less','Good','More','A lot'], MULT=[0,.5,1,1.5,2];
 const BASE_PRICE=7.45;
+// dietary facts per ingredient (used for tags, warnings and the profile's preferences)
+const MEAT=['Chicken','Steak'], FISH=['Salmon'], DAIRY=['Parmesan','Feta','Caesar'], GLUTEN=['Miso sesame','Caesar'], NUTS=['Pesto'], HONEY=['Mustard'];
+const SOLD=new Set(['Salmon']); // sold out at Saratoga + Campbell today
+function dietOf(items){
+  const has=L=>items.filter(([n,v])=>v>0&&L.includes(n)).map(([n])=>n);
+  const meat=has(MEAT.concat(FISH)), dairy=has(DAIRY), gluten=has(GLUTEN), nuts=has(NUTS), honey=has(HONEY);
+  return {'Vegetarian':meat,'Vegan':meat.concat(dairy,honey),'Gluten-free':gluten,'Nut-free':nuts}; // value = what breaks the rule
+}
+const tagsOf=items=>Object.entries(dietOf(items)).filter(([,bad])=>!bad.length).map(([t])=>t);
 const kcalOf=items=>Math.round(items.reduce((t,[n,v])=>t+((ING[n]||[,,20])[2])*MULT[v],0));
 const priceOf=items=>{ const raw=BASE_PRICE+items.reduce((t,[n,v])=>t+((ING[n]||[,,,0])[3])*MULT[v],0); return Math.ceil(raw/.5)*.5-.05; }; // menu-style .45 / .95
 const macros=k=>({protein:Math.round(k*.062),carbs:Math.round(k*.075),fat:Math.round(k*.04)});
@@ -739,6 +808,7 @@ const NOTES={
   discover:'<b>02 Discover</b> · drag the honeycomb · WK02 move-canvas tooltip · WK01 Pool loader when you pick a word',
   builder:'<b>03 Bowl builder</b> · WK04 ingredient sliders (None removes) · WK02 ingredient tags + badges · WK01 Pool loader on Order (same as 01 → 03)',
   chat:'<b>04 Chat</b> · WK02 carrot question badge &amp; move-canvas rich tooltip · WK01 Petal typing indicator · status pill fills as pickup nears',
+  done:'<b>Order placed</b> · order number, ready time from the real clock, Placed → Preparing → Ready progress, receipt · pickup pill stays in the top bar',
   bag:'<b>06 Bag</b> · WK05 Serene item rows (expand: what’s inside) · WK03 Serene radios &amp; switch · WK04 tip slider · WK01 Pool loader on Place order',
   orders:'<b>05 Your orders</b> · WK05 Serene list (expand + navigate) in the detail sheet · WK02 bag badge · profile: WK03 Serene selectors'
 };
@@ -778,7 +848,7 @@ function tipHost(h){
 $$('.tiphost').forEach(h=>{ if(!h.closest('.tag')) tipHost(h); });
 
 /* ═════════════ Bag (WK02 badge: dot → count) ═════════════ */
-const state={keyword:'',preset:'fresh',built:false,bowl:null,bag:[],chat:null};
+const state={keyword:'',preset:'fresh',built:false,bowl:null,bag:[],chat:null,diet:new Set(['Gluten-free'])};
 function bagRender(pulse){
   const b=$('#bag-b'), n=bagCount();
   if(!n){b.classList.remove('on','dot');}
@@ -979,7 +1049,8 @@ const R=$('#builder-r');
 function buildBowl(word){
   const key=presetFor(word), P=PRESETS[key];
   state.keyword=word; state.preset=key; state.built=true;
-  state.bowl={bases:P.bases.map(x=>({name:x[0],v:x[1]})),toppings:P.toppings.map(x=>({name:x[0],v:x[1]})),dressings:P.dressings.map(x=>({name:x[0],v:x[1]}))};
+  const swap=x=>SOLD.has(x[0])?(state.swapped=x[0],{name:'Chicken',v:x[1]}):{name:x[0],v:x[1]}; state.swapped=null;
+  state.bowl={bases:P.bases.map(swap),toppings:P.toppings.map(swap),dressings:P.dressings.map(swap)};
   const name=/bowl$/i.test(word)?cap(word):cap(word)+' Bowl';
   $('#b-title').textContent=name; state.bowlName=name;
   $('#b-desc').textContent=P.desc;
@@ -997,11 +1068,12 @@ function buildBowl(word){
     groupCount(g);
   });
   R.scrollTop=0; meta(true);
+  if(state.swapped) soldNote(`${state.swapped} is sold out here today, so we swapped in chicken.`);
 }
 function fillTray(g){
   const sec=$(`.grp[data-g="${g}"]`,R), tray=$('.tray>div',sec), have=state.bowl[g].map(x=>x.name);
-  tray.innerHTML=POOL[g].filter(n=>!have.includes(n)).map(n=>`<button class="chip" type="button" style="--c:${ING[n][0]}" data-n="${n}"><i></i>${n}</button>`).join('');
-  $$('.chip',tray).forEach(c=>c.onclick=()=>{const item={name:c.dataset.n,v:2}; state.bowl[g].push(item); addRow(g,item,true); fillTray(g); groupCount(g); meta(); });
+  tray.innerHTML=POOL[g].filter(n=>!have.includes(n)).map(n=>SOLD.has(n)?`<button class="chip sold" type="button" disabled style="--c:${ING[n][0]}"><i></i>${n}<em>Sold out</em></button>`:`<button class="chip" type="button" style="--c:${ING[n][0]}" data-n="${n}"><i></i>${n}</button>`).join('');
+  $$('.chip:not(.sold)',tray).forEach(c=>c.onclick=()=>{const item={name:c.dataset.n,v:2}; state.bowl[g].push(item); addRow(g,item,true); fillTray(g); groupCount(g); meta(); });
 }
 function groupCount(g){
   const sec=$(`.grp[data-g="${g}"]`,R), n=state.bowl[g].length, full=n>=MAX[g];
@@ -1047,6 +1119,7 @@ function tagFor(name,v){
 const allItems=()=>['bases','toppings','dressings'].flatMap(g=>state.bowl[g]);
 let kShown=0, kRaf;
 function meta(jump){
+  renderDiet();
   const items=allItems().filter(i=>i.v>0).map(i=>[i.name,i.v]), k=kcalOf(items), pr=priceOf(items), P=PRESETS[state.preset];
   const line=v=>`${P.tagline} · ${v} cal · ${money(pr)}`;
   const ob=$('#order'); if(ob) ob.textContent=`Add to bag · ${money(pr)}`;
@@ -1055,6 +1128,13 @@ function meta(jump){
   const from=kShown,t0=performance.now();
   const step=now=>{const p=clamp((now-t0)/600,0,1),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2; kShown=Math.round(from+(k-from)*e); $('#b-meta').textContent=line(kShown); if(p<1) kRaf=requestAnimationFrame(step);};
   kRaf=requestAnimationFrame(step);
+}
+function renderDiet(){
+  let d=$('#diet'); if(!d){ d=document.createElement('div'); d.id='diet'; d.className='diet'; R.prepend(d); }
+  const items=allItems().filter(i=>i.v>0).map(i=>[i.name,i.v]), D=dietOf(items);
+  const clash=[...state.diet].filter(p=>D[p].length);
+  d.innerHTML=(clash.length?clash.map(p=>`<p class="warn">${WARN}<span><b>Not ${p.toLowerCase()}</b> · contains ${D[p].join(', ').toLowerCase()}. You set ${p.toLowerCase()} in your profile.</span></p>`).join(''):'')
+    +`<div class="dtags">${tagsOf(items).map(t=>`<span class="dtag${state.diet.has(t)?' mine':''}">${state.diet.has(t)?ICON.check:''}${t}</span>`).join('')||'<span class="dtag none">No dietary tags</span>'}</div>`;
 }
 // natural-language adjust: “more avocado”, “no onion”, “add chickpea”, “less rice”
 const ALIAS={tomatoes:'Tomato',onions:'Onion',avo:'Avocado',chickpeas:'Chickpea',olives:'Olive',cucumbers:'Cucumber',potato:'Sweet potato','sweet potatoes':'Sweet potato',rice:'Rice',dressing:null,cheese:'Parmesan',parm:'Parmesan',greens:'Lettuce',romaine:'Lettuce',carrots:'Carrot',apples:'Apple',chips:'Tortilla',lime:'Lime cilantro',pickled:'Onion'};
@@ -1074,11 +1154,13 @@ $('#adjust').addEventListener('submit',async e=>{
     let it=state.bowl[g].find(i=>i.name===n);
     const neg=/\b(no|remove|without|skip|hold|drop)\b/.test(l), more=/\b(more|extra|double|lots|a lot|add|plus|bigger)\b/.test(l), less=/\b(less|light|lighter|little|fewer|half)\b/.test(l);
     if(neg){ if(it){ it.bar.set(0); done.push('no '+n.toLowerCase()); } continue; }
+    if(!it&&SOLD.has(n)){ done.push(`${n.toLowerCase()} is sold out here today`); continue; }
     if(!it){ if(state.bowl[g].length>=MAX[g]){done.push(`${GNAME[g].toLowerCase()} are full`);continue;} it={name:n,v:more?3:2}; state.bowl[g].push(it); addRow(g,it,true); groupCount(g); meta(); done.push('added '+n.toLowerCase()); continue; }
     if(more){ it.bar.set(Math.min(4,it.v+1)); done.push(PORTIONS[it.v].toLowerCase()+' '+n.toLowerCase()); }
     else if(less){ it.bar.set(Math.max(1,it.v-1)); done.push(PORTIONS[it.v].toLowerCase()+' '+n.toLowerCase()); }
   }
-  reply.textContent=done.length?`Done — ${done.join(', ')}.`:'Try “more avocado”, “no onion” or “add chickpea”.';
+  const real=done.filter(d=>!/sold out|are full/.test(d)), note=done.filter(d=>/sold out|are full/.test(d));
+  reply.textContent=done.length?(real.length?`Done — ${real.join(', ')}.`:'')+(note.length?(real.length?' ':'')+note.map(t=>t[0].toUpperCase()+t.slice(1)).join('. ')+'.':''):'Try “more avocado”, “no onion” or “add chickpea”.';
   await wait(80); reply.classList.add('show'); clearTimeout(reply._t); reply._t=setTimeout(()=>reply.classList.remove('show'),3800);
 });
 // Order → WK01 Pool loader (same as Start / Discover) → chat
@@ -1087,9 +1169,10 @@ async function placeOrder(fromBuilder){
   // same Pool loader as Start / Discover: green gradient only, ≥2 s of looping, then settles
   const v=$('#veil'), pool=$('.pool',v); pool.classList.remove('done'); $('.lbl',pool).textContent='Placing your order…'; v.classList.add('show','loading');
   await wait(800+2400); pool.classList.add('done'); $('.lbl',pool).textContent='Order placed'; await wait(800);
-  state.lastOrder=state.bag.map(x=>x.name); state.bag=[]; bagRender(); renderBag(); startPickup();
-  go('chat'); await wait(300); v.classList.remove('show'); setTimeout(()=>v.classList.remove('loading'),850); busy=false;
+  confirmOrder();
+  go('done'); await wait(300); v.classList.remove('show'); setTimeout(()=>v.classList.remove('loading'),850); busy=false;
 }
+function soldNote(m){ const r=$('#reply'); r.textContent=m; r.classList.add('show'); clearTimeout(r._t); r._t=setTimeout(()=>r.classList.remove('show'),4600); }
 $('#order').onclick=()=>{
   const items=allItems().filter(i=>i.v>0).map(i=>[i.name,i.v]);
   addToBag(state.bowlName,priceOf(items),{photo:($('#b-img').getAttribute('src')||'').replace(/^assets\/|\.webp$/g,''),items});
@@ -1182,8 +1265,8 @@ PR.addEventListener('pointermove',e=>{ if(!mv) return; const dx=(e.clientX-mv.x)
 PR.addEventListener('pointerup',()=>{ mv=null; PR.style.transition=''; setTimeout(()=>moved=false,0); });
 // pickup status pill (WK01 determinate capsule idea: fills as pickup nears)
 let pickT;
-function startPickup(){ clearInterval(pickT); let s=240; const st=$('.status'), t=$('#status-t');
-  const tick=()=>{ st.style.setProperty('--sp',(1-s/240).toFixed(3)); t.textContent=s>30?`Pick up in ${Math.ceil(s/60)} min`:s>0?'Almost ready':'Ready for pickup'; s=Math.max(0,s-4); if(!s) clearInterval(pickT); };
+function startPickup(at){ clearInterval(pickT); app.classList.add('picking'); const st=$('.status'), t=$('#status-t'), T=at||new Date(Date.now()+4*6e4), total=Math.max(60,(T-Date.now())/1e3);
+  const tick=()=>{ const left=Math.max(0,(T-Date.now())/1e3); st.style.setProperty('--sp',(1-left/total).toFixed(3)); t.textContent=left>90?`Ready at ${clock(T)}`:left>0?'Almost ready':'Ready for pickup'; if(!left) clearInterval(pickT); };
   tick(); pickT=setInterval(tick,1000); }
 ENTER.chat=(from)=>{ if(!pickT) startPickup(); PROD.find(p=>p.k==='carrot').askEl.classList.remove('gone'); };
 
@@ -1199,14 +1282,16 @@ const ORDERS=[
   {name:'Spicy',photo:'bowl-shawarma',date:'Sep 15',preset:'fresh',items:[['Rice',2],['Chicken',2],['Tomato',2],['Onion',2],['Cucumber',2],['Hot sauce',2]]}
 ];
 ORDERS.forEach(o=>{ o.kcal=kcalOf(o.items); o.price=priceOf(o.items); });
-$('#grid').innerHTML=ORDERS.map((o,i)=>`<div class="ocard" role="button" tabindex="0" data-i="${i}" aria-label="${o.name}, ${o.date}"><h3>${o.name}</h3><small>${o.date} · ${o.kcal} cal · ${money(o.price)}</small>
-  <button class="obag" type="button" data-bag="${i}" aria-label="Add ${o.name} to bag">${ICON.bag}</button><img src="assets/${o.photo}.webp" alt=""></div>`).join('');
+function renderGrid(){ $('#grid').innerHTML=ORDERS.map((o,i)=>`<div class="ocard" role="button" tabindex="0" data-i="${i}" aria-label="${o.name}, ${o.date}"><h3>${o.name}</h3><small>${o.date} · ${o.kcal} cal · ${money(o.price)}</small>
+  <button class="obag" type="button" data-bag="${i}" aria-label="Add ${o.name} to bag">${ICON.bag}</button><img src="assets/${o.photo}.webp" alt=""></div>`).join(''); }
+renderGrid();
 $('#grid').addEventListener('click',e=>{
   const b=e.target.closest('.obag'); if(b){ e.stopPropagation(); quickAdd(b,ORDERS[b.dataset.bag]); return; }
   const c=e.target.closest('.ocard'); if(c) openOrder(ORDERS[c.dataset.i]);
 });
 $('#grid').addEventListener('keydown',e=>{const c=e.target.closest('.ocard'); if(c&&e.target===c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openOrder(ORDERS[c.dataset.i]);}});
-function quickAdd(btn,o){ addToBag(o.name+' Bowl',o.price,{photo:o.photo,items:o.items,kcal:o.kcal}); btn.classList.add('added'); btn.innerHTML=ICON.check; toast(`${o.name} Bowl added to your bag`);
+function reorderItems(o){ const keep=o.items.filter(([n])=>!SOLD.has(n)), gone=o.items.filter(([n])=>SOLD.has(n)).map(([n])=>n); return {keep,gone,price:priceOf(keep)}; }
+function quickAdd(btn,o){ const r=reorderItems(o); addToBag(o.name+' Bowl',r.price,{photo:o.photo,items:r.keep}); btn.classList.add('added'); btn.innerHTML=ICON.check; toast(r.gone.length?`Added without ${r.gone.join(', ').toLowerCase()} (sold out today)`:`${o.name} Bowl added to your bag`);
   setTimeout(()=>{btn.classList.remove('added');btn.innerHTML=ICON.bag;},1600); }
 // shared sheet
 function openSheet(html,foot){ $('#sheet-in').classList.remove('order'); $('#sheet-in').innerHTML=html; $('#sheet-foot').innerHTML=foot||''; $('#sheet-foot').hidden=!foot; $('#sheet-in').scrollTop=0;
@@ -1225,19 +1310,19 @@ function orderDate(o){ // "Sunday, October 18" + "5 days ago" — the date matte
 }
 const CAL='<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
 function openOrder(o){
-  const D=orderDate(o), M=macros(o.kcal), nut=[[o.kcal,'','Calories'],[M.protein,'g','Protein'],[M.carbs,'g','Carbs'],[M.fat,'g','Fat']];
+  const RO=reorderItems(o), D=orderDate(o), M=macros(o.kcal), nut=[[o.kcal,'','Calories'],[M.protein,'g','Protein'],[M.carbs,'g','Carbs'],[M.fat,'g','Fat']];
   openSheet(`<div class="close-at">${closeBtn}</div>
     <img class="sh-photo" src="assets/${o.photo}.webp" alt="${o.name} Bowl">
     <div class="sh-head"><h3>${o.name} Bowl</h3>
       <p class="sh-date">${CAL}${D.long} <span>· ${D.ago}</span></p>
-      <small class="sh-where">Picked up at Saratoga + Campbell</small></div>
+      <small class="sh-where">Picked up at Saratoga + Campbell</small>${tagsOf(o.items).length?`<div class="dtags center">${tagsOf(o.items).map(t=>`<span class="dtag">${t}</span>`).join('')}</div>`:''}</div>
     <div class="scard"><h4>Nutrition</h4><div class="nut">${nut.map(([v,u,l])=>`<div><b>${v}${u?`<small>${u}</small>`:''}</b><span>${l}</span></div>`).join('')}</div></div>
-    <div class="scard"><h4>In this bowl</h4>${o.items.map(([n,v])=>`<div class="li"><span class="dot" style="--c:${ING[n][0]}"></span><span class="lab">${n}</span><span class="tr">${PORTIONS[v]}</span></div>`).join('')}</div>
+    <div class="scard"><h4>In this bowl</h4>${o.items.map(([n,v])=>`<div class="li"><span class="dot" style="--c:${ING[n][0]}"></span><span class="lab">${n}${SOLD.has(n)?' <em class="so">Sold out today</em>':''}</span><span class="tr">${PORTIONS[v]}</span></div>`).join('')}</div>
     <div class="scard solo"><button class="li" type="button" data-nav="edit"><span class="lab">Edit in bowl builder<small>Change portions or swap ingredients</small></span><span class="ch">${ICON.chev}</span></button></div>`,
-    `<button class="btn pri" id="sh-re">Reorder · ${money(o.price)}</button>`);
+    `${RO.gone.length?`<p class="sold-note">${WARN}<span><b>${RO.gone.join(', ')} ${RO.gone.length>1?'are':'is'} sold out</b> at Saratoga + Campbell today. You can reorder without ${RO.gone.length>1?'them':'it'}.</span></p>`:''}<button class="btn pri" id="sh-re">${RO.gone.length?`Reorder without ${RO.gone.join(', ').toLowerCase()}`:'Reorder'} · ${money(RO.price)}</button>`);
   $('#sheet-in').classList.add('order');
   $('#sheet [data-nav=edit]').onclick=()=>{ closeSheet(); buildBowlFromOrder(o); go('builder'); };
-  $('#sh-re').onclick=()=>{ addToBag(o.name+' Bowl',o.price,{photo:o.photo,items:o.items,kcal:o.kcal}); toast(`${o.name} Bowl added to your bag`); closeSheet(); };
+  $('#sh-re').onclick=()=>{ addToBag(o.name+' Bowl',RO.price,{photo:o.photo,items:RO.keep}); toast(`${o.name} Bowl added to your bag`); closeSheet(); };
 }
 function buildBowlFromOrder(o){
   buildBowl(o.name); state.preset=o.preset;
@@ -1245,7 +1330,8 @@ function buildBowlFromOrder(o){
   // replace rows with the order's own items
   $$('.tag',$('#photo')).forEach(t=>t.remove()); R.innerHTML='';
   $('#b-img').src=`assets/${o.photo}.webp`;
-  const g={bases:[],toppings:[],dressings:[]}; o.items.forEach(([n,v])=>g[groupOf(n)].push({name:n,v}));
+  const g={bases:[],toppings:[],dressings:[]}; o.items.filter(([n])=>!SOLD.has(n)).forEach(([n,v])=>g[groupOf(n)].push({name:n,v}));
+  const gone=o.items.filter(([n])=>SOLD.has(n)).map(([n])=>n); if(gone.length) setTimeout(()=>soldNote(`${gone.join(', ')} ${gone.length>1?'are':'is'} sold out here today, so we left it out.`),400);
   state.bowl=g;
   ['bases','toppings','dressings'].forEach(k=>{
     const sec=document.createElement('section'); sec.className='grp'; sec.dataset.g=k;
@@ -1262,7 +1348,10 @@ const TICK='<svg class="tick" viewBox="0 0 14 14" aria-hidden="true"><path d="M2
 /* ═════════════ 06 · BAG (cart → checkout) ═════════════ */
 const MINUS='<svg viewBox="0 0 16 16"><path d="M3.5 8h9"/></svg>', PLUS='<svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9"/></svg>',
       TRASH='<svg viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5"/></svg>';
-const co={pick:0,pay:0,utensils:true,tip:2};
+const co={pick:0,cpay:0,utensils:true,tip:2};
+const PAYS=['Apple Pay','Visa ending 4417','Sweetie gift card'];
+const clock=d=>d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+function slots(){ const n=new Date(), a=new Date(n.getTime()+8*6e4), b=new Date(n.getTime()+20*6e4); b.setMinutes(Math.ceil(b.getMinutes()/15)*15,0,0); const c=new Date(b.getTime()+15*6e4); return [a,b,c]; }
 const TIPS=['No tip','10%','15%','20%'], TIPV=[0,.1,.15,.2];
 function seedBag(){ if(!state.bag.length){ addToBag('Fresh Bowl',ORDERS[0].price,{photo:ORDERS[0].photo,items:ORDERS[0].items,kcal:ORDERS[0].kcal}); addToBag('Post-workout Bowl',ORDERS[1].price,{photo:ORDERS[1].photo,items:ORDERS[1].items,kcal:ORDERS[1].kcal}); } }
 function renderBag(){
@@ -1272,7 +1361,7 @@ function renderBag(){
       <div class="row2"><button class="btn sec" data-go="start">Start with one word</button><button class="btn pri" data-go="orders">Your orders</button></div></div>`; summary(); return; }
   L.innerHTML=state.bag.map((x,i)=>`<article class="bitem" data-i="${i}">
     <div class="bi-top"><img src="assets/${x.photo}.webp" alt="">
-      <div class="bi-txt"><h3>${x.name}</h3><small>${x.items.length} ingredients · ${kcalOf(x.items)} cal</small></div>
+      <div class="bi-txt"><h3>${x.name}</h3><small>${x.items.length} ingredients · ${kcalOf(x.items)} cal${tagsOf(x.items).length?' · '+tagsOf(x.items).join(' · '):''}</small></div>
       <div class="bi-right"><span class="bi-price">$${(x.price*x.qty).toFixed(2)}</span>
         <div class="qty" role="group" aria-label="Quantity"><button type="button" data-q="-1" aria-label="${x.qty>1?'One less':'Remove'}">${x.qty>1?MINUS:TRASH}</button><b>${x.qty}</b><button type="button" data-q="1" aria-label="One more">${PLUS}</button></div></div></div>
     <button class="li" type="button" aria-expanded="false"><span class="lab">What’s inside</span><span class="tr">${x.items.slice(0,3).map(y=>y[0]).join(', ')}${x.items.length>3?'…':''}</span><span class="ch">${ICON.down}</span></button>
@@ -1294,13 +1383,13 @@ $('#bg-list').addEventListener('click',e=>{
 (function buildCheckout(){
   const rd=(name,i,l,d)=>`<label class="li"><span class="lab">${l}${d?`<br><small style="font-size:13px;color:var(--n-600)">${d}</small>`:''}</span><input class="sel" type="radio" name="${name}" value="${i}"${co[name]===i?' checked':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
   $('#co').innerHTML=`
-    <section><h4>Pickup time</h4>${rd('pick',0,'As soon as possible','Ready in about 8 min')}${rd('pick',1,'Today, 12:30 PM','')}${rd('pick',2,'Today, 12:45 PM','')}</section>
-    <section><h4>Payment</h4>${rd('pay',0,'Apple Pay','')}${rd('pay',1,'Visa ending 4417','')}${rd('pay',2,'Sweetie gift card · $12.50','')}</section>
+    <section><h4>Pickup time</h4>${rd('pick',0,'As soon as possible','Ready in about 8 min')}${rd('pick',1,'Today','')}${rd('pick',2,'Today','')}</section>
+    <section><h4>Payment</h4>${rd('cpay',0,'Apple Pay','')}${rd('cpay',1,'Visa ending 4417','')}${rd('cpay',2,'Sweetie gift card · $12.50','')}</section>
     <section><h4>Extras</h4><label class="li"><span class="lab">Utensils &amp; napkins<br><small style="font-size:13px;color:var(--n-600)">Skip them to cut waste</small></span><input class="sel" type="checkbox" role="switch" id="utensils" checked><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label></section>`;
-  $('#co').addEventListener('change',e=>{ const t=e.target; if(t.name==='pick'||t.name==='pay') co[t.name]=+t.value; if(t.id==='utensils') co.utensils=t.checked; summary(); });
+  $('#co').addEventListener('change',e=>{ const t=e.target; if(t.name==='pick'||t.name==='cpay') co[t.name]=+t.value; if(t.id==='utensils') co.utensils=t.checked; summary(); });
   // tip: the WK04 Serene stepped bar (same engine as the ingredient bars)
   const host=$('#tipwrap'), el=document.createElement('div'); el.className='sbar';
-  el.style.setProperty('--c','#CFDDB8'); el.style.setProperty('--ink','#00473D');
+  el.style.setProperty('--c','var(--green-200)'); el.style.setProperty('--ink','#00473D');
   el.innerHTML=`<span class="fill"></span>${TIPS.map((_,i)=>`<i class="stop" data-i="${i}"></i>`).join('')}<span class="name">Tip</span><span class="portion"></span><span class="bubble"></span>`;
   host.appendChild(el);
   const range=[.26,1], dots=$$('.stop',el), por=$('.portion',el), bub=$('.bubble',el);
@@ -1319,8 +1408,33 @@ function summary(){
   const por=$('#tipwrap .portion'); if(por&&co.tip) por.textContent=`${TIPS[co.tip]} · ${f(tip)}`;
 }
 $('#place').onclick=()=>placeOrder();
-ENTER.bag=()=>{ renderBag(); };
+function paintSlots(){ const S=slots(), L=$$('#co input[name=pick]').map(i=>i.closest('label').querySelector('.lab'));
+  if(L[0]) L[0].innerHTML=`As soon as possible<br><small style="font-size:13px;color:var(--n-600)">Ready around ${clock(S[0])}</small>`;
+  const day=d=>d.toDateString()===new Date().toDateString()?'Today':'Tomorrow';
+  if(L[1]) L[1].textContent=`${day(S[1])}, ${clock(S[1])}`; if(L[2]) L[2].textContent=`${day(S[2])}, ${clock(S[2])}`; }
+ENTER.bag=()=>{ paintSlots(); renderBag(); };
 renderBag();
+
+
+/* ═════════════ Order confirmation ═════════════ */
+function confirmOrder(){
+  const S=slots(), at=S[co.pick], sub=state.bag.reduce((t,x)=>t+x.price*x.qty,0), tax=sub*.0925, tip=sub*TIPV[co.tip], tot=sub+tax+tip;
+  const num='SG-'+String(4800+Math.floor(Math.random()*900)), n=bagCount(), today=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  $('#dn-when').textContent=co.pick?`Ready at ${clock(at)}`:`Ready around ${clock(at)}`;
+  $('#dn-sub').textContent=`Order #${num} · ${n} bowl${n>1?'s':''} · Saratoga + Campbell`;
+  $('#dn-items').innerHTML=state.bag.map(x=>`<div class="dn-it"><img src="assets/${x.photo}.webp" alt=""><span><b>${x.name}</b><small>${x.qty>1?x.qty+' × ':''}${kcalOf(x.items)} cal</small></span><em>${money(x.price*x.qty)}</em></div>`).join('');
+  $('#dn-sum').innerHTML=`<div><span>Subtotal</span><span>${money(sub)}</span></div><div><span>Tax</span><span>${money(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${money(tip)}</span></div><div class="tot"><span>Total</span><span>${money(tot)}</span></div>
+    <p class="dn-paid">Paid with ${PAYS[co.cpay]} · ${co.utensils?'Utensils included':'No utensils'}</p>`;
+  // it joins your order history
+  state.bag.slice().reverse().forEach(x=>ORDERS.unshift({name:x.name.replace(/ Bowl$/,''),photo:x.photo,date:today,preset:'fresh',items:x.items,kcal:kcalOf(x.items),price:x.price}));
+  renderGrid();
+  state.bag=[]; bagRender(); renderBag(); startPickup(at);
+  const steps=$$('#dn-steps li'); steps.forEach((l,i)=>l.classList.toggle('on',i===0));
+  clearTimeout(confirmOrder._t); confirmOrder._t=setTimeout(()=>steps[1]&&steps[1].classList.add('on'),2600);
+}
+$('#dn-chat').onclick=()=>go('chat');
+$('#dn-done').onclick=()=>go('orders');
+ENTER.done=()=>{};
 
 /* ═════════════ Profile sheet: WK03 Serene selectors + WK05 list ═════════════ */
 $('#prof').onclick=()=>{
@@ -1329,15 +1443,16 @@ $('#prof').onclick=()=>{
   const rd=(l,d,on)=>`<label class="li"><span class="lab">${l}<br><small style="font-size:13px;color:var(--n-600)">${d}</small></span><input class="sel" type="radio" name="pay"${on?' checked':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
   openSheet(`<div class="sh-top"><div class="avatar"><span class="sg ink"><svg class="hexb" viewBox="-1.5 -4 60 60"><path d="${hexD(57,52,12)}" stroke-width=".9"/></svg><span>M</span></span><div><b>Matt</b><small>Member since 2024 · 38 bowls</small></div></div>${closeBtn}</div>
     <div class="scard"><button class="li" type="button" data-nav="orders"><span class="lab">Your orders</span><span class="tr">${ORDERS.length}</span><span class="ch">${ICON.chev}</span></button>
-      <button class="li" type="button" aria-expanded="false"><span class="lab">Dietary preferences</span><span class="tr">2 on</span><span class="ch">${ICON.down}</span></button>
-      <div class="sub"><div>${cb('Vegetarian',true)}${cb('Vegan',false)}${cb('Gluten-free',true)}${cb('Nut-free',false)}</div></div>
+      <button class="li" type="button" aria-expanded="false"><span class="lab">Dietary preferences</span><span class="tr">${state.diet.size} on</span><span class="ch">${ICON.down}</span></button>
+      <div class="sub"><div>${['Vegetarian','Vegan','Gluten-free','Nut-free'].map(d=>cb(d,state.diet.has(d))).join('')}</div></div>
       <button class="li" type="button" aria-expanded="false"><span class="lab">Default payment</span><span class="tr">Apple Pay</span><span class="ch">${ICON.down}</span></button>
       <div class="sub"><div>${rd('Apple Pay','Default on this device',true)}${rd('Visa ending 4417','Expires 08/28',false)}${rd('Sweetie gift card','$12.50 balance',false)}</div></div></div>
     <div class="scard"><h4>Notifications</h4>${sw('Order updates','When your bowl is ready',true)}${sw('Seasonal ingredients','New on the menu near you',false)}</div>`);
   $('#sheet [data-nav=orders]').onclick=()=>{closeSheet();go('orders');};
   // keep the trailing summaries honest
   const sheet=$('#sheet'); sheet.onchange=()=>{
-    const diet=$$('.sub input[type=checkbox]',sheet).filter(i=>i.checked).length; const t=$$('button.li[aria-expanded] .tr',sheet);
+    state.diet=new Set($$('.sub input[type=checkbox]',sheet).filter(i=>i.checked).map(i=>i.closest('label').querySelector('.lab').textContent));
+    const diet=state.diet.size; const t=$$('button.li[aria-expanded] .tr',sheet); if(state.built) meta();
     if(t[0]) t[0].textContent=diet+' on'; const pay=$$('input[name=pay]',sheet).find(i=>i.checked); if(t[1]&&pay) t[1].textContent=pay.closest('label').querySelector('.lab').firstChild.textContent;
   };
 };
