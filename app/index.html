@@ -1113,7 +1113,6 @@ const HX=hexD(240,220,40), hexes=[];
   let k=0; const ring=[[477,178],[205,327],[749,327],[205,625],[749,625],[477,774]]; // near-centre cells get the headline words
   for(let c=-3;c<=7;c++) for(let r=-2;r<=4;r++){
     const x=-67+128+c*272, y=(c%2?29-149:29)+128+r*298; // centres
-    if(c===2&&r===1) continue; // centre cell holds the title
     hexes.push({x,y});
   }
   // order: closest to centre first, so the Figma words land where they do in the design
@@ -1133,11 +1132,15 @@ let pan={x:0,y:0}, vel={x:0,y:0}, dDrag=null, raf=null;
 function paintField(){
   field.style.transform=`translate(${pan.x}px,${pan.y}px)`;
   const C=[605,457];
+  const T=1-sstep(20,150,Math.hypot(pan.x,pan.y)); // title visibility: fades out as you move the canvas
+  const tt=$('.disc-title'); tt.style.opacity=T.toFixed(3); tt.style.filter=T<1?`blur(${((1-T)*6).toFixed(1)}px)`:''; tt.style.transform=`scale(${(.96+.04*T).toFixed(3)})`;
   hexes.forEach(h=>{
     const d=Math.hypot(h.x+pan.x-C[0],(h.y+pan.y-C[1])*1.15);
-    const b=clamp((d-430)/160,0,1), near=clamp(1-(d-60)/120,0,1);
-    h.el.style.filter=b>0?`blur(${(b*9).toFixed(1)}px)`:'none';
-    h.el.style.opacity=(1-b*.45-near*.8).toFixed(2);
+    // a hexagon in the middle stays tucked away only while the title is showing; drag and it grows into place as the title fades
+    const b=clamp((d-430)/160,0,1), near=clamp(1-(d-60)/120,0,1)*T, ns=near>0?.6+.4*(1-near):1;
+    h.el.style.filter=b>0||near>0?`blur(${(b*9+near*6).toFixed(1)}px)`:'none';
+    h.el.style.opacity=clamp(1-b*.45-near,0,1).toFixed(2);
+    h.el.style.transform=near>0?`scale(${ns.toFixed(3)})`:'';
     h.el.style.pointerEvents=b>.6||near>.5?'none':'';
     h.el.tabIndex=b>.6?-1:0;
   });
