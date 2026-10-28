@@ -1065,7 +1065,7 @@ function morphD(scale,m){ // m 0 = circle, 1 = the rounded Sweetie hexagon
 }
 const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, sstep=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x)};
 // breathing: sine in/out with a soft rest at each end; inhale = grows a little and becomes the hexagon, exhale = softens back to a circle
-function morphState(t){ const u=sstep(0,1,.5-.5*Math.cos(2*Math.PI*t)); return {s:.82+.18*u, m:u, g:u}; }
+function morphState(t){ const u=sstep(0,1,.5-.5*Math.cos(2*Math.PI*t)); return {s:.68+.32*u, m:u, g:u}; }
 function poolDraw(pool,st){ const d=morphD(st.s,st.m); $$('svg.p1 path',pool).forEach(p=>p.setAttribute('d',d)); const v=$('svg.p1',pool); if(v){ v.style.opacity=(.86+.14*(st.g??1)).toFixed(3); } pool._st=st; }
 function poolLoop(pool){ cancelAnimationFrame(pool._raf); const t0=performance.now();
   const step=now=>{ poolDraw(pool,morphState(((now-t0)%MORPH.loop)/MORPH.loop)); pool._raf=requestAnimationFrame(step); }; pool._raf=requestAnimationFrame(step); }
@@ -1079,7 +1079,7 @@ async function poolSettle(pool,label){
 }
 async function runPool(screenEl,label='Finding your bowl…'){
   const pool=$('.pool',screenEl); poolReset(pool,label);
-  screenEl.classList.add('loading'); await wait(800+3200); // 0.8 s fade-in, then 2.4 s of looping before it settles
+  screenEl.classList.add('loading'); await wait(800+6400); // two full breaths // 0.8 s fade-in, then 2.4 s of looping before it settles
   await poolSettle(pool,'Bowl ready');
 }
 let busy=false;
@@ -1326,7 +1326,7 @@ async function placeOrder(fromBuilder){
   if(busy) return; busy=true; $('#bag-host').classList.remove('show');
   // same Pool loader as Start / Discover: green gradient only, ≥2 s of looping, then settles
   const v=$('#veil'), pool=$('.pool',v); poolReset(pool,'Placing your order…'); v.classList.add('show','loading');
-  await wait(800+3200); await poolSettle(pool,'Order placed');
+  await wait(800+6400); await poolSettle(pool,'Order placed');
   confirmOrder();
   go('done'); await wait(300); v.classList.remove('show'); setTimeout(()=>v.classList.remove('loading'),850); busy=false;
 }
