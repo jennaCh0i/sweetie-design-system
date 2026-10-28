@@ -793,7 +793,7 @@ const ICON={chev:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>',down:
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'};
 
 /* rounded hexagon path (flat = points left/right) */
-const HEX_ROUND=.34; // Sweetie mark: each corner rounds off 34% of the side — used by every hexagon
+const HEX_ROUND=.29; // Sweetie mark: each corner rounds off 34% of the side — used by every hexagon
 function hexPts(w,h,flat=true,steps=0){ // same shape as hexD, as points (for the loader morph)
   const cx=w/2,cy=h/2,R=flat?Math.min(w/2,h/Math.sqrt(3)):Math.min(h/2,w/Math.sqrt(3)), k=HEX_ROUND*R, out=[];
   const P=Array.from({length:6},(_,i)=>{const a=(flat?60*i:-90+60*i)*Math.PI/180;return[cx+R*Math.cos(a),cy+R*Math.sin(a)]});
