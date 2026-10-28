@@ -831,7 +831,7 @@ function fit(){
   document.body.classList.toggle('forced',!framed&&!full); // window too small for the frame: keep the back link, hide 'Exit'
   const rec=document.body.classList.contains('rec'), k=framed?(ST.size/100):1;
   const s=framed?Math.min((W-60)/1210,(H-140)/834)*k:Math.min(W/1210,H/834); // same size with or without the controls
-  device.style.setProperty('--s',s); device.style.setProperty('--top',framed&&!rec?`calc(50% - 44px)`:'50%');
+  device.style.setProperty('--s',s); device.style.setProperty('--top',framed?`calc(50% - 44px)`:'50%'); // stays put when the controls hide
   window.SCALE=s;
 }
 addEventListener('resize',fit); fit();
