@@ -72,6 +72,9 @@ body.framed #device{--r:28px;--frame:0 0 0 12px #0B0D0B,0 0 0 13px #3A403B,0 40p
 .notes{position:fixed;left:50%;bottom:66px;transform:translateX(-50%);font-size:var(--t-cap);color:#9BA699;white-space:nowrap;z-index:50;letter-spacing:var(--tr-cap)}
 .notes b{font-weight:500;color:#DCE6D6}
 body:not(.framed) .flowbar,body:not(.framed) .notes{display:none}
+body.rec .flowbar,body.rec .notes,body.rec .fs-bar{display:none!important}
+.rec-hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:70;padding:8px 14px;border-radius:40px;background:rgba(0,0,0,.6);color:#fff;font:13px Figtree,system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .4s}
+.rec-hint.show{opacity:1}
 .fs-bar{position:fixed;left:50%;top:max(14px,env(safe-area-inset-top));transform:translateX(-50%);z-index:60;display:none;gap:4px;padding:4px;border-radius:var(--r-pill);background:rgba(245,243,232,.94);box-shadow:0 0 0 1px #BDBDBD,0 4px 14px rgba(0,0,0,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .fs-bar a,.fs-bar button{padding:8px 14px;border-radius:var(--r-pill);font-size:var(--t-cap);color:#00473D;text-decoration:none;white-space:nowrap;transition:background .3s;letter-spacing:var(--tr-cap)}
 .fs-bar a:hover,.fs-bar button:hover{background:#DBE4CB}
@@ -715,7 +718,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 <nav class="flowbar" aria-label="Flows">
   <a class="home" href="../index.html" aria-label="Back to the Sweetie main page">← Sweetie</a><span class="sep"></span>
   <button data-flow="start">01 Start</button><button data-flow="discover">02 Discover</button><button data-flow="builder">03 Bowl builder</button><button data-flow="chat">04 Chat</button><button data-flow="orders">05 Your orders</button><button data-flow="bag">06 Bag</button>
-  <span class="sep"></span><button id="full" title="Fill the screen (for iPad)">Full screen</button>
+  <span class="sep"></span><button id="rec" title="Hide the controls (press H to bring them back)">Hide for recording</button><button id="full" title="Fill the screen (for iPad)">Full screen</button>
 </nav>
 <p class="notes" id="notes"></p>
 <div class="fs-bar" role="navigation" aria-label="Prototype"><a href="../index.html">← Sweetie</a><button type="button" id="fs-exit">Exit full screen</button></div>
@@ -775,6 +778,12 @@ function fit(){
 }
 addEventListener('resize',fit); fit();
 $('#full').onclick=()=>{full=true;fit()};
+// recording mode: hide every prototype control; H toggles (works in any screen)
+const recHint=document.createElement('div'); recHint.className='rec-hint'; recHint.textContent='Controls hidden · press H to show them again'; document.body.appendChild(recHint);
+function setRec(on){ document.body.classList.toggle('rec',on); if(on){ recHint.classList.add('show'); clearTimeout(setRec._t); setRec._t=setTimeout(()=>recHint.classList.remove('show'),1800); } else recHint.classList.remove('show'); }
+$('#rec').onclick=()=>setRec(true);
+addEventListener('keydown',e=>{ if(e.target.closest&&e.target.closest('input')) return; if((e.key==='h'||e.key==='H')&&!e.metaKey&&!e.ctrlKey) setRec(!document.body.classList.contains('rec')); });
+if(new URLSearchParams(location.search).has('record')) setRec(true);
 $('#fs-exit').onclick=()=>{full=false;fit()};
 try{localStorage.removeItem('sweetie-full')}catch(e){} // clear the old remembered setting
 
