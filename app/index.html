@@ -166,6 +166,10 @@ body.forced #fs-exit{display:none}
 .sg{position:absolute;width:60px;height:60px;display:grid;place-items:center;z-index:5}
 .sg .mark{position:absolute;left:0;top:2px;width:60px;height:56px;filter:drop-shadow(var(--elev-1));transition:transform .6s var(--ease)}
 .sg:hover .mark{transform:scale(1.05)}
+/* Start + Discover Sweetie mark buttons: 15% smaller (60 → 51) */
+.sg:has(.mark){width:51px;height:51px}
+.sg:has(.mark) .mark{top:1.5px;width:51px;height:48px}
+.sg:has(.mark) .new{right:3px;top:1px;width:10px;height:10px}
 .sg svg.hexb{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(var(--elev-1));transition:transform .6s var(--ease)}
 .sg:hover svg.hexb{transform:scale(1.05)}
 .sg>span:not(.b){position:relative;font-size:var(--t-body-l);font-weight:600;letter-spacing:var(--tr-body-l)}
