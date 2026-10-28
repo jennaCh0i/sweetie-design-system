@@ -225,7 +225,7 @@ body.forced #fs-exit{display:none}
 #s-start.loading>*:not(.pool),#s-discover.loading>*:not(.pool){opacity:0 !important;filter:blur(8px) !important;pointer-events:none}
 
 /* ═════════════ 02 · DISCOVER ═════════════ */
-#s-discover{background:var(--glow);overflow:hidden;touch-action:none;cursor:grab}
+#s-discover{background:var(--glow);overflow:hidden;overflow:clip;touch-action:none;cursor:grab}
 #s-discover.grabbing{cursor:grabbing}
 .field{position:absolute;left:0;top:0;width:0;height:0}
 .khex{position:absolute;width:256px;height:256px;margin:-128px 0 0 -128px;display:grid;place-items:center;transition:transform 0.63s var(--snap),opacity 0.54s var(--snap),filter 0.45s var(--snap)}
@@ -329,7 +329,7 @@ body.forced #fs-exit{display:none}
 .veil.show{opacity:1;visibility:visible}
 
 /* ═════════════ 04 · CHAT WITH INGREDIENTS ═════════════ */
-#s-chat{overflow:hidden}
+#s-chat{overflow:hidden;overflow:clip}
 .produce{position:absolute;inset:0;transition:transform .9s var(--ease)}
 .prod{position:absolute;transition:left 1.1s var(--ease),top 1.1s var(--ease),width 1.1s var(--ease),height 1.1s var(--ease),filter 1s var(--ease),opacity 1s var(--ease)}
 .prod .float{position:absolute;inset:0;animation:float var(--fd,12s) ease-in-out infinite alternate;animation-delay:var(--fdl,0s)}
