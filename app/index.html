@@ -394,15 +394,7 @@ body.forced #fs-exit{display:none}
 #s-orders .scroll::-webkit-scrollbar{display:none}
 .o-title{font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);line-height:1.03;color:var(--text-brand)}
 .o-sub{margin-top:6px;font-size:var(--t-body);color:var(--n-800);letter-spacing:var(--tr-body)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-4);margin-top:var(--s-6)}
-.ocard{position:relative;height:359px;border-radius:var(--r-md);background:var(--green-100);overflow:hidden;text-align:left;transition:transform 0.45s var(--snap),background 0.45s var(--snap)}
-.ocard:hover{background:var(--surface-sage-hover)}
-.ocard:active{transform:scale(.99)}
-.ocard h3{position:absolute;left:20px;top:20px;font-size:var(--t-heading);font-weight:400;letter-spacing:var(--tr-heading);color:var(--text)}
-.ocard small{position:absolute;left:20px;top:52px;font-size:var(--t-cap);color:var(--n-600);font-variant-numeric:tabular-nums;letter-spacing:var(--tr-cap)}
-.ocard img{position:absolute;left:50%;top:84px;width:270px;height:252px;object-fit:contain;transform:translateX(-50%);pointer-events:none;transition:transform 0.81s var(--snap)}
-.ocard:hover img{transform:translateX(-50%) scale(1.03) rotate(2deg)}
-.obag{position:absolute;right:20px;top:16px;width:64px;height:var(--h-md);border-radius:var(--r-pill);background:var(--green-950);display:grid;place-items:center;color:var(--cream-100);z-index:2;transition:background 0.45s var(--snap),width 0.45s var(--snap)}
+.obag-old{position:absolute;right:20px;top:16px;width:64px;height:var(--h-md);border-radius:var(--r-pill);background:var(--green-950);display:grid;place-items:center;color:var(--cream-100);z-index:2;transition:background 0.45s var(--snap),width 0.45s var(--snap)}
 .obag svg{width:18px;height:20px}
 .obag.added{background:var(--green-700)}
 /* detail sheet with WK05 Serene list */
@@ -628,6 +620,40 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 #dn-sum{margin-top:14px}
 .dn-paid{margin-top:14px;font-size:var(--t-cap);color:var(--n-600);letter-spacing:var(--tr-cap)}
 
+
+/* ═════════════ 05 · ORDER HISTORY (last order + timeline) ═════════════ */
+.grid{margin-top:var(--s-6)}
+.hist-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 300px;align-items:center;gap:var(--s-5);padding:var(--s-6) var(--s-6) var(--s-6) var(--m);border-radius:var(--r-lg);background:var(--green-100);cursor:pointer;transition:background .36s var(--snap)}
+.hist-hero:hover{background:var(--surface-sage-hover)}
+.hh-label{font-size:var(--t-cap);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+.hh-date{margin-top:var(--s-2);font-size:var(--t-title);letter-spacing:var(--tr-title);line-height:1.05;color:var(--text-brand)}
+.hh-ago{margin-top:var(--s-1);font-size:var(--t-body-s);letter-spacing:var(--tr-body-s);color:var(--text-3)}
+.hh-name{margin-top:var(--s-5);font-size:var(--t-heading);letter-spacing:var(--tr-heading);color:var(--text)}
+.hh-meta{margin-top:var(--s-1);font-size:var(--t-body-s);letter-spacing:var(--tr-body-s);color:var(--text-2);font-variant-numeric:tabular-nums}
+.hh-btns{display:flex;gap:var(--s-3);margin-top:var(--s-5)}
+.hh-btns .btn{flex:none;padding:0 28px}
+.hist-hero img{width:300px;height:280px;object-fit:contain;justify-self:end;pointer-events:none;transition:transform .9s var(--ease)}
+.hist-hero:hover img{transform:scale(1.03) rotate(2deg)}
+.hgroup{margin-top:var(--m)}
+.hgroup h4{display:flex;justify-content:space-between;padding:0 0 var(--s-3);font-size:var(--t-cap);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);border-bottom:.5px solid var(--line)}
+.hgroup h4 span{letter-spacing:0;text-transform:none}
+.hrow{display:grid;grid-template-columns:64px 64px minmax(0,1fr) auto var(--h-s);align-items:center;gap:var(--s-4);width:100%;padding:var(--s-3) var(--s-3) var(--s-3) 0;border-bottom:.5px solid var(--line-soft);border-radius:0;text-align:left;cursor:pointer;transition:background .36s var(--snap)}
+.hrow:hover{background:rgba(219,228,203,.45)}
+.hrow:active{background:rgba(192,227,150,.45)}
+.hr-date{text-align:center;font-variant-numeric:tabular-nums}
+.hr-date b{display:block;font-weight:400;font-size:var(--t-heading);letter-spacing:var(--tr-heading);line-height:1;color:var(--text-brand)}
+.hr-date small{display:block;margin-top:4px;font-size:var(--t-cap);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+.hrow img{width:64px;height:60px;object-fit:contain}
+.hr-txt b{display:block;font-weight:400;font-size:var(--t-body);letter-spacing:var(--tr-body)}
+.hr-txt small{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hr-end{text-align:right;font-variant-numeric:tabular-nums}
+.hr-end b{display:block;font-weight:400;font-size:var(--t-body);letter-spacing:var(--tr-body)}
+.hr-end small{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--text-3)}
+.obag{width:var(--h-s);height:var(--h-s);border-radius:50%;display:grid;place-items:center;background:var(--green-950);color:var(--cream-100);transition:background .3s var(--snap),transform .25s var(--snap)}
+.obag:hover{background:var(--action-hover)}.obag:active{transform:scale(.92)}
+.obag svg{width:14px;height:15px}
+.obag.added{background:var(--green-700)}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}}
 </style>
 </head>
@@ -728,7 +754,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
   <section class="screen" id="s-orders" aria-label="Your orders">
     <div class="scroll">
       <h1 class="o-title">Your orders</h1>
-      <p class="o-sub">Reorder a favorite or revisit what was in your bowl.</p>
+      <p class="o-sub" id="o-sub"></p>
       <div class="grid" id="grid"></div>
     </div>
   </section>
@@ -1471,18 +1497,47 @@ const ORDERS=[
   {name:'Cozy',photo:'bowl-comfort',date:'Sep 22',preset:'comfort',items:[['Wild rice',2],['Kale',1],['Sweet potato',3],['Chicken',2],['Cabbage',1],['Miso sesame',2]]},
   {name:'Spicy',photo:'bowl-shawarma',date:'Sep 15',preset:'fresh',items:[['Rice',2],['Chicken',2],['Tomato',2],['Onion',2],['Cucumber',2],['Hot sauce',2]]}
 ];
-ORDERS.forEach(o=>{ o.kcal=kcalOf(o.items); o.price=priceOf(o.items); });
-function renderGrid(){ $('#grid').innerHTML=ORDERS.map((o,i)=>`<div class="ocard" role="button" tabindex="0" data-i="${i}" aria-label="${o.name}, ${o.date}"><h3>${o.name}</h3><small>${o.date} · ${o.kcal} cal · ${money(o.price)}</small>
-  <button class="obag" type="button" data-bag="${i}" aria-label="Add ${o.name} to bag">${ICON.bag}</button><img src="assets/${o.photo}.webp" alt=""></div>`).join(''); }
+const TIMES=['12:40 PM','6:15 PM','12:05 PM','1:20 PM','7:45 PM','12:30 PM','6:50 PM','12:55 PM'];
+ORDERS.forEach((o,i)=>{ o.kcal=kcalOf(o.items); o.price=priceOf(o.items); o.time=o.time||TIMES[i%TIMES.length]; });
+const odate=o=>new Date(`${o.date} 2026`), total=o=>o.price*1.0925;
+function ago(d){ const t=new Date(); t.setHours(0,0,0,0); const x=new Date(d); x.setHours(0,0,0,0); const n=Math.round((t-x)/864e5);
+  return n<=0?'Today':n===1?'Yesterday':n<7?`${n} days ago`:n<14?'Last week':n<60?`${Math.round(n/7)} weeks ago`:`${Math.round(n/30)} months ago`; }
+function groupOfDate(d){ const t=new Date(); t.setHours(0,0,0,0); const mon=new Date(t); mon.setDate(t.getDate()-((t.getDay()+6)%7)); const last=new Date(mon); last.setDate(mon.getDate()-7);
+  const x=new Date(d); x.setHours(0,0,0,0);
+  if(+x===+t) return 'Today'; if(x>=mon) return 'This week'; if(x>=last) return 'Last week';
+  const m=x.toLocaleDateString('en-US',{month:'long'}); return x.getMonth()===t.getMonth()?'Earlier in '+m:m; }
+function renderGrid(){
+  const list=ORDERS.map((o,i)=>({o,i})).sort((a,b)=>odate(b.o)-odate(a.o)||a.i-b.i);
+  const first=list[0], rest=list.slice(1), L=first.o, D=odate(L);
+  const items=o=>o.items.slice(0,3).map(x=>x[0]).join(', ')+(o.items.length>3?` +${o.items.length-3}`:'');
+  $('#o-sub').textContent=`${ORDERS.length} orders since September · usually around lunchtime at Saratoga + Campbell`;
+  let h=`<article class="hist-hero" data-i="${first.i}" role="button" tabindex="0" aria-label="Last order, ${D.toDateString()}">
+    <div><p class="hh-label">Last order</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</h2>
+      <p class="hh-ago">${ago(D)} · picked up ${L.time}</p>
+      <h3 class="hh-name">${L.name} Bowl</h3><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
+      <div class="hh-btns"><button class="btn pri" type="button" data-re="${first.i}">Reorder</button><button class="btn sec" type="button" data-edit="${first.i}">Edit</button></div></div>
+    <img src="assets/${L.photo}.webp" alt=""></article>`;
+  const groups=[]; rest.forEach(r=>{ const g=groupOfDate(odate(r.o)); let G=groups.find(x=>x.g===g); if(!G) groups.push(G={g,rows:[]}); G.rows.push(r); });
+  groups.forEach(G=>{ h+=`<section class="hgroup"><h4>${G.g}<span>${G.rows.length} order${G.rows.length>1?'s':''}</span></h4>`+G.rows.map(({o,i})=>{ const d=odate(o);
+    return `<div class="hrow" role="button" tabindex="0" data-i="${i}" aria-label="${o.name} Bowl, ${d.toDateString()}">
+      <span class="hr-date"><b>${d.getDate()}</b><small>${d.toLocaleDateString('en-US',{weekday:'short'})}</small></span>
+      <img src="assets/${o.photo}.webp" alt="">
+      <span class="hr-txt"><b>${o.name} Bowl</b><small>${items(o)} · ${o.kcal} cal</small></span>
+      <span class="hr-end"><b>${money(total(o))}</b><small>Picked up ${o.time}</small></span>
+      <button class="obag" type="button" data-bag="${i}" aria-label="Reorder ${o.name} Bowl">${ICON.bag}</button></div>`; }).join('')+'</section>'; });
+  $('#grid').innerHTML=h;
+}
 renderGrid();
 $('#grid').addEventListener('click',e=>{
   const b=e.target.closest('.obag'); if(b){ e.stopPropagation(); quickAdd(b,ORDERS[b.dataset.bag]); return; }
-  const c=e.target.closest('.ocard'); if(c) openOrder(ORDERS[c.dataset.i]);
+  const re=e.target.closest('[data-re]'); if(re){ e.stopPropagation(); quickAdd(re,ORDERS[re.dataset.re]); return; }
+  const ed=e.target.closest('[data-edit]'); if(ed){ e.stopPropagation(); buildBowlFromOrder(ORDERS[ed.dataset.edit]); go('builder'); return; }
+  const c=e.target.closest('.hrow,.hist-hero'); if(c) openOrder(ORDERS[c.dataset.i]);
 });
-$('#grid').addEventListener('keydown',e=>{const c=e.target.closest('.ocard'); if(c&&e.target===c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openOrder(ORDERS[c.dataset.i]);}});
+$('#grid').addEventListener('keydown',e=>{const c=e.target.closest('.hrow,.hist-hero'); if(c&&e.target===c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openOrder(ORDERS[c.dataset.i]);}});
 function reorderItems(o){ const keep=o.items.filter(([n])=>!SOLD.has(n)), gone=o.items.filter(([n])=>SOLD.has(n)).map(([n])=>n); return {keep,gone,price:priceOf(keep)}; }
-function quickAdd(btn,o){ const r=reorderItems(o); addToBag(o.name+' Bowl',r.price,{photo:o.photo,items:r.keep}); btn.classList.add('added'); btn.innerHTML=ICON.check; toast(r.gone.length?`Added without ${r.gone.join(', ').toLowerCase()} (sold out today)`:`${o.name} Bowl added to your bag`);
-  setTimeout(()=>{btn.classList.remove('added');btn.innerHTML=ICON.bag;},1600); }
+function quickAdd(btn,o){ const r=reorderItems(o); addToBag(o.name+' Bowl',r.price,{photo:o.photo,items:r.keep}); const was=btn.innerHTML; btn.classList.add('added'); btn.innerHTML=btn.classList.contains('obag')?ICON.check:'Added to bag'; toast(r.gone.length?`Added without ${r.gone.join(', ').toLowerCase()} (sold out today)`:`${o.name} Bowl added to your bag`);
+  setTimeout(()=>{btn.classList.remove('added');btn.innerHTML=was;},1600); }
 // shared sheet
 function openSheet(html,foot){ $('#sheet-in').classList.remove('order'); $('#sheet-in').innerHTML=html; $('#sheet-foot').innerHTML=foot||''; $('#sheet-foot').hidden=!foot; $('#sheet-in').scrollTop=0;
   $('#sheet').classList.add('open'); $('#scrim').classList.add('show'); wireList($('#sheet')); setTimeout(()=>{const c=$('#sheet .close');c&&c.focus({preventScroll:true})},500); }
@@ -1616,7 +1671,7 @@ function confirmOrder(){
   $('#dn-sum').innerHTML=`<div><span>Subtotal</span><span>${money(sub)}</span></div><div><span>Tax</span><span>${money(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${money(tip)}</span></div><div class="tot"><span>Total</span><span>${money(tot)}</span></div>
     <p class="dn-paid">Paid with ${PAYS[co.cpay]} · ${co.utensils?'Utensils included':'No utensils'}</p>`;
   // it joins your order history
-  state.bag.slice().reverse().forEach(x=>ORDERS.unshift({name:x.name.replace(/ Bowl$/,''),photo:x.photo,date:today,preset:'fresh',items:x.items,kcal:kcalOf(x.items),price:x.price}));
+  state.bag.slice().reverse().forEach(x=>ORDERS.unshift({time:new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}),name:x.name.replace(/ Bowl$/,''),photo:x.photo,date:today,preset:'fresh',items:x.items,kcal:kcalOf(x.items),price:x.price}));
   renderGrid();
   state.bag=[]; bagRender(); renderBag(); startPickup(at);
   const steps=$$('#dn-steps li'); steps.forEach((l,i)=>l.classList.toggle('on',i===0));
