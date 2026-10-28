@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Sweetie — Tablet Prototype</title>
-<meta name="description" content="Sweetie (sweetgreen LLM) tablet prototype: Start with one word, Discover, Bowl builder, Chat with ingredients and Your orders, using the WK01–WK05 interactions.">
+<meta name="description" content="Sweetie (sweetgreen LLM) tablet prototype: Start with one word, Discover, Bowl builder, Chat with ingredients and Order history, using the WK01–WK05 interactions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -389,7 +389,7 @@ body.forced #fs-exit{display:none}
 .sugg button:hover{background:var(--white)}
 .p-foot .prompt{width:100%}
 
-/* ═════════════ 05 · YOUR ORDERS ═════════════ */
+/* ═════════════ 05 · ORDER HISTORY ═════════════ */
 #s-orders .scroll{position:absolute;left:0;right:0;top:75px;bottom:0;overflow-y:auto;padding:var(--m);scrollbar-width:none}
 #s-orders .scroll::-webkit-scrollbar{display:none}
 .o-title{font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);line-height:1.03;color:var(--text-brand)}
@@ -751,10 +751,10 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     </aside>
   </section>
 
-  <!-- ═════════════ 05 YOUR ORDERS ═════════════ -->
-  <section class="screen" id="s-orders" aria-label="Your orders">
+  <!-- ═════════════ 05 ORDER HISTORY ═════════════ -->
+  <section class="screen" id="s-orders" aria-label="Order history">
     <div class="scroll">
-      <h1 class="o-title">Your orders</h1>
+      <h1 class="o-title">Order history</h1>
       <p class="o-sub" id="o-sub"></p>
       <div class="grid" id="grid"></div>
     </div>
@@ -792,7 +792,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 
 <nav class="flowbar" aria-label="Flows">
   <a class="home" href="../index.html" aria-label="Back to the Sweetie main page">← Sweetie</a><span class="sep"></span>
-  <button data-flow="start">01 Start</button><button data-flow="discover">02 Discover</button><button data-flow="builder">03 Bowl builder</button><button data-flow="chat">04 Chat</button><button data-flow="orders">05 Your orders</button><button data-flow="bag">06 Bag</button>
+  <button data-flow="start">01 Start</button><button data-flow="discover">02 Discover</button><button data-flow="builder">03 Bowl builder</button><button data-flow="chat">04 Chat</button><button data-flow="orders">05 Order history</button><button data-flow="bag">06 Bag</button>
   <span class="sep"></span><button id="stage-btn">Background</button><button id="rec" title="Hide the controls (press H to bring them back)">Hide for recording</button><button id="full" title="Fill the screen (for iPad)">Full screen</button>
 </nav>
 <p class="notes" id="notes"></p>
@@ -979,7 +979,7 @@ const NOTES={
   chat:'<b>04 Chat</b> · layout from Figma Desktop · Intro · WK02 “Chat with …” tooltip on hover &amp; move-canvas rich tooltip · WK01 Petal typing indicator · status pill fills as pickup nears',
   done:'<b>Order placed</b> · order number, ready time from the real clock, Placed → Preparing → Ready progress, receipt · pickup pill stays in the top bar',
   bag:'<b>06 Bag</b> · WK05 Serene item rows (expand: what’s inside) · WK03 Serene radios &amp; switch · WK04 tip slider · WK01 Pool loader on Place order',
-  orders:'<b>05 Your orders</b> · WK05 Serene list (expand + navigate) in the detail sheet · WK02 bag badge · profile: WK03 Serene selectors'
+  orders:'<b>05 Order history</b> · WK05 Serene list (expand + navigate) in the detail sheet · WK02 bag badge · profile: WK03 Serene selectors'
 };
 let hist=[];
 function go(screen,{push=true}={}){
@@ -1025,7 +1025,7 @@ function bagRender(pulse){
   else { b.classList.remove('dot'); b.textContent=n; b.classList.add('on'); }
   const total=state.bag.reduce((s,x)=>s+x.price*x.qty,0);
   $('#bag-tip').innerHTML=n?`<h4>${n} item${n>1?'s':''} · $${total.toFixed(2)}</h4><p>${state.bag.map(x=>x.name).join(', ')}</p><button class="act" id="checkout">Checkout</button>`
-    :`<h4>Your bag is empty</h4><p>Start with one word, or reorder a favorite.</p><button class="act" data-go="orders">Your orders</button>`;
+    :`<h4>Your bag is empty</h4><p>Start with one word, or reorder a favorite.</p><button class="act" data-go="orders">Order history</button>`;
   const c=$('#checkout'); if(c) c.onclick=()=>go('bag');
 }
 // bag items: {name, price, photo, items:[[ingredient, portion]], qty}; the same bowl twice just adds to its quantity
@@ -1487,7 +1487,7 @@ function startPickup(at){ clearInterval(pickT); app.classList.add('picking'); co
   tick(); pickT=setInterval(tick,1000); }
 ENTER.chat=(from)=>{ if(!pickT) startPickup(); };
 
-/* ═════════════ 05 · YOUR ORDERS ═════════════ */
+/* ═════════════ 05 · ORDER HISTORY ═════════════ */
 const ORDERS=[
   {name:'Fresh',photo:'bowl-fresh',date:'Oct 21',preset:'fresh',items:[['Lettuce',2],['Tortilla',1],['Onion',2],['Avocado',2],['Cabbage',2],['Tomato',3],['Chicken',2],['Mustard',2]]},
   {name:'Post-workout',photo:'bowl-postworkout',date:'Oct 18',preset:'protein',items:[['Quinoa',2],['Spinach',1],['Chicken',3],['Broccoli',2],['Parmesan',1],['Tomato',2],['Pesto',2],['Hot sauce',1]]},
@@ -1602,7 +1602,7 @@ function renderBag(){
   const L=$('#bg-list'), n=bagCount(); $('#s-bag').classList.toggle('empty',!n);
   $('#bg-sub').textContent=n?`${n} bowl${n>1?'s':''} · pickup at Saratoga + Campbell`:'Nothing here yet.';
   if(!n){ L.innerHTML=`<div class="bg-empty"><img src="assets/bowl-fresh.webp" alt=""><h3>Your bag is empty</h3><p>Start with one word, or reorder a favorite.</p>
-      <div class="row2"><button class="btn sec" data-go="start">Start with one word</button><button class="btn pri" data-go="orders">Your orders</button></div></div>`; summary(); return; }
+      <div class="row2"><button class="btn sec" data-go="start">Start with one word</button><button class="btn pri" data-go="orders">Order history</button></div></div>`; summary(); return; }
   L.innerHTML=state.bag.map((x,i)=>`<article class="bitem" data-i="${i}">
     <div class="bi-top"><img src="assets/${x.photo}.webp" alt="">
       <div class="bi-txt"><h3>${x.name}</h3><small>${x.items.length} ingredients · ${kcalOf(x.items)} cal${tagsOf(x.items).length?' · '+tagsOf(x.items).join(' · '):''}</small></div>
@@ -1686,7 +1686,7 @@ $('#prof').onclick=()=>{
   const sw=(l,d,on)=>`<label class="li"><span class="lab">${l}<br><small class="lab-sub">${d}</small></span><input class="sel" type="checkbox" role="switch"${on?' checked':''}><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label>`;
   const rd=(l,d,on)=>`<label class="li"><span class="lab">${l}<br><small class="lab-sub">${d}</small></span><input class="sel" type="radio" name="pay"${on?' checked':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
   openSheet(`<div class="sh-top"><div class="avatar"><span class="sg ink"><svg class="hexb" viewBox="-1.5 -4 60 60"><path d="${hexD(57,52,12)}" stroke-width=".9"/></svg><span>M</span></span><div><b>Matt</b><small>Member since 2024 · 38 bowls</small></div></div>${closeBtn}</div>
-    <div class="scard"><button class="li" type="button" data-nav="orders"><span class="lab">Your orders</span><span class="tr">${ORDERS.length}</span><span class="ch">${ICON.chev}</span></button>
+    <div class="scard"><button class="li" type="button" data-nav="orders"><span class="lab">Order history</span><span class="tr">${ORDERS.length}</span><span class="ch">${ICON.chev}</span></button>
       <button class="li" type="button" aria-expanded="false"><span class="lab">Dietary preferences</span><span class="tr">${state.diet.size} on</span><span class="ch">${ICON.down}</span></button>
       <div class="sub"><div>${['Vegetarian','Vegan','Gluten-free','Nut-free'].map(d=>cb(d,state.diet.has(d))).join('')}</div></div>
       <button class="li" type="button" aria-expanded="false"><span class="lab">Default payment</span><span class="tr">Apple Pay</span><span class="ch">${ICON.down}</span></button>
