@@ -738,7 +738,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
   <!-- ═════════════ ORDER PLACED ═════════════ -->
   <section class="screen" id="s-done" aria-label="Order placed">
     <div class="left">
-      <span class="dn-mark" aria-hidden="true"><svg viewBox="0 0 96 84"><path d="M30 2h36q8 0 12 7l14 24q4 7 0 14L78 75q-4 7-12 7H30q-8 0-12-7L4 47q-4-7 0-14L18 9q4-7 12-7Z"/><path class="ck" d="M33 43l10 10 21-22"/></svg></span>
+      <span class="dn-mark" aria-hidden="true"><svg viewBox="0 0 96 84"><path id="dn-hex"/><path class="ck" d="M33 43l10 10 21-22"/></svg></span>
       <p class="dn-label">Order placed</p>
       <h1 class="dn-when" id="dn-when"></h1>
       <p class="dn-sub" id="dn-sub"></p>
@@ -793,8 +793,17 @@ const ICON={chev:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>',down:
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'};
 
 /* rounded hexagon path (flat = points left/right) */
+const HEX_ROUND=.34; // Sweetie mark: each corner rounds off 34% of the side — used by every hexagon
+function hexPts(w,h,flat=true,steps=0){ // same shape as hexD, as points (for the loader morph)
+  const cx=w/2,cy=h/2,R=flat?Math.min(w/2,h/Math.sqrt(3)):Math.min(h/2,w/Math.sqrt(3)), k=HEX_ROUND*R, out=[];
+  const P=Array.from({length:6},(_,i)=>{const a=(flat?60*i:-90+60*i)*Math.PI/180;return[cx+R*Math.cos(a),cy+R*Math.sin(a)]});
+  P.forEach((p,i)=>{const a=P[(i+5)%6],b=P[(i+1)%6],la=Math.hypot(a[0]-p[0],a[1]-p[1]),lb=Math.hypot(b[0]-p[0],b[1]-p[1]);
+    const p1=[p[0]+(a[0]-p[0])*k/la,p[1]+(a[1]-p[1])*k/la],p2=[p[0]+(b[0]-p[0])*k/lb,p[1]+(b[1]-p[1])*k/lb], n=P[(i+1)%6], q1=[n[0]+(p[0]-n[0])*k/lb,n[1]+(p[1]-n[1])*k/lb];
+    for(let j=0;j<=steps;j++){const t=j/steps;out.push([(1-t)*(1-t)*p1[0]+2*(1-t)*t*p[0]+t*t*p2[0],(1-t)*(1-t)*p1[1]+2*(1-t)*t*p[1]+t*t*p2[1]]);}
+    for(let j=1;j<steps;j++){const t=j/steps;out.push([p2[0]+(q1[0]-p2[0])*t,p2[1]+(q1[1]-p2[1])*t]);} });
+  return out; }
 function hexD(w,h,r,flat=true){
-  const cx=w/2,cy=h/2,R=flat?Math.min(w/2,h/Math.sqrt(3)):Math.min(h/2,w/Math.sqrt(3));
+  const cx=w/2,cy=h/2,R=flat?Math.min(w/2,h/Math.sqrt(3)):Math.min(h/2,w/Math.sqrt(3)); r=HEX_ROUND*R;
   const P=Array.from({length:6},(_,i)=>{const a=(flat?60*i:-90+60*i)*Math.PI/180;return[cx+R*Math.cos(a),cy+R*Math.sin(a)]});
   let d='';P.forEach((p,i)=>{const a=P[(i+5)%6],b=P[(i+1)%6];
     const la=Math.hypot(a[0]-p[0],a[1]-p[1]),lb=Math.hypot(b[0]-p[0],b[1]-p[1]),k=Math.min(r,la/2,lb/2);
@@ -804,7 +813,7 @@ function hexD(w,h,r,flat=true){
 }
 // shapes that live in markup
 (function(){
-  const g=$('.glass'), d=hexD(633,593,90);
+  const g=$('.glass'), d=hexD(633,593,90); $('#dn-hex').setAttribute('d',hexD(96,84));
   $('.pane',g).style.clipPath=`path('${d}')`; $('.pane',g).style.webkitClipPath=`path('${d}')`;
   { const inner=hexD(633-28,593-28,78), dx=288+14-368, dy=153+14-(412+72+20); let k=0;
     const dd=inner.replace(/-?\d+(?:\.\d+)?/g,n=>{const v=+n+((k++%2)?dy:dx);return v.toFixed(2);});
@@ -1048,14 +1057,10 @@ renderSugs();
 // smooth hand-off: the morph eases from wherever it is to the hexagon while the sage fill and the label cross-fade
 // ── Morph loader: one shape — small circle → bigger circle → rounded Sweetie hexagon, and back ──
 const MORPH={N:180,R:90,loop:3200}; // one breath: inhale + exhale
-let HEXR=null; // polar radius of a straight-sided rounded hexagon (vertices left/right), sampled at the morph's angles
-function hexR(){ if(HEXR) return HEXR; const rc=.34, a=1-rc/Math.cos(Math.PI/6)*0+0, pts=[];
-  // Minkowski sum: inner hexagon (circumradius ci) + disc rc, outer circumradius 1
-  const ci=(1-rc)/1, V=[...Array(6)].map((_,k)=>[ci*Math.cos(k*Math.PI/3),ci*Math.sin(k*Math.PI/3)]);
-  for(let k=0;k<6;k++){ const v=V[k], w=V[(k+1)%6], n0=(k*60-30)*Math.PI/180, n1=(k*60+30)*Math.PI/180;
-    for(let q=0;q<=40;q++){ const t=n0+(n1-n0)*q/40; pts.push([v[0]+rc*Math.cos(t),v[1]+rc*Math.sin(t)]); }
-    const nn=n1; for(let q=0;q<=60;q++){ const x=v[0]+(w[0]-v[0])*q/60+rc*Math.cos(nn), y=v[1]+(w[1]-v[1])*q/60+rc*Math.sin(nn); pts.push([x,y]); } }
-  const P=pts.map(([x,y])=>[Math.atan2(y,x),Math.hypot(x,y)]).map(([t,r])=>[(t+2*Math.PI)%(2*Math.PI),r]).sort((a,b)=>a[0]-b[0]);
+let HEXR=null; // polar radius of the Sweetie hexagon (same shape as every other hexagon), sampled at the morph's angles
+function hexR(){ if(HEXR) return HEXR;
+  const P=hexPts(2,2,true,60).map(([x,y])=>[x-1,y-1]).map(([x,y])=>[(Math.atan2(y,x)+2*Math.PI)%(2*Math.PI),Math.hypot(x,y)]).sort((a,b)=>a[0]-b[0]);
+  P.push([P[0][0]+2*Math.PI,P[0][1]]);
   HEXR=[...Array(MORPH.N)].map((_,i)=>{ const t=i/MORPH.N*2*Math.PI; let lo=0,hi=P.length-1; while(hi-lo>1){const md=(lo+hi)>>1; if(P[md][0]<t) lo=md; else hi=md;}
     const A=P[lo],B=P[hi],f=B[0]>A[0]?(t-A[0])/(B[0]-A[0]):0; return A[1]+(B[1]-A[1])*clamp(f,0,1); });
   return HEXR; }
