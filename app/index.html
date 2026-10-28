@@ -213,6 +213,7 @@ body.forced #fs-exit{display:none}
 .pool path.sage{fill:#DBE4CB;opacity:0;transition:opacity .9s var(--ease)}
 .pool.done path.sage{opacity:0} /* done keeps the Glow gradient */
 .pool .lbl{position:absolute;left:50%;top:222px;transform:translateX(-50%);font-size:var(--t-body);letter-spacing:var(--tr-body);color:var(--green-950);white-space:nowrap;transition:opacity .35s var(--ease),filter .35s var(--ease),transform .35s var(--ease)}
+.pool.done .lbl{color:var(--white)}
 .pool .lbl.out{opacity:0;filter:blur(3px);transform:translate(-50%,4px)}
 .loading .pool{opacity:1;visibility:visible}
 .loading .pool.done svg{filter:drop-shadow(0 0 4px rgba(255,255,255,.22))}
@@ -1065,7 +1066,7 @@ function morphD(scale,m){ // m 0 = circle, 1 = the rounded Sweetie hexagon
 }
 const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, sstep=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x)};
 // breathing: sine in/out with a soft rest at each end; inhale = grows a little and becomes the hexagon, exhale = softens back to a circle
-function morphState(t){ const u=sstep(0,1,.5-.5*Math.cos(2*Math.PI*t)); return {s:.68+.32*u, m:u, g:u}; }
+function morphState(t){ const u=sstep(0,1,.5-.5*Math.cos(2*Math.PI*t)); return {s:.6+.4*u, m:u, g:u}; }
 function poolDraw(pool,st){ const d=morphD(st.s,st.m); $$('svg.p1 path',pool).forEach(p=>p.setAttribute('d',d)); const v=$('svg.p1',pool); if(v){ v.style.opacity=(.86+.14*(st.g??1)).toFixed(3); } pool._st=st; }
 function poolLoop(pool){ cancelAnimationFrame(pool._raf); const t0=performance.now();
   const step=now=>{ poolDraw(pool,morphState(((now-t0)%MORPH.loop)/MORPH.loop)); pool._raf=requestAnimationFrame(step); }; pool._raf=requestAnimationFrame(step); }
