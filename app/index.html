@@ -1175,7 +1175,7 @@ function buildBowl(word){
   $('#b-title').textContent=name; state.bowlName=name;
   $('#b-desc').textContent=P.desc;
   const img=$('#b-img'); img.src=`assets/${P.photo}.webp`;
-  const [x,y,w,h]=P.box, ph=$('#photo'); Object.assign(ph.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
+  const ph=$('#photo'); state.box=P.box; requestAnimationFrame(fitPhoto);
   requestAnimationFrame(()=>$('#b-meta').style.top=(40+$('#b-title').offsetHeight+8)+'px');
   $$('.tag',ph).forEach(t=>t.remove());
   R.innerHTML='';
@@ -1298,7 +1298,18 @@ $('#order').onclick=()=>{
   addToBag(state.bowlName,priceOf(items),{photo:($('#b-img').getAttribute('src')||'').replace(/^assets\/|\.webp$/g,''),items});
   go('bag');
 };
-ENTER.builder=()=>{ setTimeout(()=>allItems().forEach(i=>i.bar&&i.bar.relayout()),60); };
+// keep the bowl photo (and its tags) in the free space between the header text and the composer, 24 px clear of both
+function fitPhoto(){
+  const L=$('#s-builder .left'), ph=$('#photo'); if(!L||!state.box) return;
+  const lr=L.getBoundingClientRect(), k=lr.height/(L.offsetHeight||1);
+  const yOf=el=>(el.getBoundingClientRect().bottom-lr.top)/k;
+  const top=Math.max(yOf($('#b-desc')),yOf($('#b-meta')))+32;           // under the text block
+  const bottom=($('#b-cmp').getBoundingClientRect().top-lr.top)/k-36;     // above the composer (tags stick out ~12)
+  const [,,w0,h0]=state.box, sc=Math.min(1,(bottom-top)/h0,(690-80-40)/w0), w=w0*sc, h=h0*sc;
+  Object.assign(ph.style,{left:(345-w/2)+'px',top:(top+(bottom-top-h)/2)+'px',width:w+'px',height:h+'px'});
+}
+addEventListener('resize',()=>requestAnimationFrame(fitPhoto));
+ENTER.builder=()=>{ setTimeout(()=>{ allItems().forEach(i=>i.bar&&i.bar.relayout()); fitPhoto(); },60); };
 
 /* ═════════════ 04 · CHAT WITH INGREDIENTS ═════════════ */
 // layout from Figma "Chat with ingredients / Desktop · Intro" (160:5340), scaled 0.8 into the tablet frame
@@ -1451,7 +1462,7 @@ function buildBowlFromOrder(o){
   const P=PRESETS[o.preset]; $('#b-desc').textContent=P.desc;
   // replace rows with the order's own items
   $$('.tag',$('#photo')).forEach(t=>t.remove()); R.innerHTML='';
-  $('#b-img').src=`assets/${o.photo}.webp`;
+  $('#b-img').src=`assets/${o.photo}.webp`; requestAnimationFrame(fitPhoto);
   const g={bases:[],toppings:[],dressings:[]}; o.items.filter(([n])=>!SOLD.has(n)).forEach(([n,v])=>g[groupOf(n)].push({name:n,v}));
   const gone=o.items.filter(([n])=>SOLD.has(n)).map(([n])=>n); if(gone.length) setTimeout(()=>soldNote(`${gone.join(', ')} ${gone.length>1?'are':'is'} sold out here today, so we left it out.`),400);
   state.bowl=g;
