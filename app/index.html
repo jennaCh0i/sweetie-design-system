@@ -629,7 +629,9 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 .hh-date{margin-top:var(--s-2);font-size:var(--t-title);letter-spacing:var(--tr-title);line-height:1.05;color:var(--text-brand)}
 .hh-ago{margin-top:var(--s-1);font-size:var(--t-body-s);letter-spacing:var(--tr-body-s);color:var(--text-3)}
 .hh-name{margin-top:var(--s-5);font-size:var(--t-heading);letter-spacing:var(--tr-heading);color:var(--text)}
-.hh-meta{margin-top:var(--s-1);font-size:var(--t-body-s);letter-spacing:var(--tr-body-s);color:var(--text-2);font-variant-numeric:tabular-nums}
+.hh-date i{font-style:normal;margin:0 .28em;color:var(--text-4)}
+.hh-date span{color:var(--text)}
+.hh-meta{margin-top:var(--s-3);font-size:var(--t-body-s);letter-spacing:var(--tr-body-s);color:var(--text-2);font-variant-numeric:tabular-nums}
 .hh-btns{display:flex;gap:var(--s-3);margin-top:var(--s-5)}
 .hh-btns .btn{flex:none;padding:0 28px}
 .hist-hero img{width:300px;height:280px;object-fit:contain;justify-self:end;pointer-events:none;transition:transform .9s var(--ease)}
@@ -1511,8 +1513,7 @@ function renderGrid(){
   const items=o=>o.items.slice(0,3).map(x=>x[0]).join(', ')+(o.items.length>3?` +${o.items.length-3}`:'');
   $('#o-sub').textContent=`${ORDERS.length} orders since September · usually around lunchtime at Saratoga + Campbell`;
   let h=`<article class="hist-hero" data-i="${first.i}" role="button" tabindex="0" aria-label="Last order, ${D.toDateString()}">
-    <div><p class="hh-label">Last order</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</h2>
-      <h3 class="hh-name">${L.name} Bowl</h3><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
+    <div><p class="hh-label">Last order</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}<i aria-hidden="true">·</i><span>${L.name} Bowl</span></h2><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
       <div class="hh-btns"><button class="btn pri" type="button" data-re="${first.i}">Reorder</button></div></div>
     <img src="assets/${L.photo}.webp" alt=""></article>`;
   const groups=[]; rest.forEach(r=>{ const g=groupOfDate(odate(r.o)); let G=groups.find(x=>x.g===g); if(!G) groups.push(G={g,rows:[]}); G.rows.push(r); });
