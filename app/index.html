@@ -633,7 +633,6 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 .hh-btns{display:flex;gap:var(--s-3);margin-top:var(--s-5)}
 .hh-btns .btn{flex:none;padding:0 28px}
 .hist-hero img{width:300px;height:280px;object-fit:contain;justify-self:end;pointer-events:none;transition:transform .9s var(--ease)}
-.hist-hero:hover img{transform:scale(1.03) rotate(2deg)}
 .hgroup{margin-top:var(--m)}
 .hgroup h4{display:flex;justify-content:space-between;padding:0 0 var(--s-3);font-size:var(--t-cap);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);border-bottom:.5px solid var(--line)}
 .hgroup h4 span{letter-spacing:0;text-transform:none}
@@ -1513,9 +1512,8 @@ function renderGrid(){
   $('#o-sub').textContent=`${ORDERS.length} orders since September · usually around lunchtime at Saratoga + Campbell`;
   let h=`<article class="hist-hero" data-i="${first.i}" role="button" tabindex="0" aria-label="Last order, ${D.toDateString()}">
     <div><p class="hh-label">Last order</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</h2>
-      <p class="hh-ago">${ago(D)} · picked up ${L.time}</p>
       <h3 class="hh-name">${L.name} Bowl</h3><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
-      <div class="hh-btns"><button class="btn pri" type="button" data-re="${first.i}">Reorder</button><button class="btn sec" type="button" data-edit="${first.i}">Edit</button></div></div>
+      <div class="hh-btns"><button class="btn pri" type="button" data-re="${first.i}">Reorder</button></div></div>
     <img src="assets/${L.photo}.webp" alt=""></article>`;
   const groups=[]; rest.forEach(r=>{ const g=groupOfDate(odate(r.o)); let G=groups.find(x=>x.g===g); if(!G) groups.push(G={g,rows:[]}); G.rows.push(r); });
   groups.forEach(G=>{ h+=`<section class="hgroup"><h4>${G.g}<span>${G.rows.length} order${G.rows.length>1?'s':''}</span></h4>`+G.rows.map(({o,i})=>{ const d=odate(o);
