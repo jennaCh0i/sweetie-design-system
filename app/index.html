@@ -178,10 +178,10 @@ body.forced #fs-exit{display:none}
 .sg.ink path{fill:var(--green-950);stroke:var(--n-300)}
 .sg.ink span{color:var(--cream-100)}
 .sg .new{right:4px;top:2px;width:12px;height:12px;padding:0;border-radius:50%;background:var(--green-950);box-shadow:none}
-.expand{position:absolute;width:var(--h-md);height:var(--h-md);border-radius:50%;display:grid;place-items:center;background:var(--cream-100);color:var(--n-800);box-shadow:var(--hair),var(--elev-1);z-index:6;transition:background .3s var(--snap),color .3s var(--snap),transform .25s var(--snap)}
+.expand{position:absolute;width:var(--h-lg);height:var(--h-lg);border-radius:50%;display:grid;place-items:center;background:var(--cream-100);color:var(--n-800);box-shadow:var(--hair),var(--elev-1);z-index:6;transition:background .3s var(--snap),color .3s var(--snap),transform .25s var(--snap)}
 .expand:hover{background:var(--cream-200);color:var(--green-950)}
 .expand:active{transform:scale(.95)}
-.expand svg{width:24px;height:24px}
+.expand svg{width:34px;height:34px}
 .expand[aria-pressed=true]{background:var(--green-950);color:var(--cream-100)}
 .expand[aria-pressed=true] g path{fill:var(--green-950)}
 
@@ -207,8 +207,9 @@ body.forced #fs-exit{display:none}
 .sugs li{position:absolute;left:0;right:0;top:0;height:80px;will-change:transform,opacity,filter}
 .sugs li button{display:block;width:100%;height:80px;text-align:center;font-size:var(--t-title);font-weight:400;letter-spacing:var(--tr-title);color:var(--cream-100);transition:color .3s var(--snap)}
 .sugs li button:hover{color:#fff}
-#s-start .next{position:absolute;right:var(--m);bottom:calc(var(--m) + 7.5px);width:145px;height:var(--h-md);border-radius:var(--r-pill);background:var(--green-950);color:var(--cream-100);font-size:var(--t-body-s);transition:transform 0.27s var(--snap),opacity 0.54s var(--snap);letter-spacing:var(--tr-body-s)}
-#s-start .next:active{transform:scale(.97)}
+#s-start .next{position:absolute;right:var(--m);bottom:var(--m);width:180px;height:var(--h-lg);border-radius:var(--r-pill);background:var(--green-950);color:var(--cream-100);font-size:var(--t-body);transition:transform 0.27s var(--snap),opacity 0.54s var(--snap);letter-spacing:var(--tr-body)}
+#s-start .next:hover{background:var(--action-hover)}
+#s-start .next:active{transform:scale(.98)}
 /* Pool loader (WK01) inside the glass */
 .pool{position:absolute;left:50%;top:50%;width:196px;height:196px;margin:-120px 0 0 -98px;opacity:0;visibility:hidden;transition:opacity .8s var(--ease),visibility .8s}
 .pool svg{position:absolute;left:50%;top:50%;overflow:visible;transform:translate(-50%,-50%);filter:drop-shadow(var(--elev-2));transition:transform .9s var(--ease),opacity .9s var(--ease),filter .9s var(--ease)}
@@ -241,7 +242,7 @@ body.forced #fs-exit{display:none}
 #s-discover.picking .khex:not(.sel){opacity:.25 !important;filter:blur(6px) !important}
 .disc-title{position:absolute;left:455px;top:389px;width:300px;text-align:center;font-size:var(--t-title);line-height:44px;letter-spacing:var(--tr-title);color:var(--cream-100);pointer-events:none;transition:opacity .6s var(--ease)}
 #s-discover.picking .disc-title{opacity:0}
-#s-discover .exp-host{position:absolute;right:var(--m);bottom:calc(var(--m) + 3px)}
+#s-discover .exp-host{position:absolute;right:var(--m);bottom:var(--m)}
 #s-discover .expand{position:relative}
 
 /* ═════════════ 03 · BOWL BUILDER ═════════════ */
@@ -354,8 +355,8 @@ body.forced #fs-exit{display:none}
 .chat-head small{display:block;font-size:var(--t-body);color:var(--n-800);letter-spacing:var(--tr-body)}
 .chat-head h2{margin-top:4px;font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);color:var(--text-brand)}
 #s-chat.talking .chat-head{opacity:0;filter:blur(8px);transform:translateX(-160px)}
-#s-chat .exp-host{position:absolute;left:1125px;top:746px;transition:left 1s var(--ease)}
-#s-chat.talking .exp-host{left:605px}
+#s-chat .exp-host{position:absolute;left:1114px;top:738px;transition:left 1s var(--ease)}
+#s-chat.talking .exp-host{left:594px}
 #s-chat.moving{cursor:grab}
 .panel{position:absolute;left:690px;top:75px;right:-2px;bottom:0;background:var(--bg-builder);border-left:.5px solid var(--line);transform:translateX(100%);transition:transform 1s var(--ease);display:flex;flex-direction:column;padding:var(--m) var(--m) var(--m)}
 #s-chat.talking .panel{transform:none}
@@ -667,7 +668,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     </div>
     <div class="word-side r" aria-hidden="true">bowl</div>
     <div class="pool" aria-live="polite"><svg class="p1"><path/></svg><svg class="p2"><path/></svg><svg class="p3"><path/></svg><span class="lbl">Finding your bowl…</span></div>
-    <div class="tiphost sg-host" style="position:absolute;left:var(--m);bottom:var(--m)">
+    <div class="tiphost sg-host" style="position:absolute;left:var(--m);bottom:calc(var(--m) + 2.5px)">
       <button class="sg cream" id="sg-start" style="position:relative" aria-label="Discover what others are ordering (something new)" aria-describedby="sg-tip"><img class="mark" src="assets/sweetie-mark-cream.png" alt=""><span class="b new on" aria-hidden="true"></span></button>
       <div class="tip up left rich" role="tooltip" id="sg-tip"><h4>Trending near you</h4><p>Pre-workout bowls — 12 orders today.</p><button class="act" data-go="discover">Explore</button></div>
     </div>
@@ -678,11 +679,11 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
   <section class="screen" id="s-discover" aria-label="Discover">
     <div class="field" id="field"></div>
     <h2 class="disc-title">Discover what others are ordering</h2>
-    <div class="tiphost" style="position:absolute;left:var(--m);bottom:var(--m)">
+    <div class="tiphost" style="position:absolute;left:var(--m);bottom:calc(var(--m) + 2.5px)">
       <button class="sg ink" data-go="start" style="position:relative" aria-label="Back to start with one word"><img class="mark" src="assets/sweetie-mark-ink.png" alt=""></button>
     </div>
     <div class="tiphost exp-host">
-      <button class="expand" id="recenter" aria-label="Move around" aria-describedby="mv1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l3.4 3.4M4 4h3M4 4v3M20 4l-3.4 3.4M20 4h-3M20 4v3M4 20l3.4-3.4M4 20h3M4 20v-3M20 20l-3.4-3.4M20 20h-3M20 20v-3"/><g transform="translate(12 12) scale(.74) translate(-12.49 -14.65)" stroke-width="2"><path d="M11 16.5v-6.3a1.1 1.1 0 0 1 2.2 0v3.1l.4-.1a1 1 0 0 1 1.3.8l.1.3a1 1 0 0 1 1.3.9v2.1c0 1.7-1.2 2.9-2.9 2.9h-.8a2.9 2.9 0 0 1-2.4-1.3l-1.4-2.1a.9.9 0 0 1 1.4-1.1z" fill="var(--cream-100)"/></g></svg></button>
+      <button class="expand" id="recenter" aria-label="Move around" aria-describedby="mv1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l3.4 3.4M4 4h3M4 4v3M20 4l-3.4 3.4M20 4h-3M20 4v3M4 20l3.4-3.4M4 20h3M4 20v-3M20 20l-3.4-3.4M20 20h-3M20 20v-3"/><g transform="translate(12 12) scale(.88) translate(-12.49 -14.65)" stroke-width="1.7"><path d="M11 16.5v-6.3a1.1 1.1 0 0 1 2.2 0v3.1l.4-.1a1 1 0 0 1 1.3.8l.1.3a1 1 0 0 1 1.3.9v2.1c0 1.7-1.2 2.9-2.9 2.9h-.8a2.9 2.9 0 0 1-2.4-1.3l-1.4-2.1a.9.9 0 0 1 1.4-1.1z" fill="var(--cream-100)"/></g></svg></button>
       <div class="tip up rightish plain mustard" role="tooltip" id="mv1">drag to move around · tap to recenter</div>
     </div>
     <div class="pool" style="z-index:3"><svg class="p1"><path/></svg><svg class="p2"><path/></svg><svg class="p3"><path/></svg><span class="lbl">Finding your bowl…</span></div>
@@ -707,7 +708,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     <div class="produce" id="produce"></div>
     <div class="chat-head"><small>Matt, here is your bowl</small><h2>Chat with ingredients</h2></div>
     <div class="tiphost exp-host">
-      <button class="expand" id="move" aria-pressed="false" aria-label="Move around" aria-describedby="mv2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l3.4 3.4M4 4h3M4 4v3M20 4l-3.4 3.4M20 4h-3M20 4v3M4 20l3.4-3.4M4 20h3M4 20v-3M20 20l-3.4-3.4M20 20h-3M20 20v-3"/><g transform="translate(12 12) scale(.74) translate(-12.49 -14.65)" stroke-width="2"><path d="M11 16.5v-6.3a1.1 1.1 0 0 1 2.2 0v3.1l.4-.1a1 1 0 0 1 1.3.8l.1.3a1 1 0 0 1 1.3.9v2.1c0 1.7-1.2 2.9-2.9 2.9h-.8a2.9 2.9 0 0 1-2.4-1.3l-1.4-2.1a.9.9 0 0 1 1.4-1.1z" fill="var(--cream-100)"/></g></svg></button>
+      <button class="expand" id="move" aria-pressed="false" aria-label="Move around" aria-describedby="mv2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l3.4 3.4M4 4h3M4 4v3M20 4l-3.4 3.4M20 4h-3M20 4v3M4 20l3.4-3.4M4 20h3M4 20v-3M20 20l-3.4-3.4M20 20h-3M20 20v-3"/><g transform="translate(12 12) scale(.88) translate(-12.49 -14.65)" stroke-width="1.7"><path d="M11 16.5v-6.3a1.1 1.1 0 0 1 2.2 0v3.1l.4-.1a1 1 0 0 1 1.3.8l.1.3a1 1 0 0 1 1.3.9v2.1c0 1.7-1.2 2.9-2.9 2.9h-.8a2.9 2.9 0 0 1-2.4-1.3l-1.4-2.1a.9.9 0 0 1 1.4-1.1z" fill="var(--cream-100)"/></g></svg></button>
       <div class="tip up rightish rich" role="tooltip" id="mv2" style="background:var(--mustard-soft);box-shadow:inset 0 0 0 1.5px var(--mustard);border-radius:var(--r-md);width:230px"><h4 style="font-size:var(--t-body-s);font-weight:600">Move around</h4><p style="color:var(--n-800)">Drag the canvas to explore more ingredients in your bowl.</p><button class="act" id="move-act" style="background:var(--mustard);box-shadow:none;color:var(--n-800);font-weight:600">Got it</button></div>
     </div>
     <aside class="panel" aria-label="Conversation">
