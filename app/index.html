@@ -561,8 +561,39 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 .co .li{min-height:40px;padding:5px 4px}
 .co .li .lab{font-size:var(--t-body);letter-spacing:var(--tr-body)}
 .co label.li:hover{background:rgba(255,255,255,.45)}
-.tipwrap{padding:28px 0 10px}
-.tipwrap .sbar{height:var(--h-l)}.tipwrap .sbar .name{font-size:var(--t-body-l);letter-spacing:var(--tr-body-l)}
+.tipwrap{padding:var(--s-4) 0 var(--s-3)}
+.co .li .lab small{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--text-3);letter-spacing:var(--tr-cap)}
+.co .li.off{opacity:.45;pointer-events:none}
+.store{display:flex;align-items:center;gap:var(--s-3);padding:var(--s-2) 4px var(--s-3)}
+.store svg{flex:none;width:22px;height:22px;fill:none;stroke:var(--text-brand);stroke-width:1.5}
+.store div{flex:1;min-width:0}.store b{display:block;font-weight:400;font-size:var(--t-body);letter-spacing:var(--tr-body)}
+.store small{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--text-3)}
+.link{font-size:var(--t-body-s);color:var(--text-brand);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:.5px}
+.pm{flex:none;width:40px;height:28px;border-radius:5px;display:grid;place-items:center;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12)}
+.pm svg{width:18px;height:13px;fill:none;stroke:currentColor;stroke-width:1.3}
+.pm.ap{background:#000;color:#fff}
+.pm.visa{background:linear-gradient(135deg,#1A1F71,#2B3C9E);color:#fff;font-size:10px;font-weight:700;font-style:italic;letter-spacing:.06em}
+.pm.gift{background:var(--green-200)}.pm.gift img{width:16px;height:16px;object-fit:contain}
+.pm.plus{background:transparent;box-shadow:inset 0 0 0 1px var(--line-strong);color:var(--text-2)}.pm.plus svg{width:14px;height:14px;stroke-width:1.4}
+.co .li.add{border:0;background:none;box-shadow:none}.co .li.add:hover{background:rgba(255,255,255,.45)}
+.co .li.add .lab{color:var(--text-2)}
+.rw{margin:var(--s-1) 4px var(--s-2);padding:var(--s-4);border-radius:var(--r-sm);background:var(--cream-100)}
+.rw-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s-3)}
+.rw-top b{font-weight:400;font-size:var(--t-body);color:var(--text-brand);font-variant-numeric:tabular-nums}
+.rw-top small{font-size:var(--t-cap);color:var(--text-3)}
+.rw-bar{margin-top:var(--s-2);height:6px;border-radius:var(--r-xs);background:var(--cream-200);overflow:hidden}
+.rw-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#41834F,#95CC62)}
+.promo{display:flex;gap:var(--s-2);margin:var(--s-2) 4px 0}
+.promo input{flex:1;min-width:0;height:var(--h-m);padding:0 var(--s-4);border-radius:var(--r-pill);background:var(--cream-100);border:.5px solid var(--line);font:inherit;font-size:var(--t-body-s);text-transform:uppercase;letter-spacing:.04em;color:var(--text)}
+.promo input::placeholder{text-transform:none;letter-spacing:0;color:var(--text-4)}
+.promo input:focus{outline:none;border-color:var(--line-selected)}
+.promo .btn{flex:none;width:auto;height:var(--h-m);padding:0 var(--s-5);font-size:var(--t-body-s)}
+.promo-msg{min-height:0;margin:6px 8px 0;font-size:var(--t-cap);color:var(--text-3)}.promo-msg:empty{display:none}.promo-msg.err{color:var(--danger)}
+.sum .save span:last-child{color:var(--text-brand)}
+#place.applepay{background:#000;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px}
+#place.applepay:hover{background:#1c1c1e}
+.ap-glyph svg{display:block;width:22px;height:16px;fill:none;stroke:currentColor;stroke-width:1.4}
+.tipwrap .sbar{height:var(--h-m)}.tipwrap .sbar .name{font-size:var(--t-body-l);letter-spacing:var(--tr-body-l)}
 .tipwrap .sbar.p-in .portion{color:#00473D}
 #s-bag .sbar{width:100%;background:var(--cream-100)}
 .sum{padding:0 0 12px}
@@ -765,7 +796,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     <div class="left"><h1 class="bg-title">Your bag</h1><p class="bg-sub" id="bg-sub"></p><div class="bg-list" id="bg-list"></div></div>
     <aside class="right" aria-label="Checkout">
       <div class="co" id="co"></div>
-      <div class="co-foot"><div class="tipwrap" id="tipwrap"></div><div class="sum" id="sum"></div><button class="btn pri" id="place">Place order</button><small>Pickup at Saratoga + Campbell · open until 9 pm</small></div>
+      <div class="co-foot"><div class="tipwrap" id="tipwrap"></div><div class="sum" id="sum"></div><button class="btn pri" id="place">Place order</button><small id="co-note"></small></div>
     </aside>
   </section>
 
@@ -1592,10 +1623,19 @@ const TICK='<svg class="tick" viewBox="0 0 14 14" aria-hidden="true"><path d="M2
 /* ═════════════ 06 · BAG (cart → checkout) ═════════════ */
 const MINUS='<svg viewBox="0 0 16 16"><path d="M3.5 8h9"/></svg>', PLUS='<svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9"/></svg>',
       TRASH='<svg viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5"/></svg>';
-const co={pick:0,cpay:0,utensils:true,tip:2};
-const PAYS=['Apple Pay','Visa ending 4417','Sweetie gift card'];
+const co={pick:0,cpay:0,utensils:true,tip:2,reward:true,promo:null};
+const PAYS=['Apple Pay','Visa •••• 4417','Gift card'], GIFT=12.5, REWARD=3, PTS=1240, NEXT=1500;
+const STORE={name:'Saratoga + Campbell',addr:'378 Saratoga Ave, San Jose',open:10.5,close:21};
 const clock=d=>d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-function slots(){ const n=new Date(), a=new Date(n.getTime()+8*6e4), b=new Date(n.getTime()+20*6e4); b.setMinutes(Math.ceil(b.getMinutes()/15)*15,0,0); const c=new Date(b.getTime()+15*6e4); return [a,b,c]; }
+const hrs=d=>d.getHours()+d.getMinutes()/60;
+function isOpen(n=new Date()){ const h=hrs(n); return h>=STORE.open && h<STORE.close-.25; }
+// [ASAP, window 1, window 2] — 15-min windows inside store hours; ASAP only while open
+function slots(){ const n=new Date(), a=new Date(n.getTime()+12*6e4);
+  let b=new Date(n.getTime()+25*6e4); b.setMinutes(Math.ceil(b.getMinutes()/15)*15,0,0);
+  if(!isOpen(n)||hrs(b)>=STORE.close-.25){ if(hrs(n)>=STORE.open) b.setDate(b.getDate()+1); b.setHours(Math.floor(STORE.open),(STORE.open%1)*60+15,0,0); }
+  const c=new Date(b.getTime()+15*6e4); return [a,b,c]; }
+const dayOf=d=>{ const t=new Date(); t.setHours(0,0,0,0); const x=new Date(d); x.setHours(0,0,0,0); return +x===+t?'Today':(x-t===864e5?'Tomorrow':d.toLocaleDateString('en-US',{weekday:'short'})); };
+const win=d=>{ const e=new Date(d.getTime()+15*6e4); return `${clock(d).replace(/ [AP]M$/,'')} – ${clock(e)}`; };
 const TIPS=['No tip','10%','15%','20%'], TIPV=[0,.1,.15,.2];
 function seedBag(){ if(!state.bag.length){ addToBag('Fresh Bowl',ORDERS[0].price,{photo:ORDERS[0].photo,items:ORDERS[0].items,kcal:ORDERS[0].kcal}); addToBag('Post-workout Bowl',ORDERS[1].price,{photo:ORDERS[1].photo,items:ORDERS[1].items,kcal:ORDERS[1].kcal}); } }
 function renderBag(){
@@ -1626,11 +1666,28 @@ $('#bg-list').addEventListener('click',e=>{
 // checkout column: WK03 Serene radios + switch, WK04 tip slider, summary
 (function buildCheckout(){
   const rd=(name,i,l,d)=>`<label class="li"><span class="lab">${l}${d?`<br><small class="lab-sub">${d}</small>`:''}</span><input class="sel" type="radio" name="${name}" value="${i}"${co[name]===i?' checked':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
+  const pm=k=>({ap:`<span class="pm ap" aria-hidden="true"><svg viewBox="0 0 20 14"><rect x="1.5" y="1.5" width="17" height="11" rx="2.2"/><path d="M1.5 5h17M12.5 9h3"/></svg></span>`,
+      visa:`<span class="pm visa" aria-hidden="true">VISA</span>`, gift:`<span class="pm gift" aria-hidden="true"><img src="assets/sweetie-mark-ink.png" alt=""></span>`})[k];
+  const rp=(i,k,l,d)=>`<label class="li pay">${pm(k)}<span class="lab">${l}${d?`<small>${d}</small>`:''}</span><input class="sel" type="radio" name="cpay" value="${i}"${co.cpay===i?' checked':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
+  const pct=Math.round(PTS/NEXT*100);
   $('#co').innerHTML=`
-    <section><h4>Pickup time</h4>${rd('pick',0,'As soon as possible','Ready in about 8 min')}${rd('pick',1,'Today','')}${rd('pick',2,'Today','')}</section>
-    <section><h4>Payment</h4>${rd('cpay',0,'Apple Pay','')}${rd('cpay',1,'Visa ending 4417','')}${rd('cpay',2,'Sweetie gift card · $12.50','')}</section>
-    <section><h4>Extras</h4><label class="li"><span class="lab">Utensils &amp; napkins<br><small class="lab-sub">Skip them to cut waste</small></span><input class="sel" type="checkbox" role="switch" id="utensils" checked><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label></section>`;
-  $('#co').addEventListener('change',e=>{ const t=e.target; if(t.name==='pick'||t.name==='cpay') co[t.name]=+t.value; if(t.id==='utensils') co.utensils=t.checked; summary(); });
+    <section><h4>Pickup</h4>
+      <div class="store"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+        <div><b>${STORE.name}</b><small>${STORE.addr} · <span id="store-hrs"></span></small></div><button class="link" type="button" data-msg="Store picker isn’t in this prototype">Change</button></div>
+      <div id="picks"></div></section>
+    <section><h4>Payment</h4>${rp(0,'ap','Apple Pay','Visa •••• 4417 · default on this iPad')}${rp(1,'visa','Visa •••• 4417','Expires 08/28')}${rp(2,'gift','Sweetie gift card',`$${GIFT.toFixed(2)} balance`)}
+      <button class="li add" type="button" data-msg="Adding a card isn’t in this prototype"><span class="pm plus" aria-hidden="true">${PLUS}</span><span class="lab">Add payment method</span></button></section>
+    <section><h4>Rewards</h4>
+      <div class="rw"><div class="rw-top"><b>${PTS.toLocaleString()} pts</b><small>${NEXT-PTS} pts to your next $5 reward</small></div><div class="rw-bar"><i style="width:${pct}%"></i></div></div>
+      <label class="li"><span class="lab">$${REWARD} off · Birthday reward<small>Expires Oct 31 · one per order</small></span><input class="sel" type="checkbox" role="switch" id="reward" checked><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label>
+      <form class="promo" id="promo" novalidate><input type="text" id="promo-in" placeholder="Promo code" autocomplete="off" spellcheck="false" aria-label="Promo code"><button class="btn sec" type="submit">Apply</button></form>
+      <p class="promo-msg" id="promo-msg" role="status"></p></section>
+    <section><h4>Extras</h4><label class="li"><span class="lab">Utensils &amp; napkins<small>Skip them to cut waste</small></span><input class="sel" type="checkbox" role="switch" id="utensils" checked><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label></section>`;
+  $('#promo').addEventListener('submit',e=>{ e.preventDefault(); const v=$('#promo-in').value.trim().toUpperCase(), m=$('#promo-msg');
+    if(!v){ m.textContent=''; return; }
+    m.className='promo-msg err'; m.textContent=co.reward?`${v} can’t be combined with your Birthday reward.`:`${v} isn’t a valid code at ${STORE.name}.`; });
+  $('#promo-in').addEventListener('input',()=>{ $('#promo-msg').textContent=''; });
+  $('#co').addEventListener('change',e=>{ const t=e.target; if(t.name==='pick'||t.name==='cpay') co[t.name]=+t.value; if(t.id==='utensils') co.utensils=t.checked; if(t.id==='reward'){ co.reward=t.checked; $('#promo-msg').textContent=''; } summary(); });
   // tip: the WK04 Serene stepped bar (same engine as the ingredient bars)
   const host=$('#tipwrap'), el=document.createElement('div'); el.className='sbar';
   el.style.setProperty('--c','var(--green-200)'); el.style.setProperty('--ink','#00473D');
@@ -1644,31 +1701,39 @@ $('#bg-list').addEventListener('click',e=>{
     el.classList.toggle('is-zero',i===0); dots.forEach((d,k)=>d.classList.toggle('on',k<=i)); summary(); requestAnimationFrame(placeTip); }});
   function placeTip(){ const W=el.clientWidth, pp=parseFloat(el.style.getPropertyValue('--p'))||0, lw=por.offsetWidth; el.classList.toggle('p-in', pp*W+12>W-18-lw); }
 })();
+function totals(){ const sub=state.bag.reduce((s2,x)=>s2+x.price*x.qty,0), rw=co.reward&&sub?Math.min(REWARD,sub):0,
+  tax=(sub-rw)*.0925, tip=sub*TIPV[co.tip], tot=sub-rw+tax+tip, gift=co.cpay===2?Math.min(GIFT,tot):0;
+  return {sub,rw,tax,tip,tot,gift,pts:Math.floor((sub-rw)*10)}; }
 function summary(){
-  const sub=state.bag.reduce((s2,x)=>s2+x.price*x.qty,0), tax=sub*.0925, tip=sub*TIPV[co.tip], tot=sub+tax+tip;
-  const f=v=>'$'+v.toFixed(2);
-  $('#sum').innerHTML=`<div><span>Subtotal</span><span>${f(sub)}</span></div><div><span>Tax</span><span>${f(tax)}</span></div><div><span>Tip ${co.tip?'· '+TIPS[co.tip]:''}</span><span>${f(tip)}</span></div><div class="tot"><span>Total</span><span>${f(tot)}</span></div>`;
-  const pb=$('#place'); pb.disabled=!sub; pb.textContent=sub?`Place order · ${f(tot)}`:'Place order';
+  const {sub,rw,tax,tip,tot,gift,pts}=totals(), f=v=>'$'+v.toFixed(2);
+  $('#sum').innerHTML=`<div><span>Subtotal</span><span>${f(sub)}</span></div>${rw?`<div class="save"><span>Birthday reward</span><span>−${f(rw)}</span></div>`:''}<div><span>Estimated tax</span><span>${f(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${f(tip)}</span></div>${gift?`<div class="save"><span>Gift card</span><span>−${f(gift)}</span></div>`:''}<div class="tot"><span>${gift?'Due on Visa •••• 4417':'Total'}</span><span>${f(tot-gift)}</span></div>`;
+  const pb=$('#place'); pb.disabled=!sub; pb.classList.toggle('applepay',co.cpay===0);
+  pb.innerHTML=co.cpay===0?`<span class="ap-glyph" aria-hidden="true"><svg viewBox="0 0 20 14"><rect x="1.5" y="1.5" width="17" height="11" rx="2.2"/><path d="M1.5 5h17M12.5 9h3"/></svg></span>Pay with Apple Pay`:sub?`Place order · ${f(tot-gift)}`:'Place order';
+  $('#co-note').textContent=sub?`You’ll earn ${pts.toLocaleString()} pts · Pickup at ${STORE.name}`:`Pickup at ${STORE.name}`;
   const por=$('#tipwrap .portion'); if(por&&co.tip) por.textContent=`${TIPS[co.tip]} · ${f(tip)}`;
 }
 $('#place').onclick=()=>placeOrder();
-function paintSlots(){ const S=slots(), L=$$('#co input[name=pick]').map(i=>i.closest('label').querySelector('.lab'));
-  if(L[0]) L[0].innerHTML=`As soon as possible<br><small class="lab-sub">Ready around ${clock(S[0])}</small>`;
-  const day=d=>d.toDateString()===new Date().toDateString()?'Today':'Tomorrow';
-  if(L[1]) L[1].textContent=`${day(S[1])}, ${clock(S[1])}`; if(L[2]) L[2].textContent=`${day(S[2])}, ${clock(S[2])}`; }
+function paintSlots(){ const S=slots(), open=isOpen(), h=$('#store-hrs');
+  const hh=x=>{ const H=Math.floor(x), M=Math.round(x%1*60); return `${H%12||12}${M?':'+String(M).padStart(2,'0'):''} ${H<12?'AM':'PM'}`; };
+  if(h) h.textContent=open?`Open until ${hh(STORE.close)}`:`Opens ${dayOf(S[1])==='Today'?'':dayOf(S[1]).toLowerCase()+' '}${hh(STORE.open)}`;
+  if(!open&&co.pick===0) co.pick=1;
+  const rd=(i,l,d,dis)=>`<label class="li${dis?' off':''}"><span class="lab">${l}${d?`<small>${d}</small>`:''}</span><input class="sel" type="radio" name="pick" value="${i}"${co.pick===i?' checked':''}${dis?' disabled':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
+  $('#picks').innerHTML=rd(0,'As soon as possible',open?`10–15 min · ready around ${clock(S[0])}`:'Unavailable while the store is closed',!open)
+    +rd(1,`${dayOf(S[1])}, ${win(S[1])}`,open?'':'First pickup window')+rd(2,`${dayOf(S[2])}, ${win(S[2])}`,''); }
 ENTER.bag=()=>{ paintSlots(); renderBag(); };
-renderBag();
+$('#co').addEventListener('click',e=>{ const m=e.target.closest('[data-msg]'); if(m) toast(m.dataset.msg); });
+paintSlots(); renderBag();
 
 
 /* ═════════════ Order confirmation ═════════════ */
 function confirmOrder(){
-  const S=slots(), at=S[co.pick], sub=state.bag.reduce((t,x)=>t+x.price*x.qty,0), tax=sub*.0925, tip=sub*TIPV[co.tip], tot=sub+tax+tip;
+  const S=slots(), at=S[co.pick], {sub,rw,tax,tip,tot,gift,pts}=totals();
   const num='SG-'+String(4800+Math.floor(Math.random()*900)), n=bagCount(), today=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  $('#dn-when').textContent=co.pick?`Ready at ${clock(at)}`:`Ready around ${clock(at)}`;
+  $('#dn-when').textContent=co.pick?`${dayOf(at)==='Today'?'Pickup':dayOf(at)+','} ${win(at)}`:`Ready around ${clock(at)}`;
   $('#dn-sub').textContent=`Order #${num} · ${n} bowl${n>1?'s':''} · Saratoga + Campbell`;
   $('#dn-items').innerHTML=state.bag.map(x=>`<div class="dn-it"><img src="assets/${x.photo}.webp" alt=""><span><b>${x.name}</b><small>${x.qty>1?x.qty+' × ':''}${kcalOf(x.items)} cal</small></span><em>${money(x.price*x.qty)}</em></div>`).join('');
-  $('#dn-sum').innerHTML=`<div><span>Subtotal</span><span>${money(sub)}</span></div><div><span>Tax</span><span>${money(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${money(tip)}</span></div><div class="tot"><span>Total</span><span>${money(tot)}</span></div>
-    <p class="dn-paid">Paid with ${PAYS[co.cpay]} · ${co.utensils?'Utensils included':'No utensils'}</p>`;
+  $('#dn-sum').innerHTML=`<div><span>Subtotal</span><span>${money(sub)}</span></div>${rw?`<div><span>Birthday reward</span><span>−${money(rw)}</span></div>`:''}<div><span>Estimated tax</span><span>${money(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${money(tip)}</span></div><div class="tot"><span>Total</span><span>${money(tot)}</span></div>
+    <p class="dn-paid">${gift?`${money(gift)} gift card + ${money(tot-gift)} on Visa •••• 4417`:co.cpay===0?'Paid with Apple Pay · Visa •••• 4417':'Paid with Visa •••• 4417'} · +${pts.toLocaleString()} pts · ${co.utensils?'Utensils included':'No utensils'}</p>`;
   // it joins your order history
   state.bag.slice().reverse().forEach(x=>ORDERS.unshift({time:new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}),name:x.name.replace(/ Bowl$/,''),photo:x.photo,date:today,preset:'fresh',items:x.items,kcal:kcalOf(x.items),price:x.price}));
   renderGrid();
