@@ -371,9 +371,11 @@ body.forced #fs-exit{display:none}
 .m.ing{max-width:392px}
 .m.ing small{display:block;font-size:var(--t-cap);color:var(--n-600);margin-bottom:12px;letter-spacing:var(--tr-cap)}
 .m.ing p{font-size:var(--t-body);line-height:23px;letter-spacing:var(--tr-body)}
-.typing{display:flex;gap:7px;padding:4px 0 0}
-.typing i{width:10px;height:15px;border-radius:50%;background:linear-gradient(160deg,#C0E396,#41834F);animation:flip 1.2s var(--ease) infinite}
-.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+.typing{display:flex;align-items:center;gap:6px;height:23px;padding-top:2px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--green-950);opacity:.3;animation:wave 1.5s cubic-bezier(.45,0,.55,1) infinite}
+.typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
+@keyframes wave{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-4px);opacity:1}}
+@media (prefers-reduced-motion:reduce){.typing i{animation:none;opacity:.6}}
 @keyframes flip{0%,100%{transform:perspective(60px) rotateY(0)}50%{transform:perspective(60px) rotateY(180deg)}}
 .p-foot{flex:none;margin-top:16px;margin-bottom:-5px}
 .p-foot .cmp-top{padding:4px 6px 0 14px;min-height:44px}
@@ -1513,7 +1515,7 @@ let thinking=false;
 async function ask(q){
   if(!talking||thinking) return; thinking=true;
   addMsg(q.replace(/</g,'&lt;'),'user'); await wait(350);
-  const t=addMsg(`<small>${talking.name}</small><div class="typing" aria-label="${talking.name} is typing"><i></i><i></i><i></i></div>`,'ing'); // WK01 Petal flip as typing
+  const t=addMsg(`<small>${talking.name}</small><div class="typing" aria-label="${talking.name} is typing"><i></i><i></i><i></i></div>`,'ing'); // typing: three dark green dots, soft wave
   await wait(1100+Math.random()*500);
   const a=ANS[talking.name], k=intent(q);
   $('.typing',t).outerHTML=`<p>${k?a[k]:'Good question! I’m still learning — try asking why I’m in your bowl, about nutrition, or where I come from.'}</p>`;
