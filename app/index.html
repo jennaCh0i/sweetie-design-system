@@ -765,7 +765,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     <div class="chat-head"><small>Matt, here is your bowl</small><h2>Chat with ingredients</h2></div>
     <div class="tiphost exp-host">
       <button class="expand" id="move" aria-pressed="false" aria-label="Move around" aria-describedby="mv2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l3.4 3.4M4 4h3M4 4v3M20 4l-3.4 3.4M20 4h-3M20 4v3M4 20l3.4-3.4M4 20h3M4 20v-3M20 20l-3.4-3.4M20 20h-3M20 20v-3"/><g transform="translate(12 12) scale(.88) translate(-12.49 -14.65)" stroke-width="1.7"><path d="M11 16.5v-6.3a1.1 1.1 0 0 1 2.2 0v3.1l.4-.1a1 1 0 0 1 1.3.8l.1.3a1 1 0 0 1 1.3.9v2.1c0 1.7-1.2 2.9-2.9 2.9h-.8a2.9 2.9 0 0 1-2.4-1.3l-1.4-2.1a.9.9 0 0 1 1.4-1.1z" fill="var(--cream-100)"/></g></svg></button>
-      <div class="tip up rightish rich" role="tooltip" id="mv2" style="background:var(--mustard-soft);box-shadow:inset 0 0 0 1.5px var(--mustard);border-radius:var(--r-md);width:230px"><h4 style="font-size:var(--t-body-s);font-weight:600">Move around</h4><p style="color:var(--n-800)">Drag the canvas to explore more ingredients in your bowl.</p><button class="act" id="move-act" style="background:var(--mustard);box-shadow:none;color:var(--n-800);font-weight:600">Got it</button></div>
+      <div class="tip up rightish rich" role="tooltip" id="mv2" style="background:var(--mustard-soft);box-shadow:inset 0 0 0 1.5px var(--mustard);border-radius:var(--r-md);width:230px"><h4 style="font-size:var(--t-body-s);font-weight:600">Move around</h4><p style="color:var(--n-800)">Drag the canvas to find more ingredients from the kitchen.</p><button class="act" id="move-act" style="background:var(--mustard);box-shadow:none;color:var(--n-800);font-weight:600">Got it</button></div>
     </div>
     <aside class="panel" aria-label="Conversation">
       <div class="p-head"><span class="who"><svg viewBox="0 0 20 20"><path d="M2 2l5 5M2 2h4M2 2v4M18 18l-5-5M18 18h-4M18 18v-4"/></svg><span id="who">Lemon</span></span><button class="close" id="close-chat" aria-label="Close chat"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1 1 11"/></svg></button></div>
@@ -1430,9 +1430,28 @@ const PROD=[
   {k:'beet',x:1030,y:334,w:258,h:258,name:'Beet',fd:'14s',fx:'-6px'},
   {k:'tomato',x:-133,y:602,w:305,h:292,name:'Tomato',fd:'12.5s',fx:'6px'},
   {k:'lettuce2',x:271,y:550,w:383,h:389,name:'Lettuce',fd:'15s',fy:'6px'},
+  // off-canvas: found by dragging with Move around (not in this bowl yet)
+  {k:'artichoke',x:60,y:-235,w:180,h:243,name:'Artichoke',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'garlic',x:640,y:-225,w:190,h:204,name:'Garlic',fd:'12s',fy:'7px',extra:1},
+  {k:'pepper',x:1180,y:-225,w:270,h:232,name:'Pepper',fd:'14s',fr:'-1.5deg',extra:1},
+  {k:'cucumber',x:1300,y:300,w:190,h:198,name:'Cucumber',fd:'11.5s',fx:'-6px',extra:1},
+  {k:'corn',x:1260,y:760,w:200,h:204,name:'Corn',fd:'12.5s',fr:'2deg',extra:1},
+  {k:'pumpkin',x:-400,y:380,w:250,h:222,name:'Pumpkin',fd:'13.5s',fy:'8px',extra:1},
   {k:'salmon',x:758,y:656,w:416,h:337,name:'Salmon',fd:'13.5s',fr:'-1deg'}
 ];
 const ANS={
+  Artichoke:{why:'I’m not in your bowl yet. I’d add a soft, nutty, slightly tangy bite — great with greens and lemon.',nutrition:'I’m one of the most fiber-rich vegetables, with folate and vitamin K.',
+    calories:'About 30 cal as a side scoop.',sourcing:'I’m grown in Castroville, California, the artichoke capital, and marinated in-house.',pair:'Lemon, feta, chickpeas and a herby dressing.',hi:'Hi Matt, I’m the artichoke. I’m not in your bowl yet, but ask me anything.'},
+  Garlic:{why:'I’m not in your bowl yet. Roasted, I turn sweet and mellow and make every dressing deeper.',nutrition:'I bring allicin, plus a little vitamin C and B6.',
+    calories:'About 10 cal — a little goes a long way.',sourcing:'I’m grown in Gilroy, California, and slow-roasted every morning.',pair:'Chicken, kale, roasted squash and anything creamy.',hi:'Hi Matt, I’m roasted garlic. I’m not in your bowl yet, but ask me anything.'},
+  Pepper:{why:'I’m not in your bowl yet. I’d add a sweet, juicy crunch and a pop of sunshine color.',nutrition:'I have more vitamin C than an orange, plus vitamin A.',
+    calories:'About 15 cal in a bowl.',sourcing:'I’m a yellow bell pepper from Oxnard, California, sliced fresh daily.',pair:'Chicken, corn, avocado and a little lime.',hi:'Hi Matt, I’m the bell pepper. I’m not in your bowl yet, but ask me anything.'},
+  Cucumber:{why:'I’m not in your bowl yet. I’d add cool, crisp freshness — perfect next to anything spicy.',nutrition:'I’m about 96% water, with a little vitamin K.',
+    calories:'About 8 cal in a bowl.',sourcing:'I’m grown in Fresno County and sliced to order.',pair:'Salmon, tomato, feta and a lemony dressing.',hi:'Hi Matt, I’m the cucumber. I’m not in your bowl yet, but ask me anything.'},
+  Corn:{why:'I’m not in your bowl yet. Roasted, I add sweet, smoky crunch.',nutrition:'I bring fiber, a little plant protein and lutein for your eyes.',
+    calories:'About 70 cal in a bowl.',sourcing:'I’m sweet corn from the Central Valley, roasted in-house.',pair:'Pepper, avocado, black beans and lime.',hi:'Hi Matt, I’m roasted corn. I’m not in your bowl yet, but ask me anything.'},
+  Pumpkin:{why:'I’m not in your bowl yet. Roasted, I’m sweet, soft and cozy — a fall favorite.',nutrition:'I’m packed with beta-carotene (vitamin A) and fiber.',
+    calories:'About 45 cal in a bowl.',sourcing:'I’m grown in Half Moon Bay and roasted with a little maple.',pair:'Kale, goat cheese, pecans and wild rice.',hi:'Hi Matt, I’m roasted pumpkin. I’m not in your bowl yet, but ask me anything.'},
   Onion:{why:'I’m pickled red onion — a sharp, tangy bite that cuts through the creamy parts of your bowl.',nutrition:'I bring a little fiber and quercetin, an antioxidant, for almost no calories.',
     calories:'About 15 cal in your bowl.',sourcing:'I’m grown in Imperial Valley, California, and pickled in-house every morning.',pair:'Avocado, salmon, feta and anything citrusy.',hi:'Hi Matt, I’m the red onion. Ask me anything.'},
   Avocado:{why:'I make your bowl creamy and filling, so the greens feel like a meal.',nutrition:'Mostly heart-healthy monounsaturated fat, plus fiber and potassium.',
@@ -1461,7 +1480,8 @@ PROD.forEach(p=>{
   if(p.name){ const a=document.createElement('span'); a.className='ask'; a.textContent='Chat with '+p.name; el.appendChild(a); p.askEl=a; }
   if(p.name){ // centre the hover label on the part of the ingredient that is on screen
     const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,1210), y0=Math.max(p.y,0), y1=Math.min(p.y+p.h,759-24);
-    p.askEl.style.left=((x0+x1)/2-p.x)+'px'; p.askEl.style.top=((y0+y1)/2-p.y)+'px'; }
+    const vis=Math.max(0,x1-x0)*Math.max(0,y1-y0)/(p.w*p.h);
+    if(vis>.35){ p.askEl.style.left=((x0+x1)/2-p.x)+'px'; p.askEl.style.top=((y0+y1)/2-p.y)+'px'; } }
   PR.appendChild(el); p.el=el;
 });
 let talking=null;
@@ -1471,6 +1491,7 @@ function focusPos(p){ // the chosen ingredient glides to the centre of the left 
 }
 function resetProd(){ PROD.forEach(p=>Object.assign(p.el.style,{left:p.x+'px',top:p.y+'px',width:p.w+'px',height:p.h+'px'})); }
 async function openChat(p,firstQ){
+  if(mpan.x||mpan.y){ mpan={x:0,y:0}; PR.style.transition=''; PR.style.transform=''; } // bring the canvas home so the pick lands centre-left
   const first=!talking; talking=p; state.chat=p.name;
   PROD.forEach(q=>q.el.classList.toggle('focus',q===p));
   resetProd(); Object.assign(p.el.style,Object.fromEntries(Object.entries(focusPos(p)).map(([k,v])=>[k,v+'px'])));
@@ -1506,7 +1527,7 @@ $('#move').onclick=()=>{ moving=!moving; $('#move').setAttribute('aria-pressed',
 $('#move-act').onclick=()=>{$('#move').click(); $('#move').closest('.tiphost').classList.remove('show');};
 PR.addEventListener('pointerdown',e=>{ moved=false; if(!moving) return; mv={x:e.clientX,y:e.clientY,px:mpan.x,py:mpan.y,id:e.pointerId}; });
 PR.addEventListener('pointermove',e=>{ if(!mv) return; const dx=(e.clientX-mv.x)/SCALE, dy=(e.clientY-mv.y)/SCALE; if(Math.hypot(dx,dy)>6){moved=true;PR.setPointerCapture(mv.id);}
-  mpan={x:clamp(mv.px+dx,-300,300),y:clamp(mv.py+dy,-220,220)}; PR.style.transition='none'; PR.style.transform=`translate(${mpan.x}px,${mpan.y}px)`; });
+  mpan={x:clamp(mv.px+dx,-340,430),y:clamp(mv.py+dy,-250,300)}; PR.style.transition='none'; PR.style.transform=`translate(${mpan.x}px,${mpan.y}px)`; });
 PR.addEventListener('pointerup',()=>{ mv=null; PR.style.transition=''; setTimeout(()=>moved=false,0); });
 // pickup status pill (WK01 determinate capsule idea: fills as pickup nears)
 let pickT;
