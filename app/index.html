@@ -339,11 +339,6 @@ body.forced #fs-exit{display:none}
 .prod .float{position:absolute;inset:0;animation:float var(--fd,12s) ease-in-out infinite alternate;animation-delay:var(--fdl,0s)}
 .prod img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;-webkit-user-drag:none}
 @keyframes float{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--fx,6px),var(--fy,-10px)) rotate(var(--fr,2deg))}}
-.prod.focus[data-cut~=top] .float{-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 22%);mask-image:linear-gradient(to bottom,transparent 0,#000 22%)}
-.prod.focus[data-cut~=bottom] .float{-webkit-mask-image:linear-gradient(to top,transparent 0,#000 22%);mask-image:linear-gradient(to top,transparent 0,#000 22%)}
-.prod.focus[data-cut~=left] .float{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 22%);mask-image:linear-gradient(to right,transparent 0,#000 22%)}
-.prod.focus[data-cut~=right] .float{-webkit-mask-image:linear-gradient(to left,transparent 0,#000 22%);mask-image:linear-gradient(to left,transparent 0,#000 22%)}
-.prod.focus[data-cut="left bottom"] .float{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 22%),linear-gradient(to top,transparent 0,#000 22%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 22%),linear-gradient(to top,transparent 0,#000 22%);mask-composite:intersect}
 .prod.soft{filter:blur(16px);opacity:.95}
 .prod.tap{cursor:pointer}
 .prod.tap:hover .float img{transform:scale(1.03)}
@@ -1429,13 +1424,13 @@ ENTER.builder=()=>{ setTimeout(()=>{ allItems().forEach(i=>i.bar&&i.bar.relayout
 /* ═════════════ 04 · CHAT WITH INGREDIENTS ═════════════ */
 // layout from Figma "Chat with ingredients / Desktop · Intro" (160:5340), scaled 0.8 into the tablet frame
 const PROD=[
-  {k:'onion',cut:'left',x:0,y:174,w:191,h:241,name:'Onion',fd:'13s',fr:'1.5deg'},
-  {k:'avocado',cut:'top',x:349,y:57,w:215,h:247,name:'Avocado',fd:'11s',fy:'8px'},
-  {k:'pea',cut:'top',x:856,y:57,w:152,h:254,name:'Peas',fd:'12s',fr:'-2deg'},
-  {k:'beet',cut:'right',x:1030,y:334,w:180,h:258,name:'Beet',fd:'14s',fx:'-6px'},
-  {k:'tomato',cut:'left bottom',x:0,y:602,w:173,h:241,name:'Tomato',fd:'12.5s',fx:'6px'},
-  {k:'lettuce2',cut:'bottom',x:271,y:549,w:383,h:294,name:'Lettuce',fd:'15s',fy:'6px'},
-  {k:'salmon',cut:'bottom',x:758,y:656,w:375,h:186,name:'Salmon',fd:'13.5s',fr:'-1deg'}
+  {k:'onion',x:-91,y:174,w:282,h:241,name:'Onion',fd:'13s',fr:'1.5deg'},
+  {k:'avocado',x:350,y:-23,w:215,h:327,name:'Avocado',fd:'11s',fy:'8px'},
+  {k:'pea',x:856,y:12,w:152,h:299,name:'Peas',fd:'12s',fr:'-2deg'},
+  {k:'beet',x:1030,y:334,w:258,h:258,name:'Beet',fd:'14s',fx:'-6px'},
+  {k:'tomato',x:-133,y:602,w:305,h:292,name:'Tomato',fd:'12.5s',fx:'6px'},
+  {k:'lettuce2',x:271,y:550,w:383,h:389,name:'Lettuce',fd:'15s',fy:'6px'},
+  {k:'salmon',x:758,y:656,w:416,h:337,name:'Salmon',fd:'13.5s',fr:'-1deg'}
 ];
 const ANS={
   Onion:{why:'I’m pickled red onion — a sharp, tangy bite that cuts through the creamy parts of your bowl.',nutrition:'I bring a little fiber and quercetin, an antioxidant, for almost no calories.',
@@ -1460,11 +1455,13 @@ PROD.forEach(p=>{
   const el=document.createElement(p.name?'button':'div'); el.className='prod'+(p.soft?' soft':' tap'); el.dataset.k=p.k;
   Object.assign(el.style,{left:p.x+'px',top:p.y+'px',width:p.w+'px',height:p.h+'px'});
   el.style.setProperty('--fd',p.fd); if(p.fx) el.style.setProperty('--fx',p.fx); if(p.fy) el.style.setProperty('--fy',p.fy); if(p.fr) el.style.setProperty('--fr',p.fr);
-  if(p.cut) el.dataset.cut=p.cut;
   el.style.setProperty('--fdl',(-Math.random()*6).toFixed(1)+'s');
   el.innerHTML=`<span class="float"><img src="assets/${p.k}.webp" alt="${p.name||''}"></span>`;
   if(p.name){ el.type='button'; el.setAttribute('aria-label','Chat with '+p.name); }
   if(p.name){ const a=document.createElement('span'); a.className='ask'; a.textContent='Chat with '+p.name; el.appendChild(a); p.askEl=a; }
+  if(p.name){ // centre the hover label on the part of the ingredient that is on screen
+    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,1210), y0=Math.max(p.y,0), y1=Math.min(p.y+p.h,759-24);
+    p.askEl.style.left=((x0+x1)/2-p.x)+'px'; p.askEl.style.top=((y0+y1)/2-p.y)+'px'; }
   PR.appendChild(el); p.el=el;
 });
 let talking=null;
