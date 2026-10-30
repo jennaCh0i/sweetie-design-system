@@ -270,7 +270,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
       <li data-pin="3"><i>3</i><span><b>Left icon + shortcut · Reorder ⌘R</b>Adds the bowl to your bag (skips sold-out ingredients).</span></li>
       <li data-pin="4"><i>4</i><span><b>Right badge · Rate this bowl</b>Outlined badge: +50 pts for rating.</span></li>
       <li data-pin="5"><i>5</i><span><b>Submenu · Share</b>Slides out to the side; Copy link carries its own ⌘C.</span></li>
-      <li data-pin="6"><i>6</i><span><b>Destructive · Hide from history</b>Red label and icon; the row slides away.</span></li>
+      <li data-pin="6"><i>6</i><span><b>Destructive · Remove from history</b>Red label and icon; the row slides away.</span></li>
     </ol>
   </div>
 </section>
@@ -308,10 +308,10 @@ const ELEGANT={main:[
   {label:'Share',lead:'share',sub:1},
   {label:'Add to favorites',lead:'heart'},
   {sep:1},
-  {label:'Hide from history',lead:'hide',danger:1}],
+  {label:'Remove from history',lead:'remove',danger:1}],
   subOf:6, sub:[{label:'Copy link',key:'⌘C'},{label:'Messages'},{label:'Mail'},{label:'AirDrop'}],
   cfg:[['Section','Order',0,'head'],['Left icon','Reorder',1],['Right shortcut','Reorder',1,'trail'],['Right icon','View receipt',3,'trail'],
-       ['Right badge','Rate this bowl',5,'trail'],['Submenu','Share',6],['Single line of text','Messages','sub1'],['Destructive','Hide from history',9]]
+       ['Right badge','Rate this bowl',5,'trail'],['Submenu','Share',6],['Single line of text','Messages','sub1'],['Destructive','Remove from history',9]]
 };
 const menuEl=(tone,items,cls='')=>`<div class="menu static ${cls}" data-tone="${tone}" role="presentation">${items.map(menuItem).join('')}</div>`;
 

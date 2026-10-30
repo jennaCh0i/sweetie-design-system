@@ -1909,11 +1909,11 @@ function orderItems(o){ const d=odate(o).toLocaleDateString('en-US',{weekday:'sh
     {label:'Messages',act:shared('Messages')},{label:'Mail',act:shared('Mail')},{label:'AirDrop',act:shared('AirDrop')}]},
   {label:o.fav?'Remove from favorites':'Add to favorites',lead:'heart',act:()=>{ o.fav=!o.fav; toast(o.fav?`${o.name} Bowl added to favorites`:`${o.name} Bowl removed from favorites`); }},
   {sep:1},
-  {label:'Hide from history',lead:'hide',danger:1,act:()=>hideOrder(o)}
+  {label:'Remove from history',lead:'remove',danger:1,act:()=>hideOrder(o)}
 ]; }
 function reorder(o){ const r=reorderItems(o); addToBag(o.name+' Bowl',r.price,{photo:o.photo,items:r.keep}); toast(r.gone.length?`Added without ${r.gone.join(', ')} (sold out)`:`${o.name} Bowl added to your bag`); }
 function hideOrder(o){ const i=ORDERS.indexOf(o), row=$(`#grid [data-i="${i}"]`);
-  const done=()=>{ ORDERS.splice(ORDERS.indexOf(o),1); renderGrid(); toast(`${o.name} Bowl hidden from your history`); };
+  const done=()=>{ ORDERS.splice(ORDERS.indexOf(o),1); renderGrid(); toast(`${o.name} Bowl removed from your history`); };
   if(row){ row.style.transition='opacity .3s ease, transform .35s cubic-bezier(.32,.72,0,1)'; row.style.opacity='0'; row.style.transform='translateX(16px)'; setTimeout(done,320); } else done(); }
 function openOrderMenu(o,{anchor,at,keyboard}={}){ if(anchor&&menuOpen()&&MSTACK[0].anchor===anchor){ closeMenus(); return; }
   const m=openMenu({tone:'elegant',items:orderItems(o),anchor,at,label:`${o.name} Bowl`,keyboard});

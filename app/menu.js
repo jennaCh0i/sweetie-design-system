@@ -17,6 +17,7 @@ var MI={
   share:'<path d="M12 3.5v11.5M8 7.3l4-3.8 4 3.8"/><path d="M5.5 11.5v7.5A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5v-7.5"/>',
   heart:'<path d="M12 19.8s-7-4.3-7-9.8a4 4 0 0 1 7-2.7 4 4 0 0 1 7 2.7c0 5.5-7 9.8-7 9.8z"/>',
   hide:'<path d="M3.5 3.5l17 17"/><path d="M10.6 6.1c.5-.1.9-.1 1.4-.1 5 0 8.5 4.5 9 6-.3.9-1.2 2.4-2.8 3.8M6.6 7.6C4.7 8.9 3.4 10.8 3 12c.5 1.5 4 6 9 6 1.4 0 2.7-.3 3.8-.9"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
+  remove:'<circle cx="12" cy="12" r="8.8"/><path d="M8.2 12h7.6"/>',
   more:'<circle cx="5.5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="18.5" cy="12" r="1.5" fill="currentColor" stroke="none"/>'
 };
 var mico=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${MI[k]}</svg>`;
