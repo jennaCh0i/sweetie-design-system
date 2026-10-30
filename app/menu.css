@@ -1,0 +1,119 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Sweetie · WK06 menu system
+   One structure, two tones. Used by the tablet prototype (app/) and the
+   WK06 page (wk06-menus/), so the spec and the prototype can't drift.
+
+   Structure
+     .menu[data-tone]            container  (role=menu)
+       .m-head                   section header
+       .m-sep                    separator between sections
+       .mi                       item       (role=menuitem / menuitemcheckbox)
+         .mi-lead                left icon             (optional)
+         .mi-label               single line of text
+         .mi-trail               right slot, one of:
+           .mi-key               shortcut
+           .mi-badge             badge
+           .mi-icon              icon (incl. check)
+           .mi-chev              submenu chevron       (row has aria-haspopup)
+   States: Enabled · Hover (:hover / .is-hover) · Pressed (:active / .is-pressed)
+   ═══════════════════════════════════════════════════════════════════ */
+.menu{
+  --mn-ink:#00473D; --mn-text:#000; --mn-text-2:#595959; --mn-text-3:#909090;
+  --mn-cream:#F5F3E8; --mn-danger:#C4211F;
+  position:absolute;z-index:60;display:flex;flex-direction:column;width:var(--mn-w);
+  font-family:Figtree,system-ui,sans-serif;text-align:left;
+  opacity:0;visibility:hidden;pointer-events:none;transform-origin:var(--mn-origin,top right)
+}
+.menu.open,.menu.static{opacity:1;visibility:visible;pointer-events:auto}
+.menu.static{position:relative;z-index:auto}
+.menu:focus{outline:none}
+.mi{position:relative;display:flex;align-items:center;width:100%;margin:0;border:0;background:none;color:inherit;font:inherit;
+  text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.mi:focus{outline:none}
+.mi-lead{flex:none;display:grid;place-items:center}
+.mi svg{display:block;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.mi-label{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mi-trail{flex:none;display:flex;align-items:center;margin-left:auto}
+.mi-key{font-family:inherit;font-variant-numeric:tabular-nums}
+.mi-badge{display:inline-grid;place-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mi-icon,.mi-chev{display:grid;place-items:center}
+.mi-check.off{visibility:hidden}
+.m-head{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-sep{flex:none}
+.mi[aria-disabled=true]{opacity:.4;pointer-events:none}
+
+/* ─────────────────────────── 01 · SERENE ───────────────────────────
+   Account menu. Sage card, soft corners, slow fade + rise with a stagger. */
+.menu[data-tone=serene]{
+  --mn-w:288px; --e:cubic-bezier(.45,0,.2,1);
+  padding:8px;border-radius:20px;background:#DBE4CB;
+  box-shadow:0 0 0 .5px rgba(0,71,61,.12),0 18px 40px -14px rgba(0,71,61,.28);
+  transform:translateY(-6px) scale(.96);
+  transition:opacity .32s var(--e),transform .42s var(--e),visibility 0s linear .42s
+}
+.menu[data-tone=serene].open,.menu[data-tone=serene].static{transform:none;transition:opacity .32s var(--e),transform .42s var(--e),visibility 0s}
+.menu[data-tone=serene] .mi{
+  gap:12px;min-height:44px;padding:0 12px;border-radius:13px;
+  font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.01em;color:var(--mn-text);
+  background:rgba(255,255,255,0);
+  opacity:0;transform:translateY(-4px);
+  transition:opacity .3s var(--e),transform .4s var(--e),background .35s var(--e)
+}
+.menu[data-tone=serene].open .mi,.menu[data-tone=serene].static .mi{
+  opacity:1;transform:none;
+  transition:opacity .3s var(--e) calc(var(--i,0)*24ms),transform .4s var(--e) calc(var(--i,0)*24ms),background .35s var(--e)
+}
+.menu[data-tone=serene] .mi-lead{width:24px;height:24px;color:var(--mn-ink)}
+.menu[data-tone=serene] .mi-lead svg{width:20px;height:20px;stroke-width:1.5}
+.menu[data-tone=serene] .mi-key{font-size:15px;line-height:20px;letter-spacing:.02em;color:var(--mn-text-3)}
+.menu[data-tone=serene] .mi-badge{height:22px;min-width:22px;padding:0 8px;border-radius:40px;background:var(--mn-ink);color:var(--mn-cream);font-size:13px;line-height:22px;font-weight:600}
+.menu[data-tone=serene] .mi-icon,.menu[data-tone=serene] .mi-chev{width:20px;height:20px;color:var(--mn-text-3);transition:color .35s var(--e),transform .35s var(--e)}
+.menu[data-tone=serene] .mi-icon svg{width:18px;height:18px;stroke-width:1.5}
+.menu[data-tone=serene] .mi-chev svg{width:16px;height:16px;stroke-width:1.6}
+.menu[data-tone=serene] .mi-check{color:var(--mn-ink)}
+.menu[data-tone=serene] .m-head{padding:10px 12px 4px;font-size:13px;line-height:18px;letter-spacing:.06em;text-transform:uppercase;color:var(--mn-text-2)}
+.menu[data-tone=serene] .m-sep{height:.5px;margin:6px 12px;background:rgba(0,71,61,.18)}
+/* states */
+.menu[data-tone=serene] .mi:hover,.menu[data-tone=serene] .mi:focus-visible,.menu[data-tone=serene] .mi.is-hover,.menu[data-tone=serene] .mi[aria-expanded=true]{background:rgba(255,255,255,.55)}
+.menu[data-tone=serene] .mi:hover .mi-chev,.menu[data-tone=serene] .mi.is-hover .mi-chev,.menu[data-tone=serene] .mi[aria-expanded=true] .mi-chev{color:var(--mn-ink);transform:translateX(2px)}
+.menu[data-tone=serene] .mi:hover .mi-icon:not(.mi-check),.menu[data-tone=serene] .mi.is-hover .mi-icon:not(.mi-check){color:var(--mn-ink)}
+.menu[data-tone=serene] .mi:active,.menu[data-tone=serene] .mi.is-pressed{background:rgba(192,227,150,.75);transform:scale(.985);transition:background .12s var(--e),transform .12s var(--e)}
+
+/* ─────────────────────────── 02 · ELEGANT ──────────────────────────
+   Order row menu. Cream sheet, hairline rules, light type, quick and exact. */
+.menu[data-tone=elegant]{
+  --mn-w:272px; --e:cubic-bezier(.32,.72,0,1); --mn-line:#BDBDBD;
+  padding:0;border-radius:13px;background:#F9F6E6;overflow:hidden;
+  box-shadow:0 0 0 .5px var(--mn-line),0 14px 30px -16px rgba(0,0,0,.24);
+  transform:translateY(-4px) scale(.98);
+  transition:opacity .2s ease-out,transform .28s var(--e),visibility 0s linear .28s
+}
+.menu[data-tone=elegant].sub{transform:translateX(var(--mn-from,-6px))}
+.menu[data-tone=elegant].open,.menu[data-tone=elegant].static{transform:none;transition:opacity .2s ease-out,transform .28s var(--e),visibility 0s}
+.menu[data-tone=elegant] .mi{
+  gap:14px;min-height:44px;padding:0 16px;border-radius:0;
+  font-size:17px;line-height:22px;font-weight:300;letter-spacing:0;color:var(--mn-ink);
+  background:transparent;transition:background .2s ease-in-out
+}
+.menu[data-tone=elegant] .mi+.mi::before{content:"";position:absolute;top:0;right:0;left:16px;height:.5px;background:var(--mn-line)}
+.menu[data-tone=elegant] .mi-lead{width:20px;height:20px;color:var(--mn-ink)}
+.menu[data-tone=elegant] .mi-lead svg{width:18px;height:18px;stroke-width:1.25}
+.menu[data-tone=elegant] .mi-key{font-size:13px;line-height:18px;letter-spacing:.06em;color:var(--mn-text-2)}
+.menu[data-tone=elegant] .mi-badge{height:20px;padding:0 6px;border-radius:3px;box-shadow:inset 0 0 0 1px var(--mn-ink);color:var(--mn-ink);font-size:11px;line-height:20px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.menu[data-tone=elegant] .mi-icon,.menu[data-tone=elegant] .mi-chev{width:18px;height:18px;color:var(--mn-text-3);transition:color .2s ease-in-out}
+.menu[data-tone=elegant] .mi-icon svg{width:16px;height:16px;stroke-width:1.25}
+.menu[data-tone=elegant] .mi-chev svg{width:14px;height:14px;stroke-width:1.4}
+.menu[data-tone=elegant] .mi-check{color:var(--mn-ink)}
+.menu[data-tone=elegant] .mi.danger{color:var(--mn-danger);font-weight:400}
+.menu[data-tone=elegant] .mi.danger .mi-lead{color:var(--mn-danger)}
+.menu[data-tone=elegant] .m-head{padding:12px 16px 10px;font-size:11px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--mn-text-2);box-shadow:inset 0 -.5px 0 var(--mn-line)}
+.menu[data-tone=elegant] .m-sep{height:6px;background:rgba(235,229,220,.85);box-shadow:inset 0 .5px 0 var(--mn-line),inset 0 -.5px 0 var(--mn-line)}
+.menu[data-tone=elegant] .m-sep+.mi::before,.menu[data-tone=elegant] .m-head+.mi::before{display:none}
+/* states */
+.menu[data-tone=elegant] .mi:hover,.menu[data-tone=elegant] .mi:focus-visible,.menu[data-tone=elegant] .mi.is-hover,.menu[data-tone=elegant] .mi[aria-expanded=true]{background:rgba(235,229,220,.85)}
+.menu[data-tone=elegant] .mi:hover .mi-chev,.menu[data-tone=elegant] .mi.is-hover .mi-chev,.menu[data-tone=elegant] .mi[aria-expanded=true] .mi-chev,
+.menu[data-tone=elegant] .mi:hover .mi-icon,.menu[data-tone=elegant] .mi.is-hover .mi-icon{color:var(--mn-ink)}
+.menu[data-tone=elegant] .mi:active,.menu[data-tone=elegant] .mi.is-pressed{background:rgba(0,71,61,.09);transition-duration:.08s}
+.menu[data-tone=elegant] .mi.danger:active,.menu[data-tone=elegant] .mi.danger.is-pressed{background:rgba(196,33,31,.08)}
+
+@media (prefers-reduced-motion:reduce){.menu,.menu .mi{transition-duration:.01ms!important;transition-delay:0s!important;transform:none!important}}
