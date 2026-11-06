@@ -1,0 +1,75 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Sweetie · WK07 toolbar system
+   One structure, two tones. Used by the tablet prototype (app/) and the WK07 page.
+     .tb[data-tone][data-align]       container · align start | center | end | between
+       .tb-group                      group (left / right side of a bar)
+       .tbb.ic  icon button   .tbb.tx  text button   .tbb.it  icon + text button
+       .tb-sep  divider       .tb-text label         .tb-field  inline search field
+   States: Enabled · Hover (:hover / .is-hover) · Pressed (:active / .is-pressed)
+           + On (aria-pressed=true / .on) for toggles and active filters
+   ═══════════════════════════════════════════════════════════════════ */
+.tb{--tb-ink:#00473D;--tb-text:#000;--tb-text-2:#595959;--tb-text-3:#909090;--tb-cream:#F5F3E8;--tb-danger:#C4211F;
+  display:inline-flex;align-items:center;flex:none;font-family:Figtree,system-ui,sans-serif}
+.tb.bar{display:flex;width:100%}
+.tb[data-align=start]{justify-content:flex-start}.tb[data-align=center]{justify-content:center}
+.tb[data-align=end]{justify-content:flex-end}.tb[data-align=between]{justify-content:space-between}
+.tb-group{display:flex;align-items:center;align-self:stretch}
+.tb-spacer{flex:1}
+.tbb{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;margin:0;border:0;background:none;color:inherit;
+  font:inherit;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.tbb:focus{outline:none}
+.tbb svg{display:block;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.tbb-ic{display:grid;place-items:center;flex:none}
+.tbb-label{font-variant-numeric:tabular-nums}
+.tbb[aria-disabled=true]{opacity:.35;pointer-events:none}
+.tb-text{white-space:nowrap;font-variant-numeric:tabular-nums}
+.tb-field{display:flex;align-items:center;overflow:hidden}
+.tb-field input{flex:1;min-width:0;border:0;background:none;font:inherit;color:inherit;outline:none}
+
+/* ─────────────────────────── 01 · SERENE ───────────────────────────
+   Canvas toolbar. A sage pill floating over the canvas; round, soft, slow. */
+.tb[data-tone=serene]{--e:cubic-bezier(.45,0,.2,1);
+  height:56px;padding:6px;gap:4px;border-radius:40px;background:#DBE4CB;
+  box-shadow:0 0 0 .5px rgba(0,71,61,.12),0 14px 34px -14px rgba(0,71,61,.3)}
+.tb[data-tone=serene] .tb-group{gap:4px}
+.tb[data-tone=serene] .tbb{height:44px;min-width:44px;gap:8px;border-radius:40px;
+  font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.01em;color:var(--tb-ink);background:rgba(255,255,255,0);
+  transition:background .35s var(--e),color .35s var(--e),transform .25s var(--e)}
+.tb[data-tone=serene] .tbb.it{padding:0 18px 0 14px}
+.tb[data-tone=serene] .tbb.tx{min-width:68px;padding:0 14px}
+.tb[data-tone=serene] .tbb-ic{width:24px;height:24px}
+.tb[data-tone=serene] .tbb-ic svg{width:22px;height:22px;stroke-width:1.5}
+.tb[data-tone=serene] .tb-sep{width:.5px;height:24px;margin:0 6px;background:rgba(0,71,61,.22)}
+.tb[data-tone=serene] .tb-text{padding:0 12px;font-size:15px;line-height:20px;color:var(--tb-text-2)}
+.tb[data-tone=serene] .tbb:hover,.tb[data-tone=serene] .tbb:focus-visible,.tb[data-tone=serene] .tbb.is-hover{background:rgba(255,255,255,.55)}
+.tb[data-tone=serene] .tbb:active,.tb[data-tone=serene] .tbb.is-pressed{background:rgba(192,227,150,.75);transform:scale(.96);transition:background .12s var(--e),transform .12s var(--e)}
+.tb[data-tone=serene] .tbb[aria-pressed=true],.tb[data-tone=serene] .tbb.on{background:var(--tb-ink);color:var(--tb-cream)}
+.tb[data-tone=serene] .tbb[aria-pressed=true]:hover,.tb[data-tone=serene] .tbb.on.is-hover{background:#0B5C50}
+.tb[data-tone=serene] .tbb[aria-pressed=true]:active,.tb[data-tone=serene] .tbb.on.is-pressed{background:#003A32}
+
+/* ─────────────────────────── 02 · ELEGANT ──────────────────────────
+   Order history toolbars. Cream sheet, hairline edge and dividers, light type, quick. */
+.tb[data-tone=elegant]{--e:cubic-bezier(.32,.72,0,1);--tb-line:#BDBDBD;
+  height:44px;padding:0;gap:0;border-radius:13px;background:#F9F6E6;box-shadow:0 0 0 .5px var(--tb-line);overflow:hidden}
+.tb[data-tone=elegant] .tbb{height:100%;min-width:48px;gap:8px;padding:0 16px;border-radius:0;
+  font-size:17px;line-height:22px;font-weight:300;letter-spacing:0;color:var(--tb-ink);background:transparent;transition:background .2s ease-in-out}
+.tb[data-tone=elegant] .tbb.ic{width:48px;padding:0}
+.tb[data-tone=elegant] .tbb+.tbb,.tb[data-tone=elegant] .tb-field+.tbb,.tb[data-tone=elegant] .tbb+.tb-field,.tb[data-tone=elegant] .tb-text+.tbb{box-shadow:inset .5px 0 0 var(--tb-line)}
+.tb[data-tone=elegant] .tbb-ic{width:20px;height:20px}
+.tb[data-tone=elegant] .tbb-ic svg{width:18px;height:18px;stroke-width:1.25}
+.tb[data-tone=elegant] .tbb.strong{font-weight:500}
+.tb[data-tone=elegant] .tbb.danger{color:var(--tb-danger);font-weight:400}
+.tb[data-tone=elegant] .tb-sep{align-self:stretch;width:6px;background:rgba(235,229,220,.85);box-shadow:inset .5px 0 0 var(--tb-line),inset -.5px 0 0 var(--tb-line)}
+.tb[data-tone=elegant] .tb-text{padding:0 16px;font-size:13px;line-height:18px;letter-spacing:.06em;text-transform:uppercase;color:var(--tb-text-2)}
+.tb[data-tone=elegant] .tb-field{height:100%;gap:8px;padding:0 4px 0 14px;color:var(--tb-ink);font-size:17px;font-weight:300}
+.tb[data-tone=elegant] .tb-field svg{flex:none;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round}
+.tb[data-tone=elegant] .tb-field input::placeholder{color:var(--tb-text-3)}
+.tb[data-tone=elegant] .tbb:hover,.tb[data-tone=elegant] .tbb:focus-visible,.tb[data-tone=elegant] .tbb.is-hover{background:rgba(235,229,220,.85)}
+.tb[data-tone=elegant] .tbb:active,.tb[data-tone=elegant] .tbb.is-pressed{background:rgba(0,71,61,.09);transition-duration:.08s}
+.tb[data-tone=elegant] .tbb.danger:active,.tb[data-tone=elegant] .tbb.danger.is-pressed{background:rgba(196,33,31,.08)}
+.tb[data-tone=elegant] .tbb[aria-pressed=true],.tb[data-tone=elegant] .tbb.on{font-weight:400;background:rgba(0,71,61,.06)}
+.tb[data-tone=elegant] .tbb[aria-expanded=true]{background:rgba(235,229,220,.85)}
+/* Elegant bar: full-width, L tier, rows of the screen (selection toolbar) */
+.tb.bar[data-tone=elegant]{height:56px;box-shadow:0 0 0 .5px var(--tb-line),0 14px 30px -16px rgba(0,0,0,.24)}
+
+@media (prefers-reduced-motion:reduce){.tb .tbb{transition-duration:.01ms!important;transform:none!important}}

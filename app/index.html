@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="menu.css"><!-- WK06 menu system, shared with wk06-menus/ -->
+<link rel="stylesheet" href="toolbar.css"><!-- WK07 toolbar system, shared with wk07-toolbars/ -->
 <style>
 /* ═════════════ Sweetie tokens (Figma variables) ═════════════ */
 :root{
@@ -354,8 +355,8 @@ body.forced #fs-exit{display:none}
 .chat-head small{display:block;font-size:var(--t-body);color:var(--n-800);letter-spacing:var(--tr-body)}
 .chat-head h2{margin-top:4px;font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);color:var(--text-brand)}
 #s-chat.talking .chat-head{opacity:0;filter:blur(8px);transform:translateX(-160px)}
-#s-chat .exp-host{position:absolute;left:1114px;top:738px;transition:left 1s var(--ease)}
-#s-chat.talking .exp-host{left:594px}
+#s-chat .exp-host{position:absolute;left:605px;bottom:40px;transform:translateX(-50%);z-index:6;transition:left 1s var(--ease)}
+#s-chat.talking .exp-host{left:345px}
 #s-chat.moving{cursor:grab}
 .panel{position:absolute;left:690px;top:75px;right:-2px;bottom:0;background:var(--bg-builder);border-left:.5px solid var(--line);transform:translateX(100%);transition:transform 1s var(--ease);display:flex;flex-direction:column;padding:var(--m) var(--m) var(--m)}
 #s-chat.talking .panel{transform:none}
@@ -390,6 +391,26 @@ body.forced #fs-exit{display:none}
 /* ═════════════ 05 · ORDER HISTORY ═════════════ */
 #s-orders .scroll{position:absolute;left:0;right:0;top:75px;bottom:0;overflow-y:auto;padding:var(--m);scrollbar-width:none}
 #s-orders .scroll::-webkit-scrollbar{display:none}
+.o-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s-5)}
+.o-tools{padding-bottom:2px}
+.o-tools .tb-field{width:0;padding:0!important;transition:width .32s cubic-bezier(.32,.72,0,1),padding .32s cubic-bezier(.32,.72,0,1)}
+.o-tools .searching .tb-field{width:280px;padding:0 4px 0 14px!important}
+.o-tools .searching #o-search{display:none}
+.o-tools input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none}
+.selbar{position:absolute;left:var(--m);right:var(--m);bottom:24px;z-index:8;transform:translateY(calc(100% + 32px));opacity:0;transition:transform .42s cubic-bezier(.32,.72,0,1),opacity .25s ease-out;pointer-events:none}
+#s-orders.selecting .selbar{transform:none;opacity:1;pointer-events:auto}
+#s-orders.selecting .scroll{padding-bottom:120px}
+.hsel{position:absolute;left:4px;top:50%;width:24px;height:24px;margin-top:-12px;border-radius:50%;box-shadow:var(--line-strong);background:var(--cream-100);display:grid;place-items:center;color:var(--cream-100);opacity:0;transform:scale(.6);transition:opacity .25s ease-out,transform .32s cubic-bezier(.32,.72,0,1),background .2s,box-shadow .2s}
+.hsel svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .15s}
+#s-orders.selecting .hsel{opacity:1;transform:none}
+#s-orders.selecting .hrow{padding-left:44px}
+.hrow{position:relative;transition:background .36s var(--snap),padding .32s cubic-bezier(.32,.72,0,1)}
+#s-orders.selecting .omore,#s-orders.selecting .obag,#s-orders.selecting .hh-btns{visibility:hidden}
+#s-orders.selecting .hist-hero .hsel{left:auto;right:var(--s-5);top:var(--s-5);margin:0}
+.picked .hsel{background:var(--green-950);box-shadow:none}.picked .hsel svg{opacity:1}
+#s-orders.selecting .hrow.picked{background:rgba(0,71,61,.06)}
+#s-orders.selecting .hist-hero.picked{box-shadow:inset 0 0 0 1.5px var(--green-950)}
+.hist-empty{margin-top:var(--m);padding:var(--s-7) 0;text-align:center;color:var(--text-3);font-size:var(--t-body)}
 .o-title{font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);line-height:1.03;color:var(--text-brand)}
 .o-sub{margin-top:6px;font-size:var(--t-body);color:var(--n-800);letter-spacing:var(--tr-body)}
 .obag-old{position:absolute;right:20px;top:16px;width:64px;height:var(--h-md);border-radius:var(--r-pill);background:var(--green-950);display:grid;place-items:center;color:var(--cream-100);z-index:2;transition:background 0.45s var(--snap),width 0.45s var(--snap)}
@@ -773,9 +794,8 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
   <section class="screen" id="s-chat" aria-label="Chat with ingredients">
     <div class="produce" id="produce"></div>
     <div class="chat-head"><small>Matt, here is your bowl</small><h2>Chat with ingredients</h2></div>
-    <div class="tiphost exp-host">
-      <button class="expand" id="move" aria-pressed="false" aria-label="Move around" aria-describedby="mv2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l3.4 3.4M4 4h3M4 4v3M20 4l-3.4 3.4M20 4h-3M20 4v3M4 20l3.4-3.4M4 20h3M4 20v-3M20 20l-3.4-3.4M20 20h-3M20 20v-3"/><g transform="translate(12 12) scale(.88) translate(-12.49 -14.65)" stroke-width="1.7"><path d="M11 16.5v-6.3a1.1 1.1 0 0 1 2.2 0v3.1l.4-.1a1 1 0 0 1 1.3.8l.1.3a1 1 0 0 1 1.3.9v2.1c0 1.7-1.2 2.9-2.9 2.9h-.8a2.9 2.9 0 0 1-2.4-1.3l-1.4-2.1a.9.9 0 0 1 1.4-1.1z" fill="var(--cream-100)"/></g></svg></button>
-      <div class="tip up rightish rich" role="tooltip" id="mv2" style="background:var(--mustard-soft);box-shadow:inset 0 0 0 1.5px var(--mustard);border-radius:var(--r-md);width:230px"><h4 style="font-size:var(--t-body-s);font-weight:600">Move around</h4><p style="color:var(--n-800)">Drag the canvas to find more ingredients from the kitchen.</p><button class="act" id="move-act" style="background:var(--mustard);box-shadow:none;color:var(--n-800);font-weight:600">Got it</button></div>
+    <div class="exp-host" id="cv-host"><!-- WK07 · 01 Serene canvas toolbar (built in script) -->
+      <div class="tiphost cv-tip" id="cv-tip"><div class="tip up rich" role="tooltip" id="mv2" style="background:var(--mustard-soft);box-shadow:inset 0 0 0 1.5px var(--mustard);border-radius:var(--r-md);width:230px"><h4 style="font-size:var(--t-body-s);font-weight:600">Move around</h4><p style="color:var(--n-800)">Drag the canvas to find more ingredients from the kitchen.</p><button class="act" id="move-act" style="background:var(--mustard);box-shadow:none;color:var(--n-800);font-weight:600">Got it</button></div></div>
     </div>
     <aside class="panel" aria-label="Conversation">
       <div class="p-head"><span class="who"><svg viewBox="0 0 20 20"><path d="M2 2l5 5M2 2h4M2 2v4M18 18l-5-5M18 18h-4M18 18v-4"/></svg><span id="who">Lemon</span></span><button class="close" id="close-chat" aria-label="Close chat"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1 1 11"/></svg></button></div>
@@ -790,10 +810,11 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
   <!-- ═════════════ 05 ORDER HISTORY ═════════════ -->
   <section class="screen" id="s-orders" aria-label="Order history">
     <div class="scroll">
-      <h1 class="o-title">Order history</h1>
-      <p class="o-sub" id="o-sub"></p>
+      <div class="o-head"><div><h1 class="o-title">Order history</h1>
+      <p class="o-sub" id="o-sub"></p></div><div class="o-tools" id="o-tools"></div></div>
       <div class="grid" id="grid"></div>
     </div>
+    <div class="selbar" id="selbar" aria-hidden="true"></div>
   </section>
 
   <!-- ═════════════ 06 BAG ═════════════ -->
@@ -851,9 +872,25 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 <div class="fs-bar" role="navigation" aria-label="Prototype"><a href="../index.html">← Sweetie</a><button type="button" id="fs-exit">Exit full screen</button></div>
 
 <script src="menu.js"></script>
+<script src="toolbar.js"></script>
 <script>
 /* ═════════════ helpers ═════════════ */
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+// WK07 · 01 Serene · canvas toolbar (centre aligned, floating over the chat canvas)
+$('#cv-host').insertAdjacentHTML('afterbegin',toolbar('serene',[
+  {id:'move',icon:'hand',label:'Move',aria:'Move around',pressed:false,attrs:' aria-describedby="mv2"'},{sep:1},
+  {id:'zoom-out',icon:'minus',aria:'Zoom out'},{id:'zoom-100',label:'100%',aria:'Zoom to 100%'},{id:'zoom-in',icon:'plus',aria:'Zoom in'},{sep:1},
+  {id:'recentre',icon:'recentre',aria:'Recentre the canvas',disabled:true}],{label:'Canvas',id:'cv-tb'}));
+{ const w=$('#cv-tip'), mv=$('#move'); mv.before(w); w.prepend(mv); } // Move keeps its WK02 rich tooltip
+// Order history header toolbar (02 Elegant, right aligned) + selection toolbar
+$('#o-tools').innerHTML=toolbar('elegant',[
+  {html:'<label class="tb-field" id="o-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.5 15.5 4.7 4.7"/></svg><input id="o-q" type="search" placeholder="Search bowls or ingredients" aria-label="Search orders" autocomplete="off"></label>'},
+  {id:'o-search',icon:'search',aria:'Search orders'},
+  {id:'o-filter',icon:'filter',label:'All orders',aria:'Filter orders',attrs:' aria-haspopup="menu" aria-expanded="false"'},
+  {id:'o-select',label:'Select',aria:'Select orders'}],{align:'end',label:'Order history'});
+$('#selbar').innerHTML=toolbar('elegant',[
+  {group:[{text:'0 selected',id:'sel-n'},{id:'sel-all',label:'Select all'}]},
+  {group:[{id:'sel-re',icon:'bag',label:'Reorder',disabled:true},{id:'sel-share',icon:'share',label:'Share',disabled:true},{id:'sel-rm',label:'Remove',danger:1,disabled:true}]}],{align:'between',bar:true,label:'Selected orders'});
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const app=$('#app'), device=$('#device');
@@ -1502,7 +1539,7 @@ function focusPos(p){ // the chosen ingredient glides to the centre of the left 
 }
 function resetProd(){ PROD.forEach(p=>Object.assign(p.el.style,{left:p.x+'px',top:p.y+'px',width:p.w+'px',height:p.h+'px'})); }
 async function openChat(p,firstQ){
-  if(mpan.x||mpan.y){ mpan={x:0,y:0}; PR.style.transition=''; PR.style.transform=''; } // bring the canvas home so the pick lands centre-left
+  if(mpan.x||mpan.y||zoom!==1){ mpan={x:0,y:0}; zoom=1; applyView(); } // bring the canvas home so the pick lands centre-left
   const first=!talking; talking=p; state.chat=p.name;
   PROD.forEach(q=>q.el.classList.toggle('focus',q===p));
   resetProd(); Object.assign(p.el.style,Object.fromEntries(Object.entries(focusPos(p)).map(([k,v])=>[k,v+'px'])));
@@ -1533,13 +1570,32 @@ async function ask(q){
 $('#sugg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) ask(b.dataset.q);});
 $('#ask').addEventListener('submit',e=>{e.preventDefault(); const i=$('#ask-in'); if(i.value.trim()) ask(i.value.trim()); i.value='';});
 // move canvas (drag the produce field)
-let moving=false, moved=false, mv=null, mpan={x:0,y:0};
-$('#move').onclick=()=>{ moving=!moving; $('#move').setAttribute('aria-pressed',moving); chat.classList.toggle('moving',moving); if(!moving){mpan={x:0,y:0};PR.style.transform='';} toast(moving?'Drag to move around':'Canvas back in place'); };
+let moving=false, moved=false, mv=null, mpan={x:0,y:0}, zoom=1;
+/* WK07 · 01 Serene canvas toolbar: Move (hand tool) · zoom − / 100% / + · Recentre */
+const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:-400,r:1490,t:-235,b:964}, OX=605, OY=380;
+PR.style.transformOrigin=`${OX}px ${OY}px`;
+function clampPan(){ const L=OX+(EXT.l-OX)*zoom, R=OX+(EXT.r-OX)*zoom, T=OY+(EXT.t-OY)*zoom, B=OY+(EXT.b-OY)*zoom;
+  mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }
+function paintCv(){ $('#zoom-100 .tbb-label').textContent=Math.round(zoom*100)+'%';
+  $('#recentre').setAttribute('aria-disabled',!mpan.x&&!mpan.y&&zoom===1); $('#zoom-out').setAttribute('aria-disabled',zoom<=ZOOMS[0]+1e-3); $('#zoom-in').setAttribute('aria-disabled',zoom>=ZOOMS[ZOOMS.length-1]-1e-3); }
+function applyView(anim=true){ PR.style.transition=anim?'transform .6s cubic-bezier(.45,0,.2,1)':'none';
+  PR.style.transform=(mpan.x||mpan.y||zoom!==1)?`translate(${mpan.x}px,${mpan.y}px) scale(${zoom})`:''; paintCv(); }
+function setZoom(z,anim=true){ const nz=clamp(z,ZOOMS[0],ZOOMS[ZOOMS.length-1]); mpan={x:mpan.x*nz/zoom,y:mpan.y*nz/zoom}; zoom=nz; clampPan(); applyView(anim); }
+const zoomStep=d=>setZoom(d>0?(ZOOMS.find(v=>v>zoom+1e-3)||zoom):([...ZOOMS].reverse().find(v=>v<zoom-1e-3)||zoom));
+function recentre(){ mpan={x:0,y:0}; zoom=1; applyView(); }
+$('#move').onclick=()=>{ moving=!moving; $('#move').setAttribute('aria-pressed',moving); chat.classList.toggle('moving',moving); };
+$('#zoom-in').onclick=()=>zoomStep(1); $('#zoom-out').onclick=()=>zoomStep(-1); $('#zoom-100').onclick=()=>setZoom(1); $('#recentre').onclick=recentre;
+PR.addEventListener('wheel',e=>{ if(talking) return;
+  if(e.ctrlKey){ e.preventDefault(); setZoom(zoom*Math.exp(-e.deltaY*.01),false); }            // pinch / ⌃ + scroll
+  else if(moving){ e.preventDefault(); mpan={x:mpan.x-e.deltaX,y:mpan.y-e.deltaY}; clampPan(); applyView(false); } },{passive:false});
+addEventListener('keydown',e=>{ if(app.dataset.screen!=='chat'||talking||e.metaKey||e.ctrlKey||e.target.closest('input,textarea')) return;
+  if(e.key==='+'||e.key==='='){ zoomStep(1); } else if(e.key==='-'){ zoomStep(-1); } else if(e.key==='0'){ setZoom(1); } else if(e.key==='h'||e.key==='H'){ $('#move').click(); } });
+paintCv();
 $('#move-act').onclick=()=>{$('#move').click(); $('#move').closest('.tiphost').classList.remove('show');};
 PR.addEventListener('pointerdown',e=>{ moved=false; if(!moving) return; mv={x:e.clientX,y:e.clientY,px:mpan.x,py:mpan.y,id:e.pointerId}; });
 PR.addEventListener('pointermove',e=>{ if(!mv) return; const dx=(e.clientX-mv.x)/SCALE, dy=(e.clientY-mv.y)/SCALE; if(Math.hypot(dx,dy)>6){moved=true;PR.setPointerCapture(mv.id);}
-  mpan={x:clamp(mv.px+dx,-340,430),y:clamp(mv.py+dy,-250,300)}; PR.style.transition='none'; PR.style.transform=`translate(${mpan.x}px,${mpan.y}px)`; });
-PR.addEventListener('pointerup',()=>{ mv=null; PR.style.transition=''; setTimeout(()=>moved=false,0); });
+  mpan={x:mv.px+dx,y:mv.py+dy}; clampPan(); applyView(false); });
+PR.addEventListener('pointerup',()=>{ mv=null; setTimeout(()=>moved=false,0); });
 // pickup status pill (WK01 determinate capsule idea: fills as pickup nears)
 let pickT;
 function startPickup(at){ clearInterval(pickT); app.classList.add('picking'); const st=$('.status'), t=$('#status-t'), T=at||new Date(Date.now()+4*6e4), total=Math.max(60,(T-Date.now())/1e3);
@@ -1559,7 +1615,7 @@ const ORDERS=[
   {name:'Spicy',photo:'bowl-shawarma',date:'Sep 15',preset:'fresh',items:[['Rice',2],['Chicken',2],['Tomato',2],['Onion',2],['Cucumber',2],['Hot sauce',2]]}
 ];
 const TIMES=['12:40 PM','6:15 PM','12:05 PM','1:20 PM','7:45 PM','12:30 PM','6:50 PM','12:55 PM'];
-ORDERS.forEach((o,i)=>{ o.kcal=kcalOf(o.items); o.price=priceOf(o.items); o.time=o.time||TIMES[i%TIMES.length]; });
+ORDERS.forEach((o,i)=>{ if(o.preset==='fresh'||o.preset==='spicy') o.fav=true; o.kcal=kcalOf(o.items); o.price=priceOf(o.items); o.time=o.time||TIMES[i%TIMES.length]; });
 const odate=o=>new Date(`${o.date} 2026`), total=o=>o.price*1.0925;
 function ago(d){ const t=new Date(); t.setHours(0,0,0,0); const x=new Date(d); x.setHours(0,0,0,0); const n=Math.round((t-x)/864e5);
   return n<=0?'Today':n===1?'Yesterday':n<7?`${n} days ago`:n<14?'Last week':n<60?`${Math.round(n/7)} weeks ago`:`${Math.round(n/30)} months ago`; }
@@ -1567,26 +1623,34 @@ function groupOfDate(d){ const t=new Date(); t.setHours(0,0,0,0); const mon=new 
   const x=new Date(d); x.setHours(0,0,0,0);
   if(+x===+t) return 'Today'; if(x>=mon) return 'This week'; if(x>=last) return 'Last week';
   const m=x.toLocaleDateString('en-US',{month:'long'}); return x.getMonth()===t.getMonth()?'Earlier in '+m:m; }
+/* WK07 · 02 Elegant · Order history toolbars: header (Search · Filter · Select) + selection toolbar */
+const OF={q:'',f:'all',select:false,sel:new Set()}, FLABEL={all:'All orders',fav:'Favorites',oct:'October',sep:'September'};
+let VIS=[];
+const HSEL=`<span class="hsel" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>`;
+function matchOrder(o){ if(OF.f==='fav'&&!o.fav) return false; if(OF.f==='oct'&&odate(o).getMonth()!==9) return false; if(OF.f==='sep'&&odate(o).getMonth()!==8) return false;
+  if(OF.q){ const q=OF.q.toLowerCase(); if(!(o.name.toLowerCase().includes(q)||o.items.some(x=>x[0].toLowerCase().includes(q)))) return false; } return true; }
 function renderGrid(){
-  const list=ORDERS.map((o,i)=>({o,i})).sort((a,b)=>odate(b.o)-odate(a.o)||a.i-b.i);
+  const list=ORDERS.map((o,i)=>({o,i})).filter(r=>matchOrder(r.o)).sort((a,b)=>odate(b.o)-odate(a.o)||a.i-b.i); VIS=list.map(r=>r.o);
+  const filtered=OF.q||OF.f!=='all';
+  if(!list.length){ $('#o-sub').textContent=`0 of ${ORDERS.length} orders`; $('#grid').innerHTML=`<p class="hist-empty">No orders match${OF.q?` “${OF.q}”`:''}${OF.f!=='all'?` in ${FLABEL[OF.f]}`:''}.</p>`; paintSel(); return; }
   const first=list[0], rest=list.slice(1), L=first.o, D=odate(L);
   const items=o=>o.items.slice(0,3).map(x=>x[0]).join(', ')+(o.items.length>3?` +${o.items.length-3}`:'');
-  $('#o-sub').textContent=`${ORDERS.length} orders since September`;
-  let h=`<article class="hist-hero" data-i="${first.i}" role="button" tabindex="0" aria-label="Last order, ${D.toDateString()}">
-    <div><p class="hh-label">Last order</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}<i aria-hidden="true">·</i><span>${L.name} Bowl</span></h2><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
+  $('#o-sub').textContent=filtered?`${list.length} of ${ORDERS.length} orders${OF.f!=='all'?' · '+FLABEL[OF.f]:''}`:`${ORDERS.length} orders since September`;
+  let h=`<article class="hist-hero${OF.sel.has(L)?' picked':''}" data-i="${first.i}" role="button" tabindex="0" aria-label="Last order, ${D.toDateString()}">${HSEL}
+    <div><p class="hh-label">${filtered?'Most recent':'Last order'}</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}<i aria-hidden="true">·</i><span>${L.name} Bowl</span></h2><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
       <div class="hh-btns"><button class="btn pri" type="button" data-re="${first.i}">Reorder</button></div></div>
     <img src="assets/${L.photo}.webp" alt="">
     <button class="omore hh-more" type="button" data-more="${first.i}" aria-haspopup="menu" aria-expanded="false" aria-label="More for ${L.name} Bowl">${mico('more')}</button></article>`;
   const groups=[]; rest.forEach(r=>{ const g=groupOfDate(odate(r.o)); let G=groups.find(x=>x.g===g); if(!G) groups.push(G={g,rows:[]}); G.rows.push(r); });
   groups.forEach(G=>{ h+=`<section class="hgroup"><h4>${G.g}<span>${G.rows.length} order${G.rows.length>1?'s':''}</span></h4>`+G.rows.map(({o,i})=>{ const d=odate(o);
-    return `<div class="hrow" role="button" tabindex="0" data-i="${i}" aria-label="${o.name} Bowl, ${d.toDateString()}">
+    return `<div class="hrow${OF.sel.has(o)?' picked':''}" role="button" tabindex="0" data-i="${i}" aria-label="${o.name} Bowl, ${d.toDateString()}">${HSEL}
       <span class="hr-date"><b>${d.getDate()}</b><small>${d.toLocaleDateString('en-US',{weekday:'short'})}</small></span>
       <img src="assets/${o.photo}.webp" alt="">
       <span class="hr-txt"><b>${o.name} Bowl</b><small>${items(o)} · ${o.kcal} cal</small></span>
       <span class="hr-end"><b>${money(total(o))}</b><small>Picked up ${o.time}</small></span>
       <button class="omore" type="button" data-more="${i}" aria-haspopup="menu" aria-expanded="false" aria-label="More for ${o.name} Bowl">${mico('more')}</button>
       <button class="obag" type="button" data-bag="${i}" aria-label="Reorder ${o.name} Bowl">${ICON.bag}</button></div>`; }).join('')+'</section>'; });
-  $('#grid').innerHTML=h;
+  $('#grid').innerHTML=h; paintSel();
 }
 renderGrid();
 $('#grid').addEventListener('click',e=>{
@@ -1595,7 +1659,7 @@ $('#grid').addEventListener('click',e=>{
   const ed=e.target.closest('[data-edit]'); if(ed){ e.stopPropagation(); buildBowlFromOrder(ORDERS[ed.dataset.edit]); go('builder'); return; }
   const c=e.target.closest('.hrow,.hist-hero'); if(c) openOrder(ORDERS[c.dataset.i]);
 });
-$('#grid').addEventListener('keydown',e=>{const c=e.target.closest('.hrow,.hist-hero'); if(c&&e.target===c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openOrder(ORDERS[c.dataset.i]);}});
+$('#grid').addEventListener('keydown',e=>{const c=e.target.closest('.hrow,.hist-hero'); if(c&&e.target===c&&(e.key==='Enter'||e.key===' ')){e.preventDefault(); OF.select?toggleSel(c):openOrder(ORDERS[c.dataset.i]);}});
 function reorderItems(o){ const keep=o.items.filter(([n])=>!SOLD.has(n)), gone=o.items.filter(([n])=>SOLD.has(n)).map(([n])=>n); return {keep,gone,price:priceOf(keep)}; }
 function quickAdd(btn,o){ const r=reorderItems(o); addToBag(o.name+' Bowl',r.price,{photo:o.photo,items:r.keep}); const was=btn.innerHTML; btn.classList.add('added'); btn.innerHTML=btn.classList.contains('obag')?ICON.check:'Added to bag'; toast(r.gone.length?`Added without ${r.gone.join(', ').toLowerCase()} (sold out today)`:`${o.name} Bowl added to your bag`);
   setTimeout(()=>{btn.classList.remove('added');btn.innerHTML=was;},1600); }
@@ -1868,6 +1932,37 @@ document.addEventListener('keydown',e=>{
   if(k==='b'){ e.preventDefault(); go('bag'); } else if(k==='o'){ e.preventDefault(); go('orders'); } else if(k===','){ e.preventDefault(); openProfile(); }
 });
 addEventListener('hashchange',()=>closeMenus());
+function paintSel(){ const n=[...OF.sel].filter(o=>ORDERS.includes(o)).length, all=VIS.length&&VIS.every(o=>OF.sel.has(o));
+  if(!$('#sel-n')) return; $('#sel-n').textContent=`${n} selected`; $('#sel-all .tbb-label').textContent=all?'Deselect all':'Select all';
+  ['#sel-re','#sel-share','#sel-rm'].forEach(k=>$(k).setAttribute('aria-disabled',!n)); $('#sel-re .tbb-label').textContent=n>1?`Reorder ${n}`:'Reorder'; }
+function toggleSel(r){ const o=ORDERS[r.dataset.i]; OF.sel.has(o)?OF.sel.delete(o):OF.sel.add(o); r.classList.toggle('picked',OF.sel.has(o)); r.setAttribute('aria-pressed',OF.sel.has(o)); paintSel(); }
+function setSelect(on){ OF.select=on; OF.sel.clear(); closeMenus(); const sc=$('#s-orders'); sc.classList.toggle('selecting',on);
+  const b=$('#o-select'); b.querySelector('.tbb-label').textContent=on?'Done':'Select'; b.classList.toggle('strong',on); b.setAttribute('aria-label',on?'Done selecting':'Select orders');
+  $('#selbar').setAttribute('aria-hidden',!on); renderGrid(); }
+$('#o-select').onclick=()=>setSelect(!OF.select);
+$('#sel-all').onclick=()=>{ const all=VIS.every(o=>OF.sel.has(o)); VIS.forEach(o=>all?OF.sel.delete(o):OF.sel.add(o)); renderGrid(); };
+$('#sel-re').onclick=()=>{ const L=[...OF.sel]; L.forEach(o=>{ const r=reorderItems(o); addToBag(o.name+' Bowl',r.price,{photo:o.photo,items:r.keep}); }); toast(`${L.length} bowl${L.length>1?'s':''} added to your bag`); setSelect(false); };
+$('#sel-share').onclick=()=>{ const n=OF.sel.size; toast(`Sharing ${n} order${n>1?'s':''}`); };
+$('#sel-rm').onclick=()=>{ const L=[...OF.sel], rows=L.map(o=>$(`#grid [data-i="${ORDERS.indexOf(o)}"]`)).filter(Boolean);
+  rows.forEach(r=>{ r.style.transition='opacity .3s ease, transform .35s cubic-bezier(.32,.72,0,1)'; r.style.opacity='0'; r.style.transform='translateX(16px)'; });
+  setTimeout(()=>{ L.forEach(o=>ORDERS.splice(ORDERS.indexOf(o),1)); toast(`${L.length} order${L.length>1?'s':''} removed from your history`); setSelect(false); },320); };
+// search: the icon button opens an inline field inside the toolbar
+function openSearch(){ const tb=$('#o-tools .tb'), q=$('#o-q'); tb.classList.add('searching'); q.tabIndex=0; setTimeout(()=>q.focus({preventScroll:true}),60); }
+function closeSearch(){ const tb=$('#o-tools .tb'), q=$('#o-q'); tb.classList.remove('searching'); q.tabIndex=-1; q.blur(); if(OF.q){ OF.q=''; q.value=''; renderGrid(); } }
+$('#o-q').tabIndex=-1;
+$('#o-search').onclick=openSearch;
+$('#o-q').addEventListener('input',e=>{ OF.q=e.target.value.trim(); renderGrid(); });
+$('#o-q').addEventListener('keydown',e=>{ if(e.key==='Escape'){ e.stopPropagation(); closeSearch(); $('#o-search').focus(); } });
+$('#o-q').addEventListener('blur',()=>{ if(!$('#o-q').value) setTimeout(()=>{ if(document.activeElement!==$('#o-q')) closeSearch(); },120); });
+// filter opens a WK06 Elegant menu
+function setFilter(f){ OF.f=f; const b=$('#o-filter'); b.querySelector('.tbb-label').textContent=FLABEL[f]; b.classList.toggle('on',f!=='all'); renderGrid(); }
+$('#o-filter').onclick=e=>{ const b=$('#o-filter'); if(menuOpen()&&MSTACK[0].anchor===b){ closeMenus(); return; }
+  openMenu({tone:'elegant',anchor:b,label:'Filter orders',keyboard:e.detail===0,items:[{head:'Show'},
+    ...['all','fav'].map(f=>({label:FLABEL[f],check:OF.f===f,act:()=>setFilter(f)})),{sep:1},
+    ...['oct','sep'].map(f=>({label:FLABEL[f],check:OF.f===f,act:()=>setFilter(f)}))]}); };
+addEventListener('keydown',e=>{ if(app.dataset.screen!=='orders') return;
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='f'){ e.preventDefault(); openSearch(); }
+  else if(e.key==='Escape'&&OF.select&&!menuOpen()&&!e.target.closest('input')) setSelect(false); });
 
 /* 01 · Serene · account menu */
 const STORES=[['Saratoga + Campbell','378 Saratoga Ave'],['Santana Row','377 Santana Row'],['Los Gatos','15 N Santa Cruz Ave']];
@@ -1920,11 +2015,12 @@ function openOrderMenu(o,{anchor,at,keyboard}={}){ if(anchor&&menuOpen()&&MSTACK
   m.keys={r:()=>reorder(o),e:()=>{ buildBowlFromOrder(o); go('builder'); }}; return m; }
 (()=>{ const G=$('#grid'); let hold=null, held=false;
   G.addEventListener('click',e=>{ const b=e.target.closest('[data-more]'); if(b){ e.stopPropagation(); e.preventDefault(); openOrderMenu(ORDERS[b.dataset.more],{anchor:b,keyboard:e.detail===0}); } },true);
+  G.addEventListener('click',e=>{ if(!OF.select) return; const r=rowOf(e.target); if(!r) return; e.stopPropagation(); e.preventDefault(); toggleSel(r); },true);
   G.addEventListener('click',e=>{ if(held){ e.stopPropagation(); e.preventDefault(); held=false; } },true);
   const rowOf=t=>t.closest('.hrow,.hist-hero');
   const ptIn=e=>{ const a=app.getBoundingClientRect(), k=window.SCALE||1; return {x:(e.clientX-a.left)/k, y:(e.clientY-a.top)/k}; };
-  G.addEventListener('contextmenu',e=>{ const r=rowOf(e.target); if(!r) return; e.preventDefault(); openOrderMenu(ORDERS[r.dataset.i],{at:ptIn(e)}); });
-  G.addEventListener('pointerdown',e=>{ const r=rowOf(e.target); if(!r||e.button!==0||e.target.closest('button.obag,[data-more],[data-re]')) return; held=false;
+  G.addEventListener('contextmenu',e=>{ const r=rowOf(e.target); if(!r||OF.select) return; e.preventDefault(); openOrderMenu(ORDERS[r.dataset.i],{at:ptIn(e)}); });
+  G.addEventListener('pointerdown',e=>{ const r=rowOf(e.target); if(!r||OF.select||e.button!==0||e.target.closest('button.obag,[data-more],[data-re]')) return; held=false;
     const p=ptIn(e), x0=e.clientX, y0=e.clientY; clearTimeout(hold);
     hold=setTimeout(()=>{ held=true; r.classList.add('held'); setTimeout(()=>r.classList.remove('held'),300); openOrderMenu(ORDERS[r.dataset.i],{at:p}); },520);
     const stop=ev=>{ if(ev.type==='pointermove'&&Math.hypot(ev.clientX-x0,ev.clientY-y0)<8) return; clearTimeout(hold); off(); };
@@ -1952,6 +2048,10 @@ async function builderDemo(){ // slides one ingredient bar through its portions,
 }
 function route(){
   const [scr,act]=decodeURIComponent(location.hash.slice(1)).split('/');
+  if(scr==='toolbar'){ closeSheet();
+    if(act==='select'){ go('orders',{push:false}); setTimeout(()=>{ setSelect(true); [...$$('#grid .hrow')].slice(0,2).forEach(toggleSel); },500); }
+    else { go('chat',{push:false}); setTimeout(()=>{ setZoom(.75); },700); }
+    return true; }
   if(scr==='menu'){ go('orders',{push:false}); closeSheet();
     setTimeout(()=>{ if(act==='order'){ const b=$$('#grid .hrow [data-more]')[0]; const m=openOrderMenu(ORDERS[b.dataset.more],{anchor:b}); setTimeout(()=>{ const r=$$('.mi',m.el).find(x=>x.textContent.trim()==='Share'); r&&openSub(m,r); },700); }
       else { const m=openAccount(); setTimeout(()=>{ const r=$$('.mi',m.el).find(x=>x.textContent.trim()==='Dietary'); r&&openSub(m,r); },700); } },500);
