@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Sweetie · iPhone prototype (393 × 852, iPhone 16)
+   Loaded only by phone.html, after the tablet styles it overrides.
+   Same tokens, same components; phone type scale, 20 px margins,
+   status bar + home indicator safe areas, single-column screens.
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  --t-display:34px; --tr-display:-.03em;   /* iOS large title */
+  --t-title:28px;   --tr-title:-.03em;
+  --t-heading:20px; --tr-heading:-.02em;
+  --t-ingredient:18px; --tr-ingredient:-.02em;
+  --t-body-l:17px;  --tr-body-l:-.01em;
+  --m:20px;
+  --sb:59px;  /* status bar + Dynamic Island */
+  --navb:103px; /* status bar + 44 top bar */
+  --hb:34px;  /* home indicator */
+}
+
+/* ── device ── */
+#device{width:393px;height:852px}
+body.framed #device{--r:56px;--frame:0 0 0 11px #0B0D0B,0 0 0 12.5px #3A403B,0 40px 80px rgba(0,0,0,.5)}
+body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18px rgba(0,30,20,.12)}
+.statusbar{position:absolute;left:0;right:0;top:0;height:var(--sb);z-index:90;pointer-events:none;color:#000;font-family:-apple-system,"SF Pro Text",Figtree,system-ui,sans-serif}
+.statusbar .time{position:absolute;left:0;width:150px;top:19px;text-align:center;font-size:17px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.statusbar .island{position:absolute;left:50%;top:11px;width:124px;height:36px;margin-left:-62px;border-radius:20px;background:#000}
+.statusbar .icons{position:absolute;right:0;width:150px;top:21px;display:flex;justify-content:center;align-items:center;gap:6px}
+.statusbar .icons svg{display:block}
+.homebar{position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#000;opacity:.85;z-index:90;pointer-events:none}
+.toast{bottom:calc(var(--hb) + 84px);max-width:340px;white-space:normal;text-align:center}
+
+/* ── top bar ── */
+.nav{top:var(--sb);height:44px;padding:0 var(--m)}
+.nav-l,.nav-r{gap:8px}
+.nav-r{gap:2px}
+.logo img{width:76px}
+.circ{width:40px;height:40px}
+.pill{height:34px;padding:0 12px;gap:7px;font-size:var(--t-cap)}
+.loc-btn{width:auto;max-width:176px}
+.loc-btn span{overflow:hidden;text-overflow:ellipsis}
+.loc-btn svg{width:13px;height:17px}
+#app.picking .nav #loc-host{display:none}
+.status{font-size:var(--t-cap)}
+.icon{width:38px;height:38px}
+.icon svg{width:23px;height:25px}
+.tip.down.right{right:-4px}
+.rich{width:236px}
+.scrim{inset:0;z-index:24}
+
+/* ═════════════ 01 · START ═════════════ */
+.glass{left:20px;top:214px;width:353px;height:331px}
+.word-side{left:0!important;right:0;text-align:center;font-size:var(--t-display);line-height:40px}
+.word-side.l{top:150px}.word-side.r{top:578px}
+.picker{left:44px;top:272px;width:305px}
+.entry{height:48px;gap:12px}
+.entry .bar{width:3px;height:40px}
+.entry input{height:48px;font-size:var(--t-display);letter-spacing:var(--tr-display)}
+.sugs{height:176px;margin-top:10px}
+.sugs li{height:56px}
+.sugs li button{height:56px;font-size:26px}
+#s-start .next{left:86px;right:var(--m);width:auto;bottom:calc(var(--hb) + 10px)}
+#s-start .sg-host,#s-discover>.tiphost:not(.exp-host){left:var(--m)!important;bottom:calc(var(--hb) + 12px)!important}
+#s-start .pool{top:380px}
+.pool .lbl{top:214px}
+
+/* ═════════════ 02 · DISCOVER ═════════════ */
+.khex{width:150px;height:150px;margin:-75px 0 0 -75px}
+.khex svg{left:5px;top:11px;width:140px;height:128px}
+.khex span{font-size:var(--t-body);letter-spacing:var(--tr-body)}
+.disc-title{left:56px;top:404px;width:281px;font-size:var(--t-title);line-height:32px}
+#s-discover .exp-host{right:var(--m);bottom:calc(var(--hb) + 10px)}
+
+/* ═════════════ 03 · BOWL BUILDER — one scrolling column ═════════════ */
+#s-builder.screen{overflow-x:hidden;overflow-y:auto;scrollbar-width:none}
+#s-builder.screen::-webkit-scrollbar{display:none}
+#s-builder .left{position:relative;left:auto;top:auto;bottom:auto;width:auto;margin-top:var(--navb);padding:var(--s-5) var(--m) var(--s-4);border-right:0}
+.b-title,.b-meta,.b-desc,#b-cmp{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:auto!important}
+.b-title{font-size:var(--t-title)}
+.b-meta{margin-top:6px}
+.photo{position:relative!important;left:auto!important;top:auto!important;width:300px!important;height:280px!important;margin:var(--s-4) auto var(--s-2)}
+.b-desc{margin-top:var(--s-2);line-height:20px}
+#b-cmp{margin-top:var(--s-5)}
+.cmp-hint{display:none}
+#s-builder .right{position:relative;left:auto;right:auto;top:auto;bottom:auto;overflow:visible;padding:var(--s-4) var(--m) var(--s-5)}
+#s-builder .b-foot{position:sticky;left:auto;right:auto;bottom:0;padding:var(--s-4) var(--m) calc(var(--hb) + 8px)}
+.irow{height:64px}
+.sbar .name{left:14px}
+.tag>button{padding:0 12px}
+
+/* ═════════════ 04 · CHAT — canvas + bottom-sheet conversation ═════════════ */
+.chat-head{top:382px;padding:0 var(--m)}
+.chat-head small{font-size:var(--t-body-s)}
+.chat-head h2{font-size:var(--t-display)}
+#s-chat.talking .chat-head{transform:translateY(-30px)}
+#s-chat .exp-host{left:196px;bottom:calc(var(--hb) + 10px);transition:left 1s var(--ease),opacity .5s var(--ease),transform .6s var(--ease)}
+#s-chat.talking .exp-host{left:196px;opacity:0;transform:translate(-50%,24px);pointer-events:none}
+#s-chat .cv-tip .tip{max-width:230px}
+.prod .ask{font-size:12px;padding:6px 12px}
+.panel{left:0;right:0;top:392px;bottom:0;border-left:0;border-radius:30px 30px 0 0;box-shadow:0 0 0 .5px var(--line),0 -14px 34px rgba(0,40,30,.07);transform:translateY(103%);padding:8px var(--m) calc(var(--hb) + 4px)}
+.panel::before{content:"";flex:none;align-self:center;width:36px;height:5px;border-radius:3px;background:var(--n-300);margin-bottom:10px}
+#s-chat.talking .panel{transform:none}
+.msgs{margin-top:var(--s-3);gap:16px}
+.m.user{max-width:290px;font-size:var(--t-body-s)}
+.m.ing{max-width:330px}
+.m.ing small{margin-bottom:8px}
+.m.ing p{font-size:var(--t-body-s);line-height:21px}
+.p-foot{margin-top:var(--s-3)}
+
+/* ═════════════ 05 · ORDER HISTORY ═════════════ */
+#s-orders .scroll{top:var(--navb);padding:var(--s-5) var(--m) calc(var(--hb) + var(--s-5))}
+.o-head{flex-direction:column;align-items:stretch;gap:var(--s-4)}
+.o-tools{align-self:flex-end;padding:0}
+.o-tools .searching .tb-field{width:168px}
+.o-tools .tb-field input{font-size:15px}
+.grid{margin-top:var(--s-5)}
+.hist-hero{grid-template-columns:1fr;padding:var(--s-5) var(--m) var(--m);gap:var(--s-2);border-radius:var(--r-lg)}
+.hist-hero img{order:-1;width:220px;height:200px;justify-self:center}
+.hh-date{font-size:24px;line-height:1.12}
+.hh-btns .btn{flex:1}
+.hh-more{top:var(--s-3);right:var(--s-3)}
+.hgroup{margin-top:28px}
+.hrow{grid-template-columns:40px 48px minmax(0,1fr) var(--h-s);grid-template-rows:auto auto;column-gap:var(--s-3);row-gap:2px;padding:var(--s-3) 0}
+.hr-date{grid-row:1/3}
+.hrow img{grid-row:1/3;width:48px;height:45px}
+.hr-date b{font-size:var(--t-heading)}
+.hr-txt{grid-column:3;grid-row:1}
+.hr-txt small{font-size:12px}
+.hr-end{grid-column:3;grid-row:2;display:flex;gap:6px;align-items:baseline;text-align:left}
+.hr-end b{font-size:13px}
+.hr-end small{margin:0;font-size:12px}
+.hr-end small::before{content:"· ";color:var(--text-4)}
+.omore{grid-column:4;grid-row:1/3}
+.hrow .obag{display:none}
+#s-orders.selecting .hrow{padding-left:36px}
+.hsel{left:2px}
+.selbar{left:12px;right:12px;bottom:calc(var(--hb) + 6px)}
+.selbar .tb-text{display:none}
+.selbar .tb[data-tone=elegant] .tbb{padding:0 12px;gap:6px;font-size:15px}
+.selbar .tb[data-tone=elegant] .tbb.ic{width:44px;padding:0}
+.selbar .tb[data-tone=elegant] .tbb-ic svg{width:17px;height:17px}
+
+/* ── sheets (order details, profile) become iOS bottom sheets ── */
+.sheet{top:calc(var(--sb) + 10px);left:0;right:0;bottom:0;width:auto;z-index:25;border-left:0;border-radius:30px 30px 0 0;box-shadow:0 0 0 .5px var(--line),0 -14px 40px rgba(0,40,30,.14);transform:translateY(103%);overflow:hidden}
+.sheet::before{content:"";position:absolute;left:50%;top:7px;width:36px;height:5px;margin-left:-18px;border-radius:3px;background:var(--n-300);z-index:3}
+.sheet-in,.sheet-in.order{padding:var(--s-5) var(--m)}
+.order .close-at{right:14px;top:14px}
+.order .sh-photo{width:250px;height:225px}
+.sh-date{font-size:var(--t-body-s);padding:7px 14px 7px 12px}
+.sh-date svg{width:18px;height:18px}
+.nut b{font-size:var(--t-heading)}
+.sh-foot{padding:var(--s-3) var(--m) calc(var(--hb) + 8px)}
+.avatar{margin:4px 0 18px}
+
+/* ═════════════ 06 · BAG — one column, sticky pay button ═════════════ */
+#s-bag.screen{overflow-x:hidden;overflow-y:auto;scrollbar-width:none}
+#s-bag.screen::-webkit-scrollbar{display:none}
+#s-bag .left{position:relative;left:auto;top:auto;bottom:auto;width:auto;margin-top:var(--navb);padding:var(--s-5) var(--m) var(--s-5);overflow:visible}
+.bg-list{margin-top:var(--s-5);gap:12px}
+.bitem{padding:12px 12px 6px;border-radius:var(--r-md)}
+.bi-top{gap:12px;padding:0 2px 6px}
+.bi-top img{width:72px;height:68px}
+.bi-txt h3{font-size:18px}
+.bi-txt small{font-size:var(--t-cap)}
+.bi-price{font-size:var(--t-body)}
+.bi-right{gap:8px}
+.bg-empty .row2{flex-direction:column;align-items:stretch}
+#s-bag .right{position:relative;left:auto;right:auto;top:auto;bottom:auto;border-left:0;border-top:.5px solid var(--line);display:block}
+#s-bag .co{overflow:visible;padding:var(--s-5) var(--m) var(--s-2)}
+#s-bag .co-foot{border-top:0;padding:0 var(--m) var(--s-3)}
+.ph-pay{position:sticky;bottom:0;z-index:6;padding:var(--s-3) var(--m) calc(var(--hb) + 6px);background:linear-gradient(rgba(235,229,220,0),var(--cream-200) 28%)}
+.ph-pay .btn{width:100%}
+.ph-pay .btn[disabled]{opacity:.35;pointer-events:none}
+.ph-pay small{display:block;margin-top:8px;text-align:center;font-size:var(--t-cap);color:var(--n-600)}
+#s-bag.empty .right,#s-bag.empty .ph-pay{display:none}
+.promo .btn{padding:0 var(--s-4)}
+
+/* ═════════════ Order placed ═════════════ */
+#s-done.screen{overflow-x:hidden;overflow-y:auto;scrollbar-width:none}
+#s-done.screen::-webkit-scrollbar{display:none}
+#s-done .left{position:relative;left:auto;top:auto;bottom:auto;width:auto;margin-top:var(--navb);padding:var(--s-6) var(--m) var(--s-5)}
+.dn-mark{width:72px;height:63px}
+.dn-label{margin-top:22px}
+.dn-when{white-space:normal;font-size:30px}
+.dn-steps{margin-top:26px}
+.dn-steps li{font-size:var(--t-cap)}
+.dn-btns{flex-direction:column;margin-top:30px}
+.dn-btns .btn{flex:none;width:100%}
+#s-done .right{position:relative;left:auto;right:auto;top:auto;bottom:auto;border-left:0;border-top:.5px solid var(--line);padding-bottom:var(--hb)}
+#s-done .co{overflow:visible;padding:var(--s-5) var(--m)}
+
+/* ── first-pass fixes ── */
+.entry input{font-size:28px;letter-spacing:-.025em}
+.bitem>.li .lab{flex:none;margin-right:var(--s-3)}
+.bitem>.li .tr{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.bi-txt small{font-size:12px;line-height:16px}
+/* status bar keeps a solid backdrop where content scrolls under it */
+#app:is([data-screen=builder],[data-screen=bag],[data-screen=done],[data-screen=orders],[data-screen=chat]) ~ .statusbar,
+#app:is([data-screen=builder],[data-screen=bag],[data-screen=done],[data-screen=orders],[data-screen=chat]) .statusbar{background:var(--cream-100)}
+.hr-end{min-width:0;overflow:hidden;white-space:nowrap}
+.hr-end small{overflow:hidden;text-overflow:ellipsis}
+.entry .bar{display:none}
+.entry input{text-align:center}
