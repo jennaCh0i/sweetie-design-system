@@ -294,8 +294,31 @@ html:has(body.device){background:var(--cream-100)}
 #s-builder .bsheet .right{position:static;padding:var(--s-5) 0 0;overflow:visible}
 #s-builder .b-foot{position:absolute;left:0;right:0;bottom:0;z-index:6}
 /* while the keyboard is up the sheet stays open and sits on the keyboard */
-#app.kb-on .bsheet{transform:translateY(0);bottom:var(--kbh,336px)}
 #app.kb-on #s-builder .right{padding-bottom:0}
 /* loader: keep its own centring offset (the vshift rule had replaced it) and sit in the middle of the screen */
 #s-start .pool{top:calc((var(--navb) + 100% - var(--hb)) / 2);margin-top:calc(-98px + var(--vshift,0px) * 0)}
 #s-discover .pool,.veil .pool{top:calc((var(--navb) + 100% - var(--hb)) / 2);margin-top:-98px}
+
+/* "Adjust with words" tab (right edge) + slide-in composer */
+.adj-tab{position:absolute;right:0;bottom:calc(var(--hb) + 96px);z-index:7;height:48px;display:flex;align-items:center;gap:8px;padding:0 14px 0 13px;
+  border-radius:24px 0 0 24px;background:var(--green-100);color:var(--green-950);box-shadow:0 0 0 .5px rgba(0,71,61,.16),0 6px 18px -6px rgba(0,71,61,.28);
+  max-width:48px;overflow:hidden;white-space:nowrap;font-size:var(--t-body-s);transition:max-width .5s cubic-bezier(.32,.72,0,1),background .3s,opacity .3s,transform .4s cubic-bezier(.32,.72,0,1)}
+.adj-tab svg{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round}
+.adj-tab span{opacity:0;transition:opacity .3s}
+.adj-tab:hover,.adj-tab.peek{max-width:220px;background:#D3DEC0}
+.adj-tab:hover span,.adj-tab.peek span{opacity:1}
+.adj-tab:active{background:var(--green-200)}
+#s-builder.adj-open .adj-tab{transform:translateX(100%);opacity:0;pointer-events:none}
+.adj-drawer{position:absolute;left:var(--m);right:var(--m);bottom:calc(var(--hb) + 88px);z-index:8;transform:translateX(calc(100% + 40px));opacity:0;pointer-events:none;
+  transition:transform .5s cubic-bezier(.32,.72,0,1),opacity .3s,bottom .38s cubic-bezier(.32,.72,0,1)}
+#s-builder.adj-open .adj-drawer{transform:none;opacity:1;pointer-events:auto}
+.adj-drawer #b-cmp{margin:0;box-shadow:var(--hair),0 14px 34px -12px rgba(0,40,30,.28)}
+.adj-x{margin-left:8px;width:24px;height:24px;flex:none;border-radius:50%;display:grid;place-items:center;color:var(--n-600)}
+.adj-x:hover{background:rgba(255,255,255,.6);color:var(--green-950)}
+.adj-x svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+.adj-drawer .reply{right:40px}
+#app.kb-on .adj-drawer{bottom:calc(var(--kbh,336px) + 12px)}
+#app.kb-on .adj-tab{opacity:0;pointer-events:none}
+.bsheet .b-desc{margin-top:0}
+.adj-drawer #b-cmp{background:linear-gradient(135deg,#D6E2C2,#E8EBDD 55%,#F1F0E6)}
+.adj-x{margin-left:auto;position:relative;z-index:2}

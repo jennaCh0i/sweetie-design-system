@@ -68,7 +68,7 @@ ENTER.start=()=>{};
   const sh=document.createElement('section'); sh.className='bsheet'; sh.setAttribute('aria-label','Ingredients');
   sh.innerHTML='<div class="bs-grab" role="button" tabindex="0" aria-label="Show or hide ingredients"><i></i></div><div class="bs-scroll"></div>';
   const sc=sh.querySelector('.bs-scroll'), grab=sh.querySelector('.bs-grab');
-  sc.append(document.getElementById('b-cmp'),document.getElementById('b-desc'),R);
+  sc.append(document.getElementById('b-desc'),R);
   scr.insertBefore(sh,scr.querySelector('.b-foot'));
   const rootPx=n=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue(n))||0;
   let up=false, low=400;
@@ -96,9 +96,38 @@ ENTER.start=()=>{};
   sh.addEventListener('wheel',e=>{ if(!up&&e.deltaY>0){ e.preventDefault(); set(true); } else if(up&&e.deltaY<0&&sc.scrollTop<=0){ set(false); } },{passive:false});
   // tapping a tag on the photo opens the sheet at that ingredient
   document.getElementById('photo').addEventListener('click',e=>{ if(e.target.closest('.tag')&&!up) set(true); },true);
-  // typing opens it; every visit starts at rest
-  document.getElementById('adjust-in').addEventListener('focus',()=>set(true));
+  // every visit starts at rest
   const f=ENTER.builder; ENTER.builder=from=>{ f&&f(from); setTimeout(()=>set(false,false),80); };
   addEventListener('resize',()=>requestAnimationFrame(()=>set(up,false)));
   requestAnimationFrame(()=>set(false,false));
+})();
+
+/* ═════════════ Bowl builder: "Adjust with words" lives in a tab on the right edge ═════════════
+   Tucked in until you need it; tap to slide the composer in (keyboard opens), it tucks away after you send. */
+(function(){
+  const scr=document.getElementById('s-builder'), cmp=document.getElementById('b-cmp'), inp=document.getElementById('adjust-in');
+  const SPARK='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5l1.6 4.6 4.6 1.6-4.6 1.6L10 15l-1.6-4.7L3.8 8.7l4.6-1.6z"/><path d="M15.5 13.5l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z"/></svg>';
+  const tab=document.createElement('button'); tab.type='button'; tab.className='adj-tab'; tab.setAttribute('aria-label','Adjust with words'); tab.setAttribute('aria-expanded','false');
+  tab.innerHTML=SPARK+'<span>Adjust with words</span>';
+  const dr=document.createElement('div'); dr.className='adj-drawer'; dr.setAttribute('aria-label','Adjust with words'); dr.append(cmp);
+  const x=document.createElement('button'); x.type='button'; x.className='adj-x'; x.setAttribute('aria-label','Close'); x.innerHTML='<svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1 1 11"/></svg>';
+  cmp.querySelector('.cmp-top').appendChild(x);
+  scr.append(tab,dr);
+  let open=false, t=0;
+  function set(v){ open=v; clearTimeout(t); scr.classList.toggle('adj-open',v); tab.setAttribute('aria-expanded',v);
+    if(v) setTimeout(()=>inp.focus({preventScroll:true}),260); else inp.blur(); }
+  tab.onclick=()=>set(!open); x.onclick=()=>set(false);
+  // after a send: keep the reply up for a moment, then tuck the composer back into the tab
+  document.getElementById('adjust').addEventListener('submit',()=>{ clearTimeout(t); t=setTimeout(()=>{ if(!inp.value) set(false); },2600); });
+  inp.addEventListener('input',()=>clearTimeout(t));
+  // tap anywhere else closes it
+  scr.addEventListener('pointerdown',e=>{ if(open&&!e.target.closest('.adj-drawer,.adj-tab')) set(false); });
+  // swipe right on the composer to close
+  let sx=null; dr.addEventListener('pointerdown',e=>{ sx=e.clientX; }); dr.addEventListener('pointerup',e=>{ if(sx!=null&&e.clientX-sx>60) set(false); sx=null; });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&open) set(false); });
+  // first visit: the tab slides out once to say what it is
+  let shown=false; const f=ENTER.builder;
+  const peek=()=>{ if(shown) return; shown=true; setTimeout(()=>{ tab.classList.add('peek'); setTimeout(()=>tab.classList.remove('peek'),2200); },900); };
+  ENTER.builder=from=>{ f&&f(from); set(false); peek(); };
+  if(document.getElementById('app').dataset.screen==='builder') peek();
 })();
