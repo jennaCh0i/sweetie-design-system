@@ -322,3 +322,10 @@ html:has(body.device){background:var(--cream-100)}
 .bsheet .b-desc{margin-top:0}
 .adj-drawer #b-cmp{background:linear-gradient(135deg,#D6E2C2,#E8EBDD 55%,#F1F0E6)}
 .adj-x{margin-left:auto;position:relative;z-index:2}
+/* tab + composer at the top, right under the header: visible the moment the keyboard opens */
+.adj-tab{top:calc(var(--navb) + 14px);bottom:auto}
+.adj-drawer{top:calc(var(--navb) + 10px);bottom:auto!important;transform:translateX(calc(100% + 40px)) translateY(0)}
+#s-builder.adj-open .adj-drawer{transform:none}
+#app.kb-on .adj-tab{opacity:1;pointer-events:auto}
+#s-builder.adj-open .b-title,#s-builder.adj-open .b-meta{opacity:.25;transition:opacity .3s}
+#s-builder .b-title{padding-right:56px}
