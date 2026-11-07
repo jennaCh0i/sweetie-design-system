@@ -21,6 +21,7 @@ def rep(old, new, count=1):
 # ── head ──
 rep('<title>Sweetie — Tablet Prototype</title>', '<title>Sweetie — iPhone Prototype</title>')
 rep('<meta name="description" content="Sweetie (sweetgreen LLM) tablet prototype:', '<meta name="description" content="Sweetie (sweetgreen LLM) iPhone prototype:')
+rep('<meta name="apple-mobile-web-app-capable" content="yes">', '<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-status-bar-style" content="default">\n<meta name="apple-mobile-web-app-title" content="Sweetie">\n<meta name="theme-color" content="#F5F3E8">\n<link rel="apple-touch-icon" href="assets/sweetie-mark-ink.png">')
 rep('</style>\n</head>', '</style>\n<link rel="stylesheet" href="phone.css"><!-- iPhone layout on top of the shared styles -->\n</head>')
 
 # ── status bar, Dynamic Island, home indicator ──
@@ -40,7 +41,7 @@ rep('<button data-f="ipad">iPad</button>', '<button data-f="ipad">iPhone</button
 rep('title="Fill the screen (for iPad)"', 'title="Fill the screen (for iPhone)"')
 
 # ── shared script: phone geometry ──
-rep("const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));", "const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));\nconst VW=393, VH=852, HB=34; // iPhone 16 screen · home indicator")
+rep("const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));", "const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));\nlet VW=393, VH=852, HB=34; // iPhone 16 screen · home indicator (phone.js updates VH/HB to the real phone)")
 # Start: glass hexagon + carousel clip, sized for the phone (see phone.css: glass 20,214 353×331 · picker 44,272)
 rep("const g=$('.glass'), d=hexD(633,593,90);", "const g=$('.glass'), d=hexD(353,331,52);")
 rep("{ const inner=hexD(633-28,593-28,78), dx=288+14-368, dy=153+14-(412+72+20); let k=0;",
@@ -123,6 +124,9 @@ rep('<div class="tip down plain" role="tooltip" id="loc-tip">Open until 9 pm · 
 
 # Order history: the hero date fits one line on a phone ("Wed, Oct 21 · Fresh Bowl")
 rep("<h2 class=\"hh-date\">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}", "<h2 class=\"hh-date\">${D.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}")
+
+# no recording background on the phone: plain backdrop, no Background / Hide controls
+rep('<span class="sep"></span><button id="stage-btn">Background</button><button id="rec" title="Hide the controls (press H to bring them back)">Hide for recording</button>', '<span class="sep"></span><button id="stage-btn" hidden>Background</button><button id="rec" hidden>Hide for recording</button>')
 
 # phone-only behaviour (sticky pay button, status bar clock, selection count) after the shared script
 rep('</script>\n</body>', '</script>\n<script src="phone.js"></script>\n</body>')

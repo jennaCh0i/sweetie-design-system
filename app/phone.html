@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Sweetie">
+<meta name="theme-color" content="#F5F3E8">
+<link rel="apple-touch-icon" href="assets/sweetie-mark-ink.png">
 <title>Sweetie — iPhone Prototype</title>
 <meta name="description" content="Sweetie (sweetgreen LLM) iPhone prototype: Start with one word, Discover, Bowl builder, Chat with ingredients and Order history, using the WK01–WK05 interactions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -856,7 +860,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 <nav class="flowbar" aria-label="Flows">
   <a class="home" href="../index.html" aria-label="Back to the Sweetie main page">← Sweetie</a><a class="home" href="index.html" aria-label="Open the iPad prototype">iPad</a><span class="sep"></span>
   <button data-flow="start">01 Start</button><button data-flow="discover">02 Discover</button><button data-flow="builder">03 Bowl builder</button><button data-flow="chat">04 Chat</button><button data-flow="orders">05 Order history</button><button data-flow="bag">06 Bag</button>
-  <span class="sep"></span><button id="stage-btn">Background</button><button id="rec" title="Hide the controls (press H to bring them back)">Hide for recording</button><button id="full" title="Fill the screen (for iPhone)">Full screen</button>
+  <span class="sep"></span><button id="stage-btn" hidden>Background</button><button id="rec" hidden>Hide for recording</button><button id="full" title="Fill the screen (for iPhone)">Full screen</button>
 </nav>
 <p class="notes" id="notes"></p>
 <div id="stage-bg" aria-hidden="true"></div>
@@ -898,7 +902,7 @@ $('#selbar').innerHTML=toolbar('elegant',[
   {group:[{text:'0 selected',id:'sel-n'},{id:'sel-all',label:'Select all'}]},
   {group:[{id:'sel-re',icon:'bag',label:'Reorder',disabled:true},{id:'sel-share',icon:'share',label:'Share',disabled:true},{id:'sel-rm',label:'Remove',danger:1,disabled:true}]}],{align:'between',bar:true,label:'Selected orders'});
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
-const VW=393, VH=852, HB=34; // iPhone 16 screen · home indicator
+let VW=393, VH=852, HB=34; // iPhone 16 screen · home indicator (phone.js updates VH/HB to the real phone)
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const app=$('#app'), device=$('#device');
 const WARN='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.8 18 16.8H2Z"/><path d="M10 8v4M10 14.4v.1"/></svg>';
