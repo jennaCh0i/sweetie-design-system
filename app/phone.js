@@ -35,7 +35,7 @@
     const root=document.documentElement;
     if(!isPhone){ VH=852; HB=34; root.style.removeProperty('--vshift'); return; }
     body.classList.add('device'); body.classList.remove('framed','full','forced');
-    const W=innerWidth, H=innerHeight, k=W/393, cs=getComputedStyle(probe), top=px(cs.paddingTop)/k, bot=px(cs.paddingBottom)/k, h=H/k;
+    const W=innerWidth, H=innerHeight, k=W/393, cs=getComputedStyle(probe), top=px(cs.paddingTop)/k, bot=Math.max(px(cs.paddingBottom)/k,24), h=H/k; // keep bottom controls ≥ 24 + their own gap off the edge
     Object.assign(dev.style,{left:'0',top:'0',width:'393px',height:h+'px',transform:`scale(${k})`,transformOrigin:'0 0'});
     window.SCALE=k; VH=h; HB=bot;
     root.style.setProperty('--sb',top+'px'); root.style.setProperty('--navb',(top+44)+'px'); root.style.setProperty('--hb',bot+'px');

@@ -268,3 +268,7 @@ body:not(.device){background:#E4E9DA!important}
 body:not(.device) #stage-bg{display:none}
 body:not(.device) .notes{color:#3A403B;text-shadow:none}
 body:not(.device) .notes b{color:#00473D}
+/* on a real phone the bottom controls sit a little higher off the edge */
+body.device #s-start .next{bottom:calc(var(--hb) + 12px)}
+body.device #s-start .sg-host,body.device #s-discover>.tiphost:not(.exp-host){bottom:calc(var(--hb) + 14px)!important}
+html:has(body.device){background:var(--cream-100)}
