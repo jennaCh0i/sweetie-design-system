@@ -296,3 +296,6 @@ html:has(body.device){background:var(--cream-100)}
 /* while the keyboard is up the sheet stays open and sits on the keyboard */
 #app.kb-on .bsheet{transform:translateY(0);bottom:var(--kbh,336px)}
 #app.kb-on #s-builder .right{padding-bottom:0}
+/* loader: keep its own centring offset (the vshift rule had replaced it) and sit in the middle of the screen */
+#s-start .pool{top:calc((var(--navb) + 100% - var(--hb)) / 2);margin-top:calc(-98px + var(--vshift,0px) * 0)}
+#s-discover .pool,.veil .pool{top:calc((var(--navb) + 100% - var(--hb)) / 2);margin-top:-98px}
