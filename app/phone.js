@@ -61,3 +61,44 @@
 })();
 // the Start field waits for a tap on a phone (no keyboard over the first screen)
 ENTER.start=()=>{};
+
+/* ═════════════ Bowl builder: the slider sheet ═════════════ */
+(function(){
+  const scr=document.getElementById('s-builder'), left=scr.querySelector('.left'), R=document.getElementById('builder-r');
+  const sh=document.createElement('section'); sh.className='bsheet'; sh.setAttribute('aria-label','Ingredients');
+  sh.innerHTML='<div class="bs-grab" role="button" tabindex="0" aria-label="Show or hide ingredients"><i></i></div><div class="bs-scroll"></div>';
+  const sc=sh.querySelector('.bs-scroll'), grab=sh.querySelector('.bs-grab');
+  sc.append(document.getElementById('b-cmp'),document.getElementById('b-desc'),R);
+  scr.insertBefore(sh,scr.querySelector('.b-foot'));
+  const rootPx=n=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue(n))||0;
+  let up=false, low=400;
+  // resting point: overlap the bottom of the photo by 36 px, never higher than half the screen
+  function measure(){ const nav=rootPx('--navb')||103, ph=document.getElementById('photo'), k=window.SCALE||1, a=document.getElementById('app').getBoundingClientRect();
+    const pb=(ph.getBoundingClientRect().bottom-a.top)/k; low=Math.max(VH*.5,pb-36)-nav; }
+  function set(isUp,anim=true){ up=isUp; measure(); sh.classList.toggle('dragging',!anim); sh.classList.toggle('up',up);
+    sh.style.setProperty('--bs-y',(up?0:low)+'px'); if(!up) sc.scrollTop=0; grab.setAttribute('aria-expanded',up); }
+  window.builderSheet=set;
+  grab.addEventListener('click',()=>{ if(!moved) set(!up); });
+  grab.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); set(!up); } });
+  // drag: anywhere on the sheet except the controls; while open, only when the list is scrolled to the top
+  let d=null, moved=false;
+  sh.addEventListener('pointerdown',e=>{ if(e.button>0||e.target.closest('[role=slider],input,button:not(.bs-grab),.chip,.add,.x')&&!e.target.closest('.bs-grab')) return;
+    d={y:e.clientY,base:up?0:low,id:e.pointerId,t:performance.now(),ly:e.clientY,v:0}; moved=false; });
+  addEventListener('pointermove',e=>{ if(!d||e.pointerId!==d.id) return; const k=window.SCALE||1, dy=(e.clientY-d.y)/k;
+    if(!moved){ if(Math.abs(dy)<6) return; if(up&&(dy<0||sc.scrollTop>0)){ d=null; return; } moved=true; try{sh.setPointerCapture(d.id)}catch(_){} sh.classList.add('dragging'); }
+    const now=performance.now(); d.v=((e.clientY-d.ly)/k)/Math.max(1,now-d.t); d.t=now; d.ly=e.clientY;
+    let y=d.base+dy; if(y<0) y*=.25; if(y>low) y=low+(y-low)*.25; sh.style.setProperty('--bs-y',y+'px'); });
+  const end=e=>{ if(!d||(e&&e.pointerId!==d.id)) return; const was=moved; const k=window.SCALE||1;
+    if(was){ const y=parseFloat(sh.style.getPropertyValue('--bs-y'))||0; set(d.v<-.4?true:d.v>.4?false:y<low/2); setTimeout(()=>moved=false,0); }
+    d=null; };
+  addEventListener('pointerup',end); addEventListener('pointercancel',end);
+  // a scroll / wheel on the resting sheet opens it
+  sh.addEventListener('wheel',e=>{ if(!up&&e.deltaY>0){ e.preventDefault(); set(true); } else if(up&&e.deltaY<0&&sc.scrollTop<=0){ set(false); } },{passive:false});
+  // tapping a tag on the photo opens the sheet at that ingredient
+  document.getElementById('photo').addEventListener('click',e=>{ if(e.target.closest('.tag')&&!up) set(true); },true);
+  // typing opens it; every visit starts at rest
+  document.getElementById('adjust-in').addEventListener('focus',()=>set(true));
+  const f=ENTER.builder; ENTER.builder=from=>{ f&&f(from); setTimeout(()=>set(false,false),80); };
+  addEventListener('resize',()=>requestAnimationFrame(()=>set(up,false)));
+  requestAnimationFrame(()=>set(false,false));
+})();

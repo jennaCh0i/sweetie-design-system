@@ -272,3 +272,27 @@ body:not(.device) .notes b{color:#00473D}
 body.device #s-start .next{bottom:calc(var(--hb) + 12px)}
 body.device #s-start .sg-host,body.device #s-discover>.tiphost:not(.exp-host){bottom:calc(var(--hb) + 14px)!important}
 html:has(body.device){background:var(--cream-100)}
+
+/* ═════════════ 03 · BOWL BUILDER — sliders on a sheet over the salad (Maps / Music style) ═════════════
+   Background: title, meta and the bowl with its tags stay put. The cream sheet (composer, description,
+   dietary tags, ingredient sliders) rests over the bottom of the photo; drag it up to work, down to see the bowl. */
+#s-builder.screen{overflow:hidden}
+#s-builder .left{position:absolute;left:0;right:0;top:var(--navb);bottom:0;margin:0;padding:var(--s-5) var(--m) 0}
+#s-builder .left .photo{margin-top:var(--s-3)}
+.bsheet{position:absolute;left:0;right:0;top:var(--navb);bottom:0;z-index:4;display:flex;flex-direction:column;background:var(--cream-100);
+  border-radius:30px 30px 0 0;box-shadow:0 0 0 .5px var(--line),0 -12px 32px rgba(0,40,30,.10);
+  transform:translateY(var(--bs-y,400px));transition:transform .5s cubic-bezier(.32,.72,0,1),border-radius .5s}
+.bsheet.dragging{transition:none}
+.bsheet.up{border-radius:20px 20px 0 0}
+.bs-grab{flex:none;height:28px;display:grid;place-items:center;touch-action:none;cursor:grab}
+.bs-grab i{width:36px;height:5px;border-radius:3px;background:var(--n-300)}
+.bs-scroll{flex:1;min-height:0;overflow-y:hidden;overflow-x:hidden;padding:0 var(--m) calc(var(--hb) + 100px);scrollbar-width:none;touch-action:none;overscroll-behavior:contain}
+.bs-scroll::-webkit-scrollbar{display:none}
+.bsheet.up .bs-scroll{overflow-y:auto;touch-action:pan-y}
+.bsheet #b-cmp{margin:0}
+.bsheet .b-desc{margin:var(--s-3) 2px 0;color:var(--n-600)}
+#s-builder .bsheet .right{position:static;padding:var(--s-5) 0 0;overflow:visible}
+#s-builder .b-foot{position:absolute;left:0;right:0;bottom:0;z-index:6}
+/* while the keyboard is up the sheet stays open and sits on the keyboard */
+#app.kb-on .bsheet{transform:translateY(0);bottom:var(--kbh,336px)}
+#app.kb-on #s-builder .right{padding-bottom:0}
