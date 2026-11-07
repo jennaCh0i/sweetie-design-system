@@ -44,7 +44,7 @@ rep("const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));", "const clamp=(n,a,b)=>Mat
 # Start: glass hexagon + carousel clip, sized for the phone (see phone.css: glass 20,214 353×331 · picker 44,272)
 rep("const g=$('.glass'), d=hexD(633,593,90);", "const g=$('.glass'), d=hexD(353,331,52);")
 rep("{ const inner=hexD(633-28,593-28,78), dx=288+14-368, dy=153+14-(412+72+20); let k=0;",
-    "{ const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=256+10-(314+48+10); let k=0;")
+    "{ const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=256+10-(397+48+10); let k=0;")
 rep("rim.setAttribute('viewBox','0 0 633 593');", "rim.setAttribute('viewBox','0 0 353 331');")
 rep("const SLOT=80;", "const SLOT=56;")
 # frame + fit

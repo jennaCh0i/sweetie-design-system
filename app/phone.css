@@ -233,3 +233,55 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 .bitem>.li .lab{font-size:var(--t-body-s)}
 .bitem>.li .tr{font-size:var(--t-cap)}
 .bitem .sub>div{padding-left:6px}
+
+/* Start: the keyword sits on the glass's centre line, like the tablet (input centre = glass centre) */
+.picker{top:397px}
+.sugs{height:124px}
+
+/* ═════════════ iOS keyboard (prototype) ═════════════
+   Appears for every text field; the screen makes room for it. 336 = 44 suggestions + keys + bottom row. */
+.kb{position:absolute;left:0;right:0;bottom:0;height:336px;z-index:85;background:#D1D3D9;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);
+  font-family:-apple-system,"SF Pro Text",Figtree,system-ui,sans-serif;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+#app.kb-on .kb{transform:none}
+.kb-sug{display:flex;height:44px;align-items:center;padding:0 4px}
+.kb-sug button{flex:1;min-width:0;height:34px;font-size:16px;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px;border-radius:6px}
+.kb-sug button+button{box-shadow:inset .5px 0 0 rgba(0,0,0,.18)}
+.kb-sug button:active{background:rgba(0,0,0,.08)}
+.kb-rows{display:flex;flex-direction:column;gap:11px;padding:6px 3px 0}
+.kb-row{display:flex;justify-content:center;gap:6px}
+.kb-key{flex:none;width:33px;height:42px;border-radius:5px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.3);font-size:22px;line-height:42px;color:#000;text-align:center;font-weight:400}
+.kb-key.fn{background:#ABB0BA;font-size:15px}
+.kb-key.fn svg{display:inline-block;vertical-align:middle;width:22px;height:22px;fill:none;stroke:#000;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.kb-key.wide{width:42px}
+.kb-key.space{flex:1;font-size:16px}
+.kb-key.num{width:88px}
+.kb-key.ret{width:88px;font-size:16px}
+.kb-key.ret.go{background:#007AFF;color:#fff}
+.kb-key:active,.kb-key.down{background:#ABB0BA}
+.kb-key.fn:active,.kb-key.fn.down{background:#fff}
+.kb-key.ret.go:active{background:#0060D0}
+.kb-key.shift.on{background:#fff}
+.kb-key.shift.on svg{fill:#000}
+.kb-row.r2{padding:0 18px}
+.kb-row.r3{justify-content:space-between}
+.kb-row.r3 .mid{display:flex;gap:6px}
+.kb-bottom{position:absolute;left:0;right:0;bottom:0;height:80px;display:flex;justify-content:space-between;padding:12px 26px 0}
+.kb-bottom svg{width:27px;height:27px;fill:none;stroke:#5B5D62;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+#app.kb-on .homebar,.homebar{z-index:91}
+
+/* each screen makes room */
+#app.kb-on #s-start .word-side.l{opacity:0}
+#s-start .glass,#s-start .picker,#s-start .word-side{transition:transform .38s cubic-bezier(.32,.72,0,1),opacity .3s}
+#app.kb-on #s-start .glass,#app.kb-on #s-start .picker,#app.kb-on #s-start .word-side{transform:translateY(-140px)}
+#app.kb-on #s-start .next,#app.kb-on #s-start .sg-host{opacity:0;pointer-events:none}
+#app.kb-on #s-builder .b-foot{opacity:0;pointer-events:none}
+#app.kb-on #s-builder .right{padding-bottom:360px}
+#s-chat .panel{transition:transform 1s var(--ease),top .38s cubic-bezier(.32,.72,0,1),bottom .38s cubic-bezier(.32,.72,0,1),padding .38s}
+#app.kb-on #s-chat .panel{top:170px;bottom:336px;padding-bottom:8px}
+#app.kb-on #s-chat .prod.focus{opacity:0}
+#app.kb-on .selbar{opacity:0!important;pointer-events:none!important}
+#app.kb-on #s-orders .scroll{padding-bottom:360px}
+#app.kb-on .ph-pay{opacity:0;pointer-events:none}
+#app.kb-on #s-bag .co-foot{padding-bottom:360px}
+.toast{transition:all var(--drift) var(--ease),bottom .38s cubic-bezier(.32,.72,0,1)}
+#app.kb-on .toast{bottom:352px}

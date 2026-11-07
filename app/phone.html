@@ -930,7 +930,7 @@ function hexD(w,h,r,flat=true){
 (function(){
   const g=$('.glass'), d=hexD(353,331,52); $('#dn-hex').setAttribute('d',hexD(96,84));
   $('.pane',g).style.clipPath=`path('${d}')`; $('.pane',g).style.webkitClipPath=`path('${d}')`;
-  { const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=256+10-(314+48+10); let k=0;
+  { const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=256+10-(397+48+10); let k=0;
     const dd=inner.replace(/-?\d+(?:\.\d+)?/g,n=>{const v=+n+((k++%2)?dy:dx);return v.toFixed(2);});
     const sg=$('#sugs'); sg.style.clipPath=`path('${dd}')`; sg.style.webkitClipPath=`path('${dd}')`; }
   const rim=$('svg.rim',g); rim.setAttribute('viewBox','0 0 353 331'); $('path',rim).setAttribute('d',d);
