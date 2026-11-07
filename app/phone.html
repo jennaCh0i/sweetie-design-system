@@ -733,7 +733,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
       <button class="circ" data-on="builder chat bag" id="back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></svg></button>
       <div class="tiphost" id="loc-host">
         <button class="pill loc-btn" aria-describedby="loc-tip"><svg viewBox="0 0 24 30" fill="none" stroke="#BDBDBD" stroke-width="1.5"><path d="M12 28.5 4.6 20.2a10.3 10.3 0 1 1 14.8 0Z" stroke-linejoin="round"/><circle cx="12" cy="11.5" r="4.6"/></svg><span>Saratoga + Campbell</span></button>
-        <div class="tip down plain" role="tooltip" id="loc-tip">Open until 9 pm · 0.4 mi away</div>
+        <div class="tip down plain" role="tooltip" id="loc-tip">Saratoga + Campbell · 0.4 mi · open until 9 pm</div>
       </div>
     </div>
     <div class="nav-r">
@@ -930,7 +930,7 @@ function hexD(w,h,r,flat=true){
 (function(){
   const g=$('.glass'), d=hexD(353,331,52); $('#dn-hex').setAttribute('d',hexD(96,84));
   $('.pane',g).style.clipPath=`path('${d}')`; $('.pane',g).style.webkitClipPath=`path('${d}')`;
-  { const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=214+10-(272+48+10); let k=0;
+  { const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=256+10-(314+48+10); let k=0;
     const dd=inner.replace(/-?\d+(?:\.\d+)?/g,n=>{const v=+n+((k++%2)?dy:dx);return v.toFixed(2);});
     const sg=$('#sugs'); sg.style.clipPath=`path('${dd}')`; sg.style.webkitClipPath=`path('${dd}')`; }
   const rim=$('svg.rim',g); rim.setAttribute('viewBox','0 0 353 331'); $('path',rim).setAttribute('d',d);
@@ -1224,8 +1224,8 @@ const field=$('#field'), disc=$('#s-discover');
 const DWORDS=['balanced','Pre-workout','Comforting','Citrusy','clean','high protein','cozy','tangy','chicken','Home','warm','crunchy','light','spicy','Yummy','Salty','fresh','energetic','green','zesty','hearty','bright','nutty','smoky','sweet','calm','crisp','herby','bold','simple'];
 const HX=hexD(240,220,40), hexes=[];
 (function(){
-  // iPhone honeycomb: 150 px cells, columns 160 apart, rows 174 apart, odd columns offset 87; centre cell sits behind the title
-  const C=[196,452]; for(let c=-4;c<=6;c++) for(let r=-4;r<=5;r++) hexes.push({x:C[0]+c*160,y:C[1]+r*174+(c%2?87:0)});
+  // iPhone honeycomb: 150 px cells, columns 172 apart, rows 180 apart, odd columns offset 90 (the title fits the clear cell); centre cell sits behind the title
+  const C=[196,452]; for(let c=-4;c<=6;c++) for(let r=-4;r<=5;r++) hexes.push({x:C[0]+c*172,y:C[1]+r*180+(c%2?90:0)});
   hexes.sort((a,b)=>Math.hypot(a.x-C[0],a.y-C[1])-Math.hypot(b.x-C[0],b.y-C[1]));
   const HEAD=['balanced','Pre-workout','Comforting','Citrusy','clean','high protein','cozy','tangy','chicken','Home','warm','crunchy','light','spicy','Yummy','Salty'];
   const rest=DWORDS.filter(w=>!HEAD.includes(w)); let ri=0;
@@ -1473,12 +1473,12 @@ ENTER.builder=()=>{ setTimeout(()=>{ allItems().forEach(i=>i.bar&&i.bar.relayout
 /* ═════════════ 04 · CHAT WITH INGREDIENTS ═════════════ */
 // layout from Figma "Chat with ingredients / Desktop · Intro" (160:5340), scaled 0.8 into the tablet frame
 const PROD=[
-  {k:'onion',x:-44,y:292,w:150,h:128,name:'Onion',fd:'13s',fr:'1.5deg'},
-  {k:'avocado',x:46,y:112,w:118,h:180,name:'Avocado',fd:'11s',fy:'8px'},
-  {k:'pea',x:248,y:104,w:92,h:181,name:'Peas',fd:'12s',fr:'-2deg'},
-  {k:'beet',x:300,y:290,w:136,h:136,name:'Beet',fd:'14s',fx:'-6px'},
-  {k:'tomato',x:-46,y:560,w:162,h:155,name:'Tomato',fd:'12.5s',fx:'6px'},
-  {k:'lettuce2',x:112,y:500,w:196,h:199,name:'Lettuce',fd:'15s',fy:'6px'},
+  {k:'onion',x:-44,y:252,w:150,h:128,name:'Onion',fd:'13s',fr:'1.5deg'},
+  {k:'avocado',x:70,y:104,w:116,h:176,name:'Avocado',fd:'11s',fy:'8px'},
+  {k:'pea',x:238,y:98,w:86,h:170,name:'Peas',fd:'12s',fr:'-2deg'},
+  {k:'beet',x:300,y:252,w:132,h:132,name:'Beet',fd:'14s',fx:'-6px'},
+  {k:'tomato',x:-46,y:540,w:162,h:155,name:'Tomato',fd:'12.5s',fx:'6px'},
+  {k:'lettuce2',x:112,y:478,w:196,h:199,name:'Lettuce',fd:'15s',fy:'6px'},
   // off-canvas: found by dragging with Move around (not in this bowl yet)
   {k:'artichoke',x:60,y:-150,w:104,h:140,name:'Artichoke',fd:'13s',fr:'1.5deg',extra:1},
   {k:'garlic',x:232,y:-140,w:110,h:118,name:'Garlic',fd:'12s',fy:'7px',extra:1},
@@ -1486,7 +1486,7 @@ const PROD=[
   {k:'cucumber',x:446,y:440,w:110,h:115,name:'Cucumber',fd:'11.5s',fx:'-6px',extra:1},
   {k:'corn',x:420,y:690,w:115,h:117,name:'Corn',fd:'12.5s',fr:'2deg',extra:1},
   {k:'pumpkin',x:-200,y:430,w:146,h:130,name:'Pumpkin',fd:'13.5s',fy:'8px',extra:1},
-  {k:'salmon',x:226,y:618,w:214,h:173,name:'Salmon',fd:'13.5s',fr:'-1deg'}
+  {k:'salmon',x:226,y:590,w:214,h:173,name:'Salmon',fd:'13.5s',fr:'-1deg'}
 ];
 const ANS={
   Artichoke:{why:'I’m not in your bowl yet. I’d add a soft, nutty, slightly tangy bite — great with greens and lemon.',nutrition:'I’m one of the most fiber-rich vegetables, with folate and vitamin K.',
@@ -1638,7 +1638,7 @@ function renderGrid(){
   const items=o=>o.items.slice(0,3).map(x=>x[0]).join(', ')+(o.items.length>3?` +${o.items.length-3}`:'');
   $('#o-sub').textContent=filtered?`${list.length} of ${ORDERS.length} orders${OF.f!=='all'?' · '+FLABEL[OF.f]:''}`:`${ORDERS.length} orders since September`;
   let h=`<article class="hist-hero${OF.sel.has(L)?' picked':''}" data-i="${first.i}" role="button" tabindex="0" aria-label="Last order, ${D.toDateString()}">${HSEL}
-    <div><p class="hh-label">${filtered?'Most recent':'Last order'}</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}<i aria-hidden="true">·</i><span>${L.name} Bowl</span></h2><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
+    <div><p class="hh-label">${filtered?'Most recent':'Last order'}</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}<i aria-hidden="true">·</i><span>${L.name} Bowl</span></h2><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
       <div class="hh-btns"><button class="btn pri" type="button" data-re="${first.i}">Reorder</button></div></div>
     <img src="assets/${L.photo}.webp" alt="">
     <button class="omore hh-more" type="button" data-more="${first.i}" aria-haspopup="menu" aria-expanded="false" aria-label="More for ${L.name} Bowl">${mico('more')}</button></article>`;

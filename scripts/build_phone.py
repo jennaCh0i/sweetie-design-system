@@ -44,7 +44,7 @@ rep("const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));", "const clamp=(n,a,b)=>Mat
 # Start: glass hexagon + carousel clip, sized for the phone (see phone.css: glass 20,214 353×331 · picker 44,272)
 rep("const g=$('.glass'), d=hexD(633,593,90);", "const g=$('.glass'), d=hexD(353,331,52);")
 rep("{ const inner=hexD(633-28,593-28,78), dx=288+14-368, dy=153+14-(412+72+20); let k=0;",
-    "{ const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=214+10-(272+48+10); let k=0;")
+    "{ const inner=hexD(353-20,331-20,46), dx=20+10-44, dy=256+10-(314+48+10); let k=0;")
 rep("rim.setAttribute('viewBox','0 0 633 593');", "rim.setAttribute('viewBox','0 0 353 331');")
 rep("const SLOT=80;", "const SLOT=56;")
 # frame + fit
@@ -57,8 +57,8 @@ rep("const s=framed?Math.min((W-60)/1210,(H-140)/834)*k:Math.min(W/1210,H/834);"
 # Discover: honeycomb at phone size (150 px cells), headline words on the ring around the title
 a = s.index("(function(){\n  // honeycomb from the Figma frame"); b = s.index("})();", a) + len("})();")
 s = s[:a] + '''(function(){
-  // iPhone honeycomb: 150 px cells, columns 160 apart, rows 174 apart, odd columns offset 87; centre cell sits behind the title
-  const C=[196,452]; for(let c=-4;c<=6;c++) for(let r=-4;r<=5;r++) hexes.push({x:C[0]+c*160,y:C[1]+r*174+(c%2?87:0)});
+  // iPhone honeycomb: 150 px cells, columns 172 apart, rows 180 apart, odd columns offset 90 (the title fits the clear cell); centre cell sits behind the title
+  const C=[196,452]; for(let c=-4;c<=6;c++) for(let r=-4;r<=5;r++) hexes.push({x:C[0]+c*172,y:C[1]+r*180+(c%2?90:0)});
   hexes.sort((a,b)=>Math.hypot(a.x-C[0],a.y-C[1])-Math.hypot(b.x-C[0],b.y-C[1]));
   const HEAD=['balanced','Pre-workout','Comforting','Citrusy','clean','high protein','cozy','tangy','chicken','Home','warm','crunchy','light','spicy','Yummy','Salty'];
   const rest=DWORDS.filter(w=>!HEAD.includes(w)); let ri=0;
@@ -80,12 +80,12 @@ rep("pan={x:clamp(pan.x+vel.x,-1100,1100),y:clamp(pan.y+vel.y,-700,700)};", "pan
 # Chat: portrait canvas (393 × 852), extras just off each edge
 a = s.index("const PROD=["); b = s.index("];", a) + 2
 s = s[:a] + '''const PROD=[
-  {k:'onion',x:-44,y:292,w:150,h:128,name:'Onion',fd:'13s',fr:'1.5deg'},
-  {k:'avocado',x:46,y:112,w:118,h:180,name:'Avocado',fd:'11s',fy:'8px'},
-  {k:'pea',x:248,y:104,w:92,h:181,name:'Peas',fd:'12s',fr:'-2deg'},
-  {k:'beet',x:300,y:290,w:136,h:136,name:'Beet',fd:'14s',fx:'-6px'},
-  {k:'tomato',x:-46,y:560,w:162,h:155,name:'Tomato',fd:'12.5s',fx:'6px'},
-  {k:'lettuce2',x:112,y:500,w:196,h:199,name:'Lettuce',fd:'15s',fy:'6px'},
+  {k:'onion',x:-44,y:252,w:150,h:128,name:'Onion',fd:'13s',fr:'1.5deg'},
+  {k:'avocado',x:70,y:104,w:116,h:176,name:'Avocado',fd:'11s',fy:'8px'},
+  {k:'pea',x:238,y:98,w:86,h:170,name:'Peas',fd:'12s',fr:'-2deg'},
+  {k:'beet',x:300,y:252,w:132,h:132,name:'Beet',fd:'14s',fx:'-6px'},
+  {k:'tomato',x:-46,y:540,w:162,h:155,name:'Tomato',fd:'12.5s',fx:'6px'},
+  {k:'lettuce2',x:112,y:478,w:196,h:199,name:'Lettuce',fd:'15s',fy:'6px'},
   // off-canvas: found by dragging with Move around (not in this bowl yet)
   {k:'artichoke',x:60,y:-150,w:104,h:140,name:'Artichoke',fd:'13s',fr:'1.5deg',extra:1},
   {k:'garlic',x:232,y:-140,w:110,h:118,name:'Garlic',fd:'12s',fy:'7px',extra:1},
@@ -93,7 +93,7 @@ s = s[:a] + '''const PROD=[
   {k:'cucumber',x:446,y:440,w:110,h:115,name:'Cucumber',fd:'11.5s',fx:'-6px',extra:1},
   {k:'corn',x:420,y:690,w:115,h:117,name:'Corn',fd:'12.5s',fr:'2deg',extra:1},
   {k:'pumpkin',x:-200,y:430,w:146,h:130,name:'Pumpkin',fd:'13.5s',fy:'8px',extra:1},
-  {k:'salmon',x:226,y:618,w:214,h:173,name:'Salmon',fd:'13.5s',fr:'-1deg'}
+  {k:'salmon',x:226,y:590,w:214,h:173,name:'Salmon',fd:'13.5s',fr:'-1deg'}
 ];''' + s[b:]
 rep("    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,1210), y0=Math.max(p.y,0), y1=Math.min(p.y+p.h,759-24);",
     "    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,VW), y0=Math.max(p.y,103), y1=Math.min(p.y+p.h,VH-HB-70);")
@@ -118,6 +118,11 @@ rep("    if(y+H>834-12){ y=R.top-8-H; origin=origin.replace('top','bottom'); }",
 rep("  x=Math.max(12,Math.min(x,1210-W-12)); y=Math.max(12,Math.min(y,834-H-12));", "  x=Math.max(12,Math.min(x,VW-W-12)); y=Math.max(66,Math.min(y,VH-HB-H-12));")
 
 rep("Visa •••• 4417 · default on this iPad", "Visa •••• 4417 · default on this iPhone")
+
+rep('<div class="tip down plain" role="tooltip" id="loc-tip">Open until 9 pm · 0.4 mi away</div>', '<div class="tip down plain" role="tooltip" id="loc-tip">Saratoga + Campbell · 0.4 mi · open until 9 pm</div>')
+
+# Order history: the hero date fits one line on a phone ("Wed, Oct 21 · Fresh Bowl")
+rep("<h2 class=\"hh-date\">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}", "<h2 class=\"hh-date\">${D.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}")
 
 # phone-only behaviour (sticky pay button, status bar clock, selection count) after the shared script
 rep('</script>\n</body>', '</script>\n<script src="phone.js"></script>\n</body>')

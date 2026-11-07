@@ -38,7 +38,6 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 .loc-btn{width:auto;max-width:176px}
 .loc-btn span{overflow:hidden;text-overflow:ellipsis}
 .loc-btn svg{width:13px;height:17px}
-#app.picking .nav #loc-host{display:none}
 .status{font-size:var(--t-cap)}
 .icon{width:38px;height:38px}
 .icon svg{width:23px;height:25px}
@@ -199,3 +198,38 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 .hr-end small{overflow:hidden;text-overflow:ellipsis}
 .entry .bar{display:none}
 .entry input{text-align:center}
+
+/* ═════════════ Top of every screen: one cream header (status bar + 44 bar), centred logo ═════════════
+   (Figma mobile header: status bar + centred logo). Left: back / store pin · right: bag + profile. */
+.statusbar{background:var(--cream-100)}
+.nav{justify-content:space-between}
+#app .nav .logo{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:0}
+.logo img{width:84px}
+#app.picking .nav .logo{display:none}
+#app.picking .nav .status{display:inline-flex;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.loc-btn{width:40px;max-width:none;height:40px;padding:0;gap:0;border-radius:50%;justify-content:center}
+.loc-btn span{display:none}
+.loc-btn svg{width:15px;height:19px}
+.nav-l{gap:6px}
+#loc-host .tip.down{left:0;transform:translate(0,-8px)}
+#loc-host.show .tip.down{transform:none}
+/* nav icons: one quiet style (no rings), 40 px targets */
+.circ,.loc-btn{box-shadow:none;color:var(--n-500)}
+.circ:hover,.loc-btn:hover{background:var(--cream-200);color:var(--green-950)}
+.circ svg{width:22px;height:22px}
+/* Start: centre the "I want · glass · bowl" block between the header and Next */
+.glass{top:256px}
+.word-side.l{top:192px}.word-side.r{top:611px}
+.picker{top:314px}
+#s-start .pool{top:422px}
+/* Discover: title sits in the clear cell between the hexagons */
+.disc-title{left:101px;top:394px;width:190px;font-size:26px;line-height:30px;letter-spacing:-.03em}
+
+.loc-btn svg{width:18px;height:22px;stroke:currentColor}
+/* builder: phone-size description */
+.b-desc{font-size:var(--t-body-s);line-height:21px;color:var(--n-800)}
+/* bag items: one left edge inside the card */
+.bitem>.li{padding:10px 6px;min-height:40px}
+.bitem>.li .lab{font-size:var(--t-body-s)}
+.bitem>.li .tr{font-size:var(--t-cap)}
+.bitem .sub>div{padding-left:6px}
