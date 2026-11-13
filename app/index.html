@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="menu.css"><!-- WK06 menu system, shared with wk06-menus/ -->
 <link rel="stylesheet" href="toolbar.css"><!-- WK07 toolbar system, shared with wk07-toolbars/ -->
+<link rel="stylesheet" href="button.css"><!-- WK08 button system, shared with wk08-buttons/ -->
 <style>
 /* ═════════════ Sweetie tokens (Figma variables) ═════════════ */
 :root{
@@ -479,6 +480,13 @@ button.li[data-nav]:hover .ch{transform:translateX(3px)}
 .sub .li{min-height:42px;opacity:0;transform:translateY(-6px);transition:opacity 0.54s var(--snap),transform 0.63s var(--snap)}
 .li[aria-expanded=true]+.sub .li{opacity:1;transform:none;transition-delay:calc(.12s + var(--i,0)*.07s)}
 .sh-foot{flex:none;padding:var(--s-4) var(--m) var(--m);display:flex;gap:12px;border-top:.5px solid var(--line);background:var(--cream-100)}
+.sh-foot #sh-re{flex:1;min-width:0}
+.sh-acts{display:flex;justify-content:center;gap:var(--s-2);margin-top:var(--s-4)}
+.sh-receipt{margin-top:var(--s-4);padding:var(--s-4) var(--s-5);border-radius:13px;box-shadow:inset 0 0 0 1px #BDBDBD;background:#F9F6E6}
+.sh-receipt p{margin-top:var(--s-3);font-size:var(--t-cap);color:var(--n-600)}
+.scard.rate{display:flex;flex-direction:column;gap:var(--s-3);padding:18px var(--s-4) var(--s-4)}
+.scard.rate h4{padding:4px 4px 0}
+.scard.rate .btg{display:flex;width:100%}
 .btn{flex:1;height:var(--h-lg);border-radius:var(--r-pill);font-size:var(--t-body);letter-spacing:var(--tr-body);transition:background 0.36s var(--snap),transform 0.27s var(--snap)}
 .btn.pri{background:var(--green-950);color:var(--cream-100)}
 .btn.sec{box-shadow:var(--hair);color:var(--green-950)}
@@ -609,8 +617,21 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 .promo .btn{flex:none;width:auto;height:var(--h-m);padding:0 var(--s-5);font-size:var(--t-body-s)}
 .promo-msg{min-height:0;margin:6px 8px 0;font-size:var(--t-cap);color:var(--text-3)}.promo-msg:empty{display:none}.promo-msg.err{color:var(--danger)}
 .sum .save span:last-child{color:var(--text-brand)}
-#place.applepay{background:#000;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px}
-#place.applepay:hover{background:#1c1c1e}
+#place{width:100%}
+#place.applepay{background:#000;color:#fff}
+#place.applepay:hover{background:#1c1c1e}#place.applepay:active{background:#2c2c2e}
+.qty2{display:flex;align-items:center;gap:6px}
+.qty2 b{min-width:22px;text-align:center;font-weight:500;font-size:var(--t-body);font-variant-numeric:tabular-nums;letter-spacing:var(--tr-body)}
+.qty2 b.bump{animation:bump .3s var(--snap)}
+.bg-more{display:flex;gap:var(--s-3);margin-top:var(--s-2)}
+.bg-more .bt{flex:1}
+.mode-wrap{margin-bottom:var(--s-5)}
+.mode-wrap .btg{display:flex;width:100%}
+.deliv{display:flex;align-items:center;gap:var(--s-3);padding:var(--s-2) 4px var(--s-3)}
+.deliv svg{flex:none;width:22px;height:22px;fill:none;stroke:var(--text-brand);stroke-width:1.5;stroke-linejoin:round}
+.deliv div{flex:1;min-width:0}.deliv b{display:block;font-weight:400;font-size:var(--t-body);letter-spacing:var(--tr-body)}
+.deliv small{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--text-3)}
+.store.from{opacity:.6}.store.from b::before{content:"From ";}
 .ap-glyph svg{display:block;width:22px;height:16px;fill:none;stroke:currentColor;stroke-width:1.4}
 .tipwrap .sbar{height:var(--h-m)}.tipwrap .sbar .name{font-size:var(--t-body-l);letter-spacing:var(--tr-body-l)}
 .tipwrap .sbar.p-in .portion{color:#00473D}
@@ -822,7 +843,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
     <div class="left"><h1 class="bg-title">Your bag</h1><p class="bg-sub" id="bg-sub"></p><div class="bg-list" id="bg-list"></div></div>
     <aside class="right" aria-label="Checkout">
       <div class="co" id="co"></div>
-      <div class="co-foot"><div class="tipwrap" id="tipwrap"></div><div class="sum" id="sum"></div><button class="btn pri" id="place">Place order</button><small id="co-note"></small></div>
+      <div class="co-foot"><div class="tipwrap" id="tipwrap"></div><div class="sum" id="sum"></div><button class="bt" type="button" data-tone="serene" data-level="1" data-kind="tx" id="place">Place order</button><small id="co-note"></small></div>
     </aside>
   </section>
 
@@ -873,6 +894,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 
 <script src="menu.js"></script>
 <script src="toolbar.js"></script>
+<script src="button.js"></script>
 <script>
 /* ═════════════ helpers ═════════════ */
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -1638,7 +1660,7 @@ function renderGrid(){
   $('#o-sub').textContent=filtered?`${list.length} of ${ORDERS.length} orders${OF.f!=='all'?' · '+FLABEL[OF.f]:''}`:`${ORDERS.length} orders since September`;
   let h=`<article class="hist-hero${OF.sel.has(L)?' picked':''}" data-i="${first.i}" role="button" tabindex="0" aria-label="Last order, ${D.toDateString()}">${HSEL}
     <div><p class="hh-label">${filtered?'Most recent':'Last order'}</p><h2 class="hh-date">${D.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}<i aria-hidden="true">·</i><span>${L.name} Bowl</span></h2><p class="hh-meta">${items(L)} · ${L.kcal} cal · ${money(total(L))}</p>
-      <div class="hh-btns"><button class="btn pri" type="button" data-re="${first.i}">Reorder</button></div></div>
+      <div class="hh-btns">${btn('elegant',{level:1,icon:'bag',label:'Reorder',attrs:` data-re="${first.i}"`})}</div></div>
     <img src="assets/${L.photo}.webp" alt="">
     <button class="omore hh-more" type="button" data-more="${first.i}" aria-haspopup="menu" aria-expanded="false" aria-label="More for ${L.name} Bowl">${mico('more')}</button></article>`;
   const groups=[]; rest.forEach(r=>{ const g=groupOfDate(odate(r.o)); let G=groups.find(x=>x.g===g); if(!G) groups.push(G={g,rows:[]}); G.rows.push(r); });
@@ -1685,14 +1707,28 @@ function openOrder(o){
     <img class="sh-photo" src="assets/${o.photo}.webp" alt="${o.name} Bowl">
     <div class="sh-head"><h3>${o.name} Bowl</h3>
       <p class="sh-date">${CAL}${D.long} <span>· ${D.ago}</span></p>
-      <small class="sh-where">Picked up at Saratoga + Campbell</small>${tagsOf(o.items).length?`<div class="dtags center">${tagsOf(o.items).map(t=>`<span class="dtag">${t}</span>`).join('')}</div>`:''}</div>
+      <small class="sh-where">Picked up at Saratoga + Campbell</small>${tagsOf(o.items).length?`<div class="dtags center">${tagsOf(o.items).map(t=>`<span class="dtag">${t}</span>`).join('')}</div>`:''}
+      <div class="sh-acts">${btn('elegant',{level:3,icon:'receipt',label:'View receipt',cls:'md',id:'sh-rc',attrs:' aria-expanded="false" aria-controls="sh-receipt"'})}${btn('elegant',{level:3,icon:'heart',aria:o.fav?'Remove from favorites':'Add to favorites',cls:'md',id:'sh-fav',pressed:!!o.fav})}${btn('elegant',{level:3,icon:'share',aria:'Share this bowl',cls:'md',id:'sh-share'})}</div></div>
+    <div class="sh-receipt" id="sh-receipt" hidden><div class="sum">
+      <div><span>${o.name} Bowl</span><span>${money(o.price)}</span></div><div><span>Tax (9.25%)</span><span>${money(o.price*.0925)}</span></div>
+      <div class="tot"><span>Total</span><span>${money(o.price*1.0925)}</span></div></div><p>Paid with Apple Pay · Visa •••• 4417 · ${D.long}</p></div>
+    <div class="scard rate"><h4>How was it?</h4>
+      ${btnGroup('elegant',[{value:'loved',icon:'heart',label:'Loved it'},{value:'fine',label:'Fine'},{value:'no',label:'Not for me'}],{label:'Rate this bowl',id:'sh-rate',value:o.rating||null})}
+      ${btn('elegant',{level:2,label:o.rated?'Thanks · 50 pts added':'Send rating · +50 pts',cls:'md',id:'sh-send',disabled:!o.rating||o.rated})}</div>
     <div class="scard"><h4>Nutrition</h4><div class="nut">${nut.map(([v,u,l])=>`<div><b>${v}${u?`<small>${u}</small>`:''}</b><span>${l}</span></div>`).join('')}</div></div>
     <div class="scard"><h4>In this bowl</h4>${o.items.map(([n,v])=>`<div class="li"><span class="dot" style="--c:${ING[n][0]}"></span><span class="lab">${n}${SOLD.has(n)?' <em class="so">Sold out today</em>':''}</span><span class="tr">${PORTIONS[v]}</span></div>`).join('')}</div>
     <div class="scard solo"><button class="li" type="button" data-nav="edit"><span class="lab">Edit in bowl builder<small>Change portions or swap ingredients</small></span><span class="ch">${ICON.chev}</span></button></div>`,
-    `${RO.gone.length?`<p class="sold-note">${WARN}<span><b>${RO.gone.join(', ')} ${RO.gone.length>1?'are':'is'} sold out</b> at Saratoga + Campbell today. You can reorder without ${RO.gone.length>1?'them':'it'}.</span></p>`:''}<button class="btn pri" id="sh-re">${RO.gone.length?`Reorder without ${RO.gone.join(', ').toLowerCase()}`:'Reorder'} · ${money(RO.price)}</button>`);
+    `${RO.gone.length?`<p class="sold-note">${WARN}<span><b>${RO.gone.join(', ')} ${RO.gone.length>1?'are':'is'} sold out</b> at Saratoga + Campbell today. You can reorder without ${RO.gone.length>1?'them':'it'}.</span></p>`:''}${btn('elegant',{level:1,icon:'bag',label:`${RO.gone.length?`Reorder without ${RO.gone.join(', ').toLowerCase()}`:'Reorder'} · ${money(RO.price)}`,id:'sh-re',disabled:!RO.keep.length})}`);
   $('#sheet-in').classList.add('order');
   $('#sheet [data-nav=edit]').onclick=()=>{ closeSheet(); buildBowlFromOrder(o); go('builder'); };
   $('#sh-re').onclick=()=>{ addToBag(o.name+' Bowl',RO.price,{photo:o.photo,items:RO.keep}); toast(`${o.name} Bowl added to your bag`); closeSheet(); };
+  // WK08 · 02 Elegant buttons
+  $('#sh-rc').onclick=e=>{ const r=$('#sh-receipt'), open=r.hidden; r.hidden=!open; e.currentTarget.setAttribute('aria-expanded',open); e.currentTarget.querySelector('.bt-label').textContent=open?'Hide receipt':'View receipt'; };
+  $('#sh-fav').onclick=e=>{ o.fav=!o.fav; const b=e.currentTarget; b.setAttribute('aria-pressed',o.fav); b.setAttribute('aria-label',o.fav?'Remove from favorites':'Add to favorites'); toast(o.fav?`${o.name} Bowl added to favorites`:`${o.name} Bowl removed from favorites`); };
+  $('#sh-share').onclick=()=>toast(`Sharing ${o.name} Bowl`);
+  const send=$('#sh-send');
+  wireGroup($('#sh-rate'),v=>{ o.rating=v; if(!o.rated) send.disabled=false; });
+  send.onclick=()=>{ o.rated=true; send.disabled=true; send.querySelector('.bt-label').textContent='Thanks · 50 pts added'; toast(`Thanks! 50 pts for rating the ${o.name} Bowl`); };
 }
 function buildBowlFromOrder(o){
   buildBowl(o.name); state.preset=o.preset;
@@ -1718,7 +1754,7 @@ const TICK='<svg class="tick" viewBox="0 0 14 14" aria-hidden="true"><path d="M2
 /* ═════════════ 06 · BAG (cart → checkout) ═════════════ */
 const MINUS='<svg viewBox="0 0 16 16"><path d="M3.5 8h9"/></svg>', PLUS='<svg viewBox="0 0 16 16"><path d="M3.5 8h9M8 3.5v9"/></svg>',
       TRASH='<svg viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5"/></svg>';
-const co={pick:0,cpay:0,utensils:true,tip:2,reward:true,promo:null};
+const co={pick:0,cpay:0,utensils:true,tip:2,reward:true,promo:null,mode:'pickup'}, MAXQ=10, DFEE=2.99;
 const PAYS=['Apple Pay','Visa •••• 4417','Gift card'], GIFT=12.5, REWARD=3, PTS=1240, NEXT=1500;
 const STORE={name:'Saratoga + Campbell',addr:'378 Saratoga Ave, San Jose',open:10.5,close:21};
 const clock=d=>d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
@@ -1735,17 +1771,19 @@ const TIPS=['No tip','10%','15%','20%'], TIPV=[0,.1,.15,.2];
 function seedBag(){ if(!state.bag.length){ addToBag('Fresh Bowl',ORDERS[0].price,{photo:ORDERS[0].photo,items:ORDERS[0].items,kcal:ORDERS[0].kcal}); addToBag('Post-workout Bowl',ORDERS[1].price,{photo:ORDERS[1].photo,items:ORDERS[1].items,kcal:ORDERS[1].kcal}); } }
 function renderBag(){
   const L=$('#bg-list'), n=bagCount(); $('#s-bag').classList.toggle('empty',!n);
-  $('#bg-sub').textContent=n?`${n} bowl${n>1?'s':''} · pickup at ${STORE.name}`:'Nothing here yet.';
+  $('#bg-sub').textContent=n?`${n} bowl${n>1?'s':''} · ${modeLine()}`:'Nothing here yet.';
   if(!n){ L.innerHTML=`<div class="bg-empty"><img src="assets/bowl-fresh.webp" alt=""><h3>Your bag is empty</h3><p>Start with one word, or reorder a favorite.</p>
       <div class="row2"><button class="btn sec" data-go="start">Start with one word</button><button class="btn pri" data-go="orders">Order history</button></div></div>`; summary(); return; }
   L.innerHTML=state.bag.map((x,i)=>`<article class="bitem" data-i="${i}">
     <div class="bi-top"><img src="assets/${x.photo}.webp" alt="">
       <div class="bi-txt"><h3>${x.name}</h3><small>${x.items.length} ingredients · ${kcalOf(x.items)} cal${tagsOf(x.items).length?' · '+tagsOf(x.items).join(' · '):''}</small></div>
       <div class="bi-right"><span class="bi-price">$${(x.price*x.qty).toFixed(2)}</span>
-        <div class="qty" role="group" aria-label="Quantity"><button type="button" data-q="-1" aria-label="${x.qty>1?'One less':'Remove'}">${x.qty>1?MINUS:TRASH}</button><b>${x.qty}</b><button type="button" data-q="1" aria-label="One more">${PLUS}</button></div></div></div>
+        <div class="qty2" role="group" aria-label="Quantity">${btn('serene',{level:3,icon:x.qty>1?'minus':'trash',aria:x.qty>1?'One less':'Remove',cls:'sm',attrs:' data-q="-1"'})}<b>${x.qty}</b>${btn('serene',{level:2,icon:'plus',aria:'One more',cls:'sm',disabled:x.qty>=MAXQ,attrs:' data-q="1"'})}</div></div></div>
     <button class="li" type="button" aria-expanded="false"><span class="lab">What’s inside</span><span class="tr">${x.items.slice(0,3).map(y=>y[0]).join(', ')}${x.items.length>3?'…':''}</span><span class="ch">${ICON.down}</span></button>
     <div class="sub"><div>${x.items.map(([nm,v],k)=>`<div class="li" style="--i:${k}"><span class="dot" style="--c:${(ING[nm]||['#ccc'])[0]}"></span><span class="lab">${nm}</span><span class="tr">${PORTIONS[v]}</span></div>`).join('')}</div></div>
   </article>`).join('');
+  L.insertAdjacentHTML('beforeend',`<div class="bg-more">${btn('serene',{level:2,icon:'plus',label:'Add another bowl',id:'bg-add'})}${btn('serene',{level:3,label:'Save bag for later',id:'bg-save'})}</div>`);
+  $('#bg-add').onclick=()=>go('start'); $('#bg-save').onclick=()=>toast(`Saved ${n} bowl${n>1?'s':''} to Favorites for later`);
   wireList(L); summary();
 }
 $('#bg-list').addEventListener('click',e=>{
@@ -1753,10 +1791,12 @@ $('#bg-list').addEventListener('click',e=>{
   const card=q.closest('.bitem'), i=+card.dataset.i, x=state.bag[i], d=+q.dataset.q;
   if(x.qty+d<=0){ card.classList.add('out'); setTimeout(()=>{ state.bag.splice(i,1); bagRender(); renderBag(); },430); return; }
   x.qty+=d; bagRender();
-  const b=$('.qty b',card); b.textContent=x.qty; b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  if(x.qty>MAXQ){ x.qty=MAXQ; return; }
+  const b=$('.qty2 b',card); b.textContent=x.qty; b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  $('[data-q="1"]',card).disabled=x.qty>=MAXQ;
   $('.bi-price',card).textContent='$'+(x.price*x.qty).toFixed(2);
-  const m=$('[data-q="-1"]',card); m.innerHTML=x.qty>1?MINUS:TRASH; m.setAttribute('aria-label',x.qty>1?'One less':'Remove');
-  $('#bg-sub').textContent=`${bagCount()} bowl${bagCount()>1?'s':''} · pickup at ${STORE.name}`; summary();
+  const m=$('[data-q="-1"]',card); m.querySelector('.bt-ic').innerHTML=mico(x.qty>1?'minus':'trash'); m.setAttribute('aria-label',x.qty>1?'One less':'Remove');
+  $('#bg-sub').textContent=`${bagCount()} bowl${bagCount()>1?'s':''} · ${modeLine()}`; summary();
 });
 // checkout column: WK03 Serene radios + switch, WK04 tip slider, summary
 (function buildCheckout(){
@@ -1766,7 +1806,10 @@ $('#bg-list').addEventListener('click',e=>{
   const rp=(i,k,l,d)=>`<label class="li pay">${pm(k)}<span class="lab">${l}${d?`<small>${d}</small>`:''}</span><input class="sel" type="radio" name="cpay" value="${i}"${co.cpay===i?' checked':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
   const pct=Math.round(PTS/NEXT*100);
   $('#co').innerHTML=`
-    <section><h4>Pickup</h4>
+    <div class="mode-wrap">${btnGroup('serene',[{value:'pickup',icon:'store',label:'Pickup'},{value:'delivery',icon:'truck',label:'Delivery'},{value:'dinein',icon:'seat',label:'Dine-in'}],{label:'How you’ll get it',id:'mode'})}</div>
+    <section><h4 id="mode-h">Pickup</h4>
+      <div class="deliv" id="deliv" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/></svg>
+        <div><b>Home</b><small>1240 Moorpark Ave, San Jose · 2.1 mi</small></div><button class="link" type="button" data-msg="Address book isn’t in this prototype">Change</button></div>
       <div class="store"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
         <div><b>${STORE.name}</b><small>${STORE.addr} · <span id="store-hrs"></span></small></div><button class="link" type="button" data-msg="Store picker isn’t in this prototype">Change</button></div>
       <div id="picks"></div></section>
@@ -1796,15 +1839,22 @@ $('#bg-list').addEventListener('click',e=>{
     el.classList.toggle('is-zero',i===0); dots.forEach((d,k)=>d.classList.toggle('on',k<=i)); summary(); requestAnimationFrame(placeTip); }});
   function placeTip(){ const W=el.clientWidth, pp=parseFloat(el.style.getPropertyValue('--p'))||0, lw=por.offsetWidth; el.classList.toggle('p-in', pp*W+12>W-18-lw); }
 })();
-function totals(){ const sub=state.bag.reduce((s2,x)=>s2+x.price*x.qty,0), rw=co.reward&&sub?Math.min(REWARD,sub):0,
-  tax=(sub-rw)*.0925, tip=sub*TIPV[co.tip], tot=sub-rw+tax+tip, gift=co.cpay===2?Math.min(GIFT,tot):0;
-  return {sub,rw,tax,tip,tot,gift,pts:Math.floor((sub-rw)*10)}; }
+function totals(){ const sub=state.bag.reduce((s2,x)=>s2+x.price*x.qty,0), rw=co.reward&&sub?Math.min(REWARD,sub):0, fee=co.mode==='delivery'&&sub?DFEE:0,
+  tax=(sub-rw)*.0925, tip=sub*TIPV[co.tip], tot=sub-rw+tax+tip+fee, gift=co.cpay===2?Math.min(GIFT,tot):0;
+  return {sub,rw,tax,tip,fee,tot,gift,pts:Math.floor((sub-rw)*10)}; }
+const modeLine=()=>co.mode==='delivery'?'delivery to Home':co.mode==='dinein'?`dine-in at ${STORE.name}`:`pickup at ${STORE.name}`;
+function setMode(m){ co.mode=m; const D=m==='delivery';
+  $('#mode-h').textContent=D?'Delivery':m==='dinein'?'Dine-in':'Pickup'; $('#deliv').hidden=!D; $('.store').classList.toggle('from',D);
+  const n=bagCount(); if(n) $('#bg-sub').textContent=`${n} bowl${n>1?'s':''} · ${modeLine()}`; paintSlots(); summary(); }
 function summary(){
-  const {sub,rw,tax,tip,tot,gift,pts}=totals(), f=v=>'$'+v.toFixed(2);
-  $('#sum').innerHTML=`<div><span>Subtotal</span><span>${f(sub)}</span></div>${rw?`<div class="save"><span>Birthday reward</span><span>−${f(rw)}</span></div>`:''}<div><span>Estimated tax</span><span>${f(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${f(tip)}</span></div>${gift?`<div class="save"><span>Gift card</span><span>−${f(gift)}</span></div>`:''}<div class="tot"><span>${gift?'Due on Visa •••• 4417':'Total'}</span><span>${f(tot-gift)}</span></div>`;
-  const pb=$('#place'); pb.disabled=!sub; pb.classList.toggle('applepay',co.cpay===0);
-  pb.innerHTML=co.cpay===0?`<span class="ap-glyph" aria-hidden="true"><svg viewBox="0 0 20 14"><rect x="1.5" y="1.5" width="17" height="11" rx="2.2"/><path d="M1.5 5h17M12.5 9h3"/></svg></span>Pay with Apple Pay`:sub?`Place order · ${f(tot-gift)}`:'Place order';
-  $('#co-note').textContent=sub?`You’ll earn ${pts.toLocaleString()} pts · Pickup at ${STORE.name}`:`Pickup at ${STORE.name}`;
+  const {sub,rw,tax,tip,fee,tot,gift,pts}=totals(), f=v=>'$'+v.toFixed(2);
+  $('#sum').innerHTML=`<div><span>Subtotal</span><span>${f(sub)}</span></div>${rw?`<div class="save"><span>Birthday reward</span><span>−${f(rw)}</span></div>`:''}${fee?`<div><span>Delivery fee</span><span>${f(fee)}</span></div>`:''}<div><span>Estimated tax</span><span>${f(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${f(tip)}</span></div>${gift?`<div class="save"><span>Gift card</span><span>−${f(gift)}</span></div>`:''}<div class="tot"><span>${gift?'Due on Visa •••• 4417':'Total'}</span><span>${f(tot-gift)}</span></div>`;
+  const pb=$('#place'); pb.disabled=!sub;
+  const ap=co.cpay===0&&sub; pb.dataset.kind=ap?'it':'tx';
+  pb.innerHTML=ap?`<span class="bt-ic ap-glyph" aria-hidden="true"><svg viewBox="0 0 20 14"><rect x="1.5" y="1.5" width="17" height="11" rx="2.2"/><path d="M1.5 5h17M12.5 9h3"/></svg></span><span class="bt-label">Pay with Apple Pay</span>`:`<span class="bt-label">${sub?`Place order · ${f(tot-gift)}`:'Add a bowl to order'}</span>`;
+  pb.classList.toggle('applepay',!!ap);
+  const where=co.mode==='delivery'?'Delivered to Home':co.mode==='dinein'?`Dine-in at ${STORE.name}`:`Pickup at ${STORE.name}`;
+  $('#co-note').textContent=sub?`You’ll earn ${pts.toLocaleString()} pts · ${where}`:where;
   const por=$('#tipwrap .portion'); if(por&&co.tip) por.textContent=`${TIPS[co.tip]} · ${f(tip)}`;
 }
 $('#place').onclick=()=>placeOrder();
@@ -1813,9 +1863,11 @@ function paintSlots(){ const S=slots(), open=isOpen(), h=$('#store-hrs');
   if(h) h.textContent=open?`Open until ${hh(STORE.close)}`:`Opens ${dayOf(S[1])==='Today'?'':dayOf(S[1]).toLowerCase()+' '}${hh(STORE.open)}`;
   if(!open&&co.pick===0) co.pick=1;
   const rd=(i,l,d,dis)=>`<label class="li${dis?' off':''}"><span class="lab">${l}${d?`<small>${d}</small>`:''}</span><input class="sel" type="radio" name="pick" value="${i}"${co.pick===i?' checked':''}${dis?' disabled':''}><span class="ctl rd" aria-hidden="true"><span class="dot"></span></span></label>`;
-  $('#picks').innerHTML=rd(0,'As soon as possible',open?`10–15 min · ready around ${clock(S[0])}`:'Unavailable while the store is closed',!open)
-    +rd(1,`${dayOf(S[1])}, ${win(S[1])}`,open?'':'First pickup window')+rd(2,`${dayOf(S[2])}, ${win(S[2])}`,''); }
+  const dl=co.mode==='delivery', asap=dl?`35–45 min · arrives around ${clock(new Date(S[0].getTime()+28*6e4))}`:co.mode==='dinein'?`10–15 min · at your table around ${clock(S[0])}`:`10–15 min · ready around ${clock(S[0])}`;
+  $('#picks').innerHTML=rd(0,'As soon as possible',open?asap:'Unavailable while the store is closed',!open)
+    +rd(1,`${dayOf(S[1])}, ${win(S[1])}`,open?'':`First ${co.mode==='delivery'?'delivery':co.mode==='dinein'?'dine-in':'pickup'} window`)+rd(2,`${dayOf(S[2])}, ${win(S[2])}`,''); }
 ENTER.bag=()=>{ paintSlots(); renderBag(); };
+wireGroup($('#mode'),setMode); // WK08 · 01 Serene button group
 $('#co').addEventListener('click',e=>{ const m=e.target.closest('[data-msg]'); if(m) toast(m.dataset.msg); });
 paintSlots(); renderBag();
 
@@ -1998,7 +2050,7 @@ function orderItems(o){ const d=odate(o).toLocaleDateString('en-US',{weekday:'sh
   {label:'Edit in bowl builder',lead:'pencil',key:'⌘E',act:()=>{ buildBowlFromOrder(o); go('builder'); }},
   {label:'View receipt',lead:'receipt',icon:'sheet',act:()=>openOrder(o)},
   {sep:1},
-  {label:'Rate this bowl',lead:'star',badge:'+50 pts',act:()=>toast(`Thanks! 50 pts for rating the ${o.name} Bowl`)},
+  {label:'Rate this bowl',lead:'star',badge:'+50 pts',act:()=>{ openOrder(o); setTimeout(()=>{ const r=$('#sh-rate'); r&&r.scrollIntoView({block:'center',behavior:'smooth'}); },500); }},
   {label:'Share',lead:'share',sub:[
     {label:'Copy link',key:'⌘C',act:()=>{ try{navigator.clipboard.writeText(`https://sweetie.app/bowl/${o.name.toLowerCase().replace(/\W+/g,'-')}`);}catch(_){} toast('Link copied'); }},
     {label:'Messages',act:shared('Messages')},{label:'Mail',act:shared('Mail')},{label:'AirDrop',act:shared('AirDrop')}]},
@@ -2048,6 +2100,10 @@ async function builderDemo(){ // slides one ingredient bar through its portions,
 }
 function route(){
   const [scr,act]=decodeURIComponent(location.hash.slice(1)).split('/');
+  if(scr==='buttons'){ closeSheet();
+    if(act==='order'){ go('orders',{push:false}); setTimeout(()=>{ openOrder(ORDERS[0]); },500); }
+    else { if(!state.bag.length) seedBag(); go('bag',{push:false}); }
+    return true; }
   if(scr==='toolbar'){ closeSheet();
     if(act==='select'){ go('orders',{push:false}); setTimeout(()=>{ setSelect(true); [...$$('#grid .hrow')].slice(0,2).forEach(toggleSel); },500); }
     else { go('chat',{push:false}); setTimeout(()=>{ setZoom(.75); },700); }

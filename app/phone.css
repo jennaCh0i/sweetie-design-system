@@ -329,3 +329,7 @@ html:has(body.device){background:var(--cream-100)}
 #app.kb-on .adj-tab{opacity:1;pointer-events:auto}
 #s-builder.adj-open .b-title,#s-builder.adj-open .b-meta{opacity:.25;transition:opacity .3s}
 #s-builder .b-title{padding-right:56px}
+/* WK08 buttons on a phone */
+.bg-more{flex-direction:column}
+.mode-wrap .btg .bt{padding:0 10px}
+.sh-acts{flex-wrap:wrap}

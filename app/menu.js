@@ -25,6 +25,11 @@ var MI={
   search:'<circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.5 15.5 4.7 4.7"/>',
   filter:'<path d="M4 6.5h16M7 12h10M10 17.5h4"/>',
   close:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+  trash:'<path d="M4.5 7h15M9.5 7V5h5v2M6.5 7l.9 12.5h9.2L17.5 7"/>',
+  truck:'<path d="M2.8 6.5h11v9.5h-11z"/><path d="M13.8 9.5h4l3.4 3.6v2.9h-7.4"/><circle cx="7" cy="17.4" r="1.9"/><circle cx="17.2" cy="17.4" r="1.9"/>',
+  store:'<path d="M4 9.5 5.5 4.5h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v7.5h13V12M10 19.5v-4.5h4v4.5"/>',
+  seat:'<path d="M6.5 4.5v9h11"/><path d="M6.5 13.5v6M17.5 13.5v6M6.5 9.5h7"/>',
+  thumbup:'<path d="M7.5 10.5v9h-3v-9z"/><path d="M7.5 10.5l3.6-6.2c1.3 0 2.2 1 2 2.3l-.6 3.4h5.3a1.8 1.8 0 0 1 1.8 2.1l-1.2 6a2 2 0 0 1-2 1.4H7.5"/>',
   more:'<circle cx="5.5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="18.5" cy="12" r="1.5" fill="currentColor" stroke="none"/>'
 };
 var mico=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${MI[k]}</svg>`;
