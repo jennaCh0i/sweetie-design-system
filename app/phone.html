@@ -58,6 +58,8 @@
   /* elevation */
   --elev-1:0 2px 12px rgba(0,40,30,.04); --elev-2:0 8px 28px rgba(0,71,61,.06); /* barely-there shadows */
   --bg-builder:linear-gradient(180deg,#E5E8D7 0%,#E7EDD7 45%,#E2EFCB 100%);
+  --bg-chat:linear-gradient(180deg,#EDF5DF 0%,#E4F0D0 55%,#D7EBBE 100%); /* chat panel: clear green tint, not grey */
+  --green-50:#F2F7E8;
 
   --glow:radial-gradient(ellipse 62% 70% at 50% 50%,#41834F 0%,#95CC62 45%,#C0E396 78%,#F5F3E8 125%);
 }
@@ -130,7 +132,7 @@ body.forced #fs-exit{display:none}
 .order-btn:hover{background:var(--action-hover)}
 .order-btn:active{transform:scale(.98)}
 .status{width:auto;justify-content:center;background:var(--green-100);color:var(--green-950);position:relative;overflow:hidden}
-.status .sfill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--sp,0)*(100% + 48px));background:linear-gradient(90deg,rgba(149,204,98,.08),rgba(149,204,98,.45));
+.status .sfill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--sp,0)*(100% + 48px));background:linear-gradient(90deg,rgba(149,204,98,.10),rgba(149,204,98,.5));
   -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 48px),transparent);transition:width 1s linear} /* the leading edge fades out over 48 px: no hard line */
 .status span,.status svg{position:relative}
 .status svg{width:20px;height:22px;color:var(--n-400)}
@@ -341,7 +343,7 @@ body.forced #fs-exit{display:none}
 .veil.show{opacity:1;visibility:visible}
 
 /* ═════════════ 04 · CHAT WITH INGREDIENTS ═════════════ */
-#s-chat{overflow:hidden;overflow:clip}
+#s-chat{overflow:hidden;overflow:clip;background:radial-gradient(70% 60% at 30% 45%,#F3F8EA 0%,rgba(243,248,234,0) 70%),linear-gradient(180deg,#EEF4E3 0%,#E6F0D6 100%)} /* canvas: soft green tint, not white */
 .produce{position:absolute;inset:0;transition:transform .9s var(--ease)}
 .prod{position:absolute;transition:left 1.1s var(--ease),top 1.1s var(--ease),width 1.1s var(--ease),height 1.1s var(--ease),filter 1s var(--ease),opacity 1s var(--ease)}
 .prod .float{position:absolute;inset:0;animation:float var(--fd,12s) ease-in-out infinite alternate;animation-delay:var(--fdl,0s)}
@@ -364,7 +366,7 @@ body.forced #fs-exit{display:none}
 #s-chat .exp-host{position:absolute;left:605px;bottom:40px;transform:translateX(-50%);z-index:6;transition:left 1s var(--ease)}
 #s-chat.talking .exp-host{left:345px}
 #s-chat.moving{cursor:grab}
-.panel{position:absolute;left:690px;top:75px;right:-2px;bottom:0;background:var(--bg-builder);border-left:.5px solid var(--line);transform:translateX(100%);transition:transform 1s var(--ease);display:flex;flex-direction:column;padding:var(--m) var(--m) var(--m)}
+.panel{position:absolute;left:690px;top:75px;right:-2px;bottom:0;background:var(--bg-chat);border-left:.5px solid var(--line);transform:translateX(100%);transition:transform 1s var(--ease);display:flex;flex-direction:column;padding:var(--m) var(--m) var(--m)}
 #s-chat.talking .panel{transform:none}
 .p-head{display:flex;justify-content:space-between;align-items:center;height:29px;flex:none}
 .p-head .who{display:flex;align-items:center;gap:10px;font-size:var(--t-cap);color:var(--n-600);letter-spacing:var(--tr-cap)}
@@ -375,7 +377,7 @@ body.forced #fs-exit{display:none}
 .msgs::-webkit-scrollbar{display:none}
 .m{opacity:0;filter:blur(4px);transform:translateY(8px);transition:opacity var(--drift) var(--ease),filter var(--drift) var(--ease),transform var(--drift) var(--ease)}
 .m.in{opacity:1;filter:none;transform:none}
-.m.user{align-self:flex-end;max-width:360px;padding:10px 19px;border-radius:var(--r-pill);background:var(--cream-100);box-shadow:var(--hair);font-size:var(--t-body);letter-spacing:var(--tr-body)}
+.m.user{align-self:flex-end;max-width:360px;padding:10px 19px;border-radius:var(--r-pill);background:var(--green-50);box-shadow:var(--hair);font-size:var(--t-body);letter-spacing:var(--tr-body)}
 .m.ing{max-width:392px}
 .m.ing small{display:block;font-size:var(--t-cap);color:var(--n-600);margin-bottom:12px;letter-spacing:var(--tr-cap)}
 .m.ing p{font-size:var(--t-body);line-height:23px;letter-spacing:var(--tr-body)}
@@ -390,9 +392,9 @@ body.forced #fs-exit{display:none}
 .sugg{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .sugg::-webkit-scrollbar{display:none}
 .sugg{-webkit-mask-image:linear-gradient(90deg,#000 94%,transparent);mask-image:linear-gradient(90deg,#000 94%,transparent);padding-right:18px}
-.sugg button{flex:none;height:var(--h-s);padding:0 12px;white-space:nowrap;border-radius:var(--r-pill);background:rgba(255,255,255,.6);box-shadow:var(--hair);font-size:var(--t-cap);color:var(--n-950);transition:background 0.27s;letter-spacing:var(--tr-cap)}
+.sugg button{flex:none;height:var(--h-s);padding:0 12px;white-space:nowrap;border-radius:var(--r-pill);background:rgba(242,247,232,.85);box-shadow:var(--hair);font-size:var(--t-cap);color:var(--n-950);transition:background 0.27s;letter-spacing:var(--tr-cap)}
 .sugg button:hover{background:var(--white)}
-.p-foot .prompt{width:100%}
+.p-foot .prompt{width:100%;background:var(--green-50)}
 
 /* ═════════════ 05 · ORDER HISTORY ═════════════ */
 #s-orders .scroll{position:absolute;left:0;right:0;top:75px;bottom:0;overflow-y:auto;padding:var(--m);scrollbar-width:none}
@@ -763,7 +765,7 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
       </div>
     </div>
     <div class="nav-r">
-      <div class="pill status" data-on="chat"><span class="sfill"></span><span id="status-t">Pick up in 4 min</span></div>
+      <div class="pill status" data-on="ordered"><span class="sfill"></span><span id="status-t">Ready at …</span></div>
             <div class="tiphost" id="bag-host" data-on="start discover builder chat orders bag done">
         <button class="icon" id="bag" aria-label="Bag" aria-describedby="bag-tip"><svg viewBox="0 0 26 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 10h20l-1.4 14.6a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8Z"/><path d="M9 10V7.5a4 4 0 0 1 8 0V10"/></svg><span class="b bag-b" id="bag-b"></span></button>
         <div class="tip down right rich" role="tooltip" id="bag-tip"></div>
@@ -1626,10 +1628,13 @@ PR.addEventListener('pointermove',e=>{ if(!mv) return; const dx=(e.clientX-mv.x)
 PR.addEventListener('pointerup',()=>{ mv=null; setTimeout(()=>moved=false,0); });
 // pickup status pill (WK01 determinate capsule idea: fills as pickup nears)
 let pickT;
-function startPickup(at){ clearInterval(pickT); app.classList.add('picking'); const st=$('.status'), t=$('#status-t'), T=at||new Date(Date.now()+4*6e4), total=Math.max(60,(T-Date.now())/1e3);
-  const tick=()=>{ const left=Math.max(0,(T-Date.now())/1e3); st.style.setProperty('--sp',(1-left/total).toFixed(3)); t.textContent=left>90?`Ready at ${clock(T)}`:left>0?'Almost ready':'Ready for pickup'; if(!left) clearInterval(pickT); };
+// appears only after an order is placed; the fill glides continuously from now until the pickup time (one long linear transition)
+function startPickup(at){ clearInterval(pickT); app.classList.add('picking'); const st=$('.status'), t=$('#status-t'), f=$('.sfill',st), T=at||new Date(Date.now()+4*6e4), total=Math.max(60,(T-Date.now())/1e3);
+  const tick=()=>{ const left=Math.max(0,(T-Date.now())/1e3); t.textContent=left>90?`Ready at ${clock(T)}`:left>0?'Almost ready':'Ready for pickup'; if(!left) clearInterval(pickT); };
+  f.style.transition='none'; st.style.setProperty('--sp','0'); void f.offsetWidth;
+  f.style.transition=`width ${total}s linear`; st.style.setProperty('--sp','1');
   tick(); pickT=setInterval(tick,1000); }
-ENTER.chat=(from)=>{ if(!pickT) startPickup(); };
+ENTER.chat=()=>{}; // (the Ready pill no longer starts here — only after Place order)
 
 /* ═════════════ 05 · ORDER HISTORY ═════════════ */
 const ORDERS=[
