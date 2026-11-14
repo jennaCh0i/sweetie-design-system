@@ -216,8 +216,8 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
 <section class="set" id="elegant">
   <p class="set-num">02 · Elegant</p>
   <h2 class="set-title">Order details buttons</h2>
-  <p class="set-desc">Tone: precise, quiet, editorial. Small 13 px corners instead of pills, hairline outlines, light type and quick, exact changes; colour is held back until it means something, like the filled heart or a chosen rating. Function: Reorder adds the past bowl to your bag (primary), Send rating confirms your feedback and is disabled until you pick one (secondary), View receipt opens the receipt in place (tertiary). Favorite and Share are icon only, and How was it? is a single-choice group.</p>
-  <div class="tokens"><span>Figtree 17 / 22 Light · 15 / 20 at M</span><span>green-950 · cream-200 + hairline · outline 1 #BDBDBD</span><span>L 52 · M 44</span><span>radius 13</span><span>ease (.32, .72, 0, 1)</span></div>
+  <p class="set-desc">Tone: precise, quiet, editorial. Pills like every Sweetie button, but drawn with hairline outlines, cream fills, light type and quick, exact changes; colour is held back until it means something, like the filled heart or a chosen rating. Function: Reorder adds the past bowl to your bag (primary), Send rating confirms your feedback and is disabled until you pick one (secondary), View receipt opens the receipt in place (tertiary). Favorite and Share are icon only, and How was it? is a single-choice group.</p>
+  <div class="tokens"><span>Figtree 17 / 22 Light · 15 / 20 at M</span><span>green-950 · cream-200 + hairline · outline 1 #BDBDBD</span><span>L 52 · M 44</span><span>pill · radius 40</span><span>ease (.32, .72, 0, 1)</span></div>
 
   <div class="panel wide">
     <h3>Emphasis × content</h3>
@@ -352,7 +352,7 @@ function spec(tone,cards){ $('#spec-'+tone).innerHTML=cards.map(([h,rows])=>`<di
 ['serene','elegant'].forEach(t=>{ emph(t); states(t); groups(t); anatomy(t); });
 
 spec('serene',[
-  ['Size & shape',[['Large (L)','56 high · padding 0 28 · icon + text 0 28 0 22'],['Small (S)','32 high · padding 0 14 · icon only 32 × 32'],['Icon only','56 × 56 (L) · 32 × 32 (S)'],['Gap','10 icon → label (6 at S)'],['Radius','40 (pill)'],['Width','hugs content; fills the column in the bag']]],
+  ['Size & shape',[['Large (L)','56 high · padding 0 28 · icon + text 0 28 0 22'],['Small (S)','32 high · padding 0 14 · icon only 32 × 32'],['Icon only','56 × 56 (L) · 32 × 32 (S)'],['Gap','10 icon → label (6 at S)'],['Radius','40 (pill) — every tappable thing in Sweetie is a pill'],['Width','hugs content; fills the column in the bag']]],
   ['Type & icons',[['Label','Figtree 17 / 22 Regular · −1%'],['Small label','Figtree 13 / 18'],['Group label','Figtree 15 / 20 · −0.5%'],['Icon','22 glyph · stroke 1.5 (16 · 1.6 at S, 18 in the group)'],['Numbers','tabular figures (prices)']]],
   ['1 · Primary',[['Enabled','green-950 #00473D · cream #F5F3E8 label'],['Hover','#0B5C50'],['Pressed','#00382F · scale 0.97 · 0.12 s'],['Disabled','#CBD3C4 · cream label'],['Apple Pay variant','black #000 (Apple’s own Pay button)']]],
   ['2 · Secondary',[['Enabled','green-100 #DBE4CB · green-950 label'],['Hover','#D3DEC0'],['Pressed','green-200 #C0E396 · scale 0.97'],['Disabled','#E8ECDF · label green-950 32%']]],
@@ -360,12 +360,12 @@ spec('serene',[
   ['Button group',[['Track','52 high · padding 4 · green-100 · radius 40'],['Segments','44 high · padding 0 18 · gap 8 · label green-950 72%'],['Chosen','cream indicator · shadow 0 4 12 −4 · label green-950'],['Hover / Pressed','white 40% / green-200 50%'],['Disabled','label 28%; skipped by arrow keys'],['Motion','indicator slides 0.45 s · ease (.45, 0, .2, 1)']]]
 ]);
 spec('elegant',[
-  ['Size & shape',[['Large (L)','52 high · padding 0 24 · icon + text 0 24 0 20'],['Medium (M)','44 high · padding 0 18 · icon + text 0 18 0 14'],['Icon only','52 × 52 (L) · 44 × 44 (M)'],['Gap','10 icon → label (8 at M)'],['Radius','13'],['Width','hugs content; the sheet’s Reorder fills its footer']]],
+  ['Size & shape',[['Large (L)','52 high · padding 0 24 · icon + text 0 24 0 20'],['Medium (M)','44 high · padding 0 18 · icon + text 0 18 0 14'],['Icon only','52 × 52 (L) · 44 × 44 (M)'],['Gap','10 icon → label (8 at M)'],['Radius','40 (pill) — every tappable thing in Sweetie is a pill'],['Width','hugs content; the sheet’s Reorder fills its footer']]],
   ['Type & icons',[['Label','Figtree 17 / 22 Light (primary Regular)'],['Medium label','Figtree 15 / 20 Light'],['Icon','19 glyph · stroke 1.25 (18 at M, 17 in the group)'],['Favorite on','heart fills #C4211F']]],
   ['1 · Primary',[['Enabled','green-950 #00473D · cream label · Regular'],['Hover','#00382F'],['Pressed','#002A23 · 0.08 s'],['Disabled','#E3DED2 · label #A3A096']]],
   ['2 · Secondary',[['Enabled','cream-200 #EBE5DC · hairline 0.5 #BDBDBD'],['Hover','#E2DBCF'],['Pressed','#D8D0C2'],['Disabled','#F1EDE5 · label #B4B1A8 · hairline #D9D6CF']]],
   ['3 · Tertiary',[['Enabled','transparent · outline 1 inset #BDBDBD'],['Hover','cream-200 85%'],['Pressed','green-950 9% · outline green-950'],['Disabled','label #B4B1A8 · outline #DEDBD3']]],
-  ['Button group',[['Container','44 high · cream-50 #F9F6E6 · outline 1 #BDBDBD · radius 13'],['Segments','padding 0 16 · gap 8 · 1 hairline between'],['Chosen','green-950 fill · cream label · Regular'],['Hover / Pressed','cream-200 85% / green-950 9%'],['Empty start','nothing chosen until you pick; Send rating stays disabled'],['Motion','fill slides 0.28 s · ease (.32, .72, 0, 1)']]]
+  ['Button group',[['Container','44 high · cream-50 #F9F6E6 · outline 1 #BDBDBD · pill'],['Segments','padding 0 16 · gap 8 · 1 hairline between'],['Chosen','green-950 fill · cream label · Regular'],['Hover / Pressed','cream-200 85% / green-950 9%'],['Empty start','nothing chosen until you pick; Send rating stays disabled'],['Motion','fill slides 0.28 s · ease (.32, .72, 0, 1)']]]
 ]);
 
 document.querySelectorAll('.tab').forEach(tab=>{

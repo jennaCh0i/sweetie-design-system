@@ -50,10 +50,12 @@
 /* ─────────────────────────── 02 · ELEGANT ──────────────────────────
    Order history toolbars. Cream sheet, hairline edge and dividers, light type, quick. */
 .tb[data-tone=elegant]{--e:cubic-bezier(.32,.72,0,1);--tb-line:#BDBDBD;
-  height:44px;padding:0;gap:0;border-radius:13px;background:#F9F6E6;box-shadow:0 0 0 .5px var(--tb-line);overflow:hidden}
+  height:44px;padding:0;gap:0;border-radius:40px;background:#F9F6E6;box-shadow:0 0 0 .5px var(--tb-line);overflow:hidden} /* pill: buttons are round everywhere */
 .tb[data-tone=elegant] .tbb{height:100%;min-width:48px;gap:8px;padding:0 16px;border-radius:0;
   font-size:17px;line-height:22px;font-weight:300;letter-spacing:0;color:var(--tb-ink);background:transparent;transition:background .2s ease-in-out}
 .tb[data-tone=elegant] .tbb.ic{width:48px;padding:0}
+.tb[data-tone=elegant]>.tbb:first-child,.tb[data-tone=elegant]>.tb-group:first-child>:first-child,.tb[data-tone=elegant]>.tb-field:first-child{padding-left:20px}
+.tb[data-tone=elegant]>.tbb:last-child,.tb[data-tone=elegant]>.tb-group:last-child>:last-child{padding-right:20px}
 .tb[data-tone=elegant] .tbb+.tbb,.tb[data-tone=elegant] .tb-field+.tbb,.tb[data-tone=elegant] .tbb+.tb-field,.tb[data-tone=elegant] .tb-text+.tbb{box-shadow:inset .5px 0 0 var(--tb-line)}
 .tb[data-tone=elegant] .tbb-ic{width:20px;height:20px}
 .tb[data-tone=elegant] .tbb-ic svg{width:18px;height:18px;stroke-width:1.25}

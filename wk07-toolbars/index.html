@@ -229,7 +229,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--n-300);font-size:12px;colo
   <p class="set-num">02 · Elegant</p>
   <h2 class="set-title">Order history toolbars</h2>
   <p class="set-desc">Tone: precise, quiet, editorial. A cream strip with a hairline edge; buttons are joined by hairline dividers rather than floating apart, the type is light, and changes happen quickly. Function: the header toolbar, aligned right beside the title, searches your orders, filters them (All orders, Favorites, a month) and switches into selection mode. In selection mode a second toolbar slides up from the bottom: the count and Select all on the left, Reorder, Share and Remove on the right.</p>
-  <div class="tokens"><span>Figtree 17 / 22 Light</span><span>cream-50 #F9F6E6 · hairline #BDBDBD</span><span>header 44 (M) · bar 56 (L)</span><span>radius 13</span><span>ease (.32, .72, 0, 1)</span></div>
+  <div class="tokens"><span>Figtree 17 / 22 Light</span><span>cream-50 #F9F6E6 · hairline #BDBDBD</span><span>header 44 (M) · bar 56 (L)</span><span>pill · radius 40</span><span>ease (.32, .72, 0, 1)</span></div>
 
   <div class="panel wide">
     <h3>Configurations</h3>
@@ -394,7 +394,7 @@ function anatomy(tone,items,o){
     tag(li.l+li.w/2,by+84,`${getComputedStyle(it).fontSize.replace('px','')} / ${parseFloat(getComputedStyle(it).lineHeight)} · ${getComputedStyle(it).fontWeight==='300'?'Light':'Regular'}`);
     add('tick',{left:bc.l+'px',top:(by+112)+'px',width:bc.w+'px'}); tag(bc.l+bc.w/2,by+120,`icon button ${Math.round(bc.w)}×${Math.round(bc.h)}`);
     add('tick',{left:bt.l+'px',top:(by+140)+'px',width:bt.w+'px'}); tag(bt.l+bt.w/2,by+148,`text button ${Math.round(bt.w)}`);
-    tag(t0.l,t0.t-60,`radius ${cs.borderTopLeftRadius.replace('px','')}`+(tone==='serene'?' · buttons pill (40)':' · buttons square, hairline between'),'none');
+    tag(t0.l,t0.t-60,`radius ${cs.borderTopLeftRadius.replace('px','')}`+(tone==='serene'?' · buttons pill (40)':' (pill) · segments joined by hairlines'),'none');
   };
   draw(); document.fonts&&document.fonts.ready.then(draw); addEventListener('resize',draw);
 }
@@ -412,7 +412,7 @@ spec('serene',[
   ['Behaviour',[['Zoom steps','50 · 75 · 100 · 125 · 150%'],['Zoom','0.6 s ease (.45, 0, .2, 1), around the canvas centre'],['Pinch / ⌃ scroll','continuous zoom'],['Keys','+  −  0 · H for Move'],['Pan','clamped so ingredients can’t be lost']]]
 ]);
 spec('elegant',[
-  ['Container',[['Header height','44 (M tier)'],['Selection bar','56 (L tier) · full width minus 40 margins · 24 above the bottom'],['Padding','0'],['Radius','13'],['Fill','cream-50 #F9F6E6'],['Stroke','0.5 · #BDBDBD'],['Shadow','bar only · 0 14 30 −16 · black 24%']]],
+  ['Container',[['Header height','44 (M tier)'],['Selection bar','56 (L tier) · full width minus 40 margins · 24 above the bottom'],['Padding','0'],['Radius','40 (pill)'],['Fill','cream-50 #F9F6E6'],['Stroke','0.5 · #BDBDBD'],['Shadow','bar only · 0 14 30 −16 · black 24%']]],
   ['Buttons',[['Height','fills the toolbar (44 / 56)'],['Icon button','48 wide'],['Text / icon + text','padding 0 16 · gap 8'],['Radius','0 · joined by 0.5 hairlines'],['Search field','opens to 280 inside the toolbar (0.32 s)']]],
   ['Type & icons',[['Label','Figtree 17 / 22 Light · green-950'],['Done / active','Medium 500 / Regular 400'],['Count label','Figtree 13 / 18 caps · +6% · #595959'],['Destructive','#C4211F Regular'],['Icon','20 slot · 18 glyph · stroke 1.25']]],
   ['Alignment & groups',[['Header','right aligned, on the title’s baseline'],['Selection bar','left group (count · Select all) + right group (Reorder · Share · Remove)'],['Divider','0.5 hairline between joined buttons; 6 band between groups']]],
