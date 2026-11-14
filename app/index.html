@@ -257,6 +257,7 @@ body.forced #fs-exit{display:none}
 /* ═════════════ 03 · BOWL BUILDER ═════════════ */
 #s-builder .left{position:absolute;left:0;top:75px;width:690px;bottom:0;background:var(--bg-builder);border-right:.5px solid var(--line)}
 .b-title{position:absolute;left:var(--m);top:var(--m);width:320px;font-size:var(--t-title);font-weight:400;line-height:1.1;letter-spacing:var(--tr-title);color:var(--text-brand)}
+#order.bump{animation:bump .5s var(--ease)}@keyframes bump{40%{transform:scale(1.04)}}
 .b-meta{position:absolute;left:var(--m);top:auto;font-size:var(--t-body-s);color:var(--n-500);letter-spacing:var(--tr-body-s);font-variant-numeric:tabular-nums}
 .b-desc{position:absolute;left:376px;top:calc(var(--m) + 6px);width:274px;font-size:var(--t-body-s);line-height:19px;color:var(--n-800);letter-spacing:var(--tr-body-s)}
 .photo{position:absolute;left:150px;top:203px;width:420px;height:410px}
@@ -271,7 +272,7 @@ body.forced #fs-exit{display:none}
 .prompt:focus-within{box-shadow:inset 0 0 0 1px rgba(0,71,61,.28),var(--elev-1)}
 /* composer: two layers — a light Glow outer frame with a context strip, and the white input inside */
 .composer{--pad:5px;border-radius:calc(var(--r-md) + var(--pad));padding:0 var(--pad) var(--pad);
-  background:radial-gradient(120% 160% at 0% 0%,rgba(212,226,190,.9) 0%,rgba(225,230,212,.85) 50%,rgba(240,239,228,.9) 100%);
+  background:radial-gradient(120% 160% at 0% 0%,rgba(190,212,160,.94) 0%,rgba(204,221,182,.92) 50%,rgba(218,229,200,.94) 100%); /* ~10% deeper, green all the way across */
   box-shadow:var(--hair),var(--elev-1)}
 .cmp-top{position:relative;display:flex;align-items:center;gap:8px;min-height:38px;padding:0 12px 0 14px}
 .cmp-ic{flex:none;width:16px;height:16px;fill:none;stroke:var(--green-700);stroke-width:1.3;stroke-linejoin:round}
@@ -1052,7 +1053,10 @@ function dietOf(items){
 }
 const tagsOf=items=>Object.entries(dietOf(items)).filter(([,bad])=>!bad.length).map(([t])=>t);
 const kcalOf=items=>Math.round(items.reduce((t,[n,v])=>t+((ING[n]||[,,20])[2])*MULT[v],0));
-const priceOf=items=>{ const raw=BASE_PRICE+items.reduce((t,[n,v])=>t+((ING[n]||[,,,0])[3])*MULT[v],0); return Math.ceil(raw/.5)*.5-.05; }; // menu-style .45 / .95
+// pricing like the counter: each ingredient in the bowl is charged once (Less is not a discount); More / A lot add an extra charge on top
+const extraOf=(n,v)=>v>2?Math.ceil(((ING[n]||[,,,0])[3])*(MULT[v]-1)*4)/4:0;           // +50% / +100% of the portion price, to the next $0.25 (dressings stay free)
+const extrasOf=items=>items.reduce((t,[n,v])=>t+extraOf(n,v),0);
+const priceOf=items=>{ const raw=BASE_PRICE+items.reduce((t,[n,v])=>t+(v>0?((ING[n]||[,,,0])[3]):0),0); return Math.ceil(raw/.5)*.5-.05+extrasOf(items); }; // menu-style .45 / .95 + extras
 const macros=k=>({protein:Math.round(k*.062),carbs:Math.round(k*.075),fat:Math.round(k*.04)});
 const money=v=>'$'+v.toFixed(2);
 const PRESETS={
@@ -1353,7 +1357,7 @@ function serenebar(host,name,value,opts={}){
     el.classList.toggle('p-in',inside&&!hide); el.classList.toggle('p-hide',hide);}
   layout();
   const api=slider(el,{stops:PORTIONS,value,range,label:name+' portion',text:i=>PORTIONS[i],onChange(i,st){
-    bub.innerHTML=i===0?'None <i>· let go to remove</i>':PORTIONS[i]; portion.textContent=SHORT[i];
+    const ex=extraOf(name,i), xs=ex?` +${money(ex)}`:''; bub.innerHTML=i===0?'None <i>· let go to remove</i>':PORTIONS[i]+(ex?` <i>·${xs}</i>`:''); portion.textContent=SHORT[i]+xs;
     el.classList.toggle('is-zero',i===0); dots.forEach((d,k)=>d.classList.toggle('on',k<=i));
     if(!st.drag) place(); opts.onChange&&opts.onChange(i,st);}});
   api.relayout=()=>{layout();api.set(api.get());}; api.el=el;
@@ -1438,7 +1442,7 @@ function meta(jump){
   renderDiet();
   const items=allItems().filter(i=>i.v>0).map(i=>[i.name,i.v]), k=kcalOf(items), pr=priceOf(items), P=PRESETS[state.preset];
   const line=v=>`${P.tagline} · ${v} cal · ${money(pr)}`;
-  const ob=$('#order'); if(ob) ob.textContent=`Add to bag · ${money(pr)}`;
+  const ob=$('#order'); if(ob){ const was=ob.dataset.pr; ob.textContent=`Add to bag · ${money(pr)}`; ob.dataset.pr=pr; if(was&&+was!==pr){ ob.classList.remove('bump'); void ob.offsetWidth; ob.classList.add('bump'); } }
   cancelAnimationFrame(kRaf);
   if(jump){kShown=k;$('#b-meta').textContent=line(k);return;}
   const from=kShown,t0=performance.now();
@@ -1809,7 +1813,7 @@ function renderBag(){
       <div class="bi-right"><span class="bi-price">$${(x.price*x.qty).toFixed(2)}</span>
         <div class="qty2" role="group" aria-label="Quantity">${btn('serene',{level:3,icon:x.qty>1?'minus':'trash',aria:x.qty>1?'One less':'Remove',cls:'sm',attrs:' data-q="-1"'})}<b>${x.qty}</b>${btn('serene',{level:2,icon:'plus',aria:'One more',cls:'sm',disabled:x.qty>=MAXQ,attrs:' data-q="1"'})}</div></div></div>
     <button class="li" type="button" aria-expanded="false"><span class="lab">What’s inside</span><span class="tr">${x.items.slice(0,3).map(y=>y[0]).join(', ')}${x.items.length>3?'…':''}</span><span class="ch">${ICON.down}</span></button>
-    <div class="sub"><div>${x.items.map(([nm,v],k)=>`<div class="li" style="--i:${k}"><span class="dot" style="--c:${(ING[nm]||['#ccc'])[0]}"></span><span class="lab">${nm}</span><span class="tr">${PORTIONS[v]}</span></div>`).join('')}</div></div>
+    <div class="sub"><div>${x.items.map(([nm,v],k)=>`<div class="li" style="--i:${k}"><span class="dot" style="--c:${(ING[nm]||['#ccc'])[0]}"></span><span class="lab">${nm}</span><span class="tr">${PORTIONS[v]}${extraOf(nm,v)?` · +${money(extraOf(nm,v))}`:''}</span></div>`).join('')}</div></div>
   </article>`).join('');
   L.insertAdjacentHTML('beforeend',`<div class="bg-more">${btn('serene',{level:2,icon:'plus',label:'Add another bowl',id:'bg-add'})}${btn('serene',{level:3,label:'Save bag for later',id:'bg-save'})}</div>`);
   $('#bg-add').onclick=()=>go('start'); $('#bg-save').onclick=()=>toast(`Saved ${n} bowl${n>1?'s':''} to Favorites for later`);
