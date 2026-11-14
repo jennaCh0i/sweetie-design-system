@@ -333,3 +333,8 @@ html:has(body.device){background:var(--cream-100)}
 .bg-more{flex-direction:column}
 .mode-wrap .btg .bt{padding:0 10px}
 .sh-acts{flex-wrap:wrap}
+/* canvas toolbar on a phone: Move becomes icon only so the five filters fit */
+#cv-tb #move .tbb-label{display:none}
+#cv-tb #move{padding:0;width:44px}
+#cv-tb .tb-sep{margin:0 2px}
+.tb .btg.in-tb .bt{padding:0 8px;font-size:14px}

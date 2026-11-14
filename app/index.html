@@ -360,6 +360,12 @@ body.forced #fs-exit{display:none}
 .chat-head h2{margin-top:4px;font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);color:var(--text-brand)}
 #s-chat.talking .chat-head{opacity:0;filter:blur(8px);transform:translateX(-160px)}
 #s-chat .exp-host{position:absolute;left:605px;bottom:40px;transform:translateX(-50%);z-index:6;transition:left 1s var(--ease)}
+.prod.dim{opacity:.18;filter:blur(3px) saturate(.6);pointer-events:none}
+#s-chat .chat-head{transition:opacity .5s var(--ease),transform 1s var(--ease)}
+#s-chat.filtered .chat-head{opacity:0;pointer-events:none}
+.tb .btg.in-tb{height:44px;padding:0;background:transparent}
+.tb .btg.in-tb .bt{height:44px;padding:0 16px;font-size:17px;line-height:22px;color:rgba(0,71,61,.78)}
+.tb .btg.in-tb .bt[aria-checked=true]{color:var(--green-950)}
 #s-chat.talking .exp-host{left:345px}
 #s-chat.moving{cursor:grab}
 .panel{position:absolute;left:690px;top:75px;right:-2px;bottom:0;background:var(--bg-chat);border-left:.5px solid var(--line);transform:translateX(100%);transition:transform 1s var(--ease);display:flex;flex-direction:column;padding:var(--m) var(--m) var(--m)}
@@ -904,8 +910,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 // WK07 · 01 Serene · canvas toolbar (centre aligned, floating over the chat canvas)
 $('#cv-host').insertAdjacentHTML('afterbegin',toolbar('serene',[
   {id:'move',icon:'hand',label:'Move',aria:'Move around',pressed:false,attrs:' aria-describedby="mv2"'},{sep:1},
-  {id:'zoom-out',icon:'minus',aria:'Zoom out'},{id:'zoom-100',label:'100%',aria:'Zoom to 100%'},{id:'zoom-in',icon:'plus',aria:'Zoom in'},{sep:1},
-  {id:'recentre',icon:'recentre',aria:'Recentre the canvas',disabled:true}],{label:'Canvas',id:'cv-tb'}));
+  {html:btnGroup('serene',[{value:'all',label:'All'},{value:'greens',label:'Greens'},{value:'veggies',label:'Veggies'},{value:'protein',label:'Protein'},{value:'toppings',label:'Toppings'}],{label:'Show ingredients',id:'cv-filter',cls:'in-tb'})}],{label:'Canvas',id:'cv-tb'}));
 { const w=$('#cv-tip'), mv=$('#move'); mv.before(w); w.prepend(mv); } // Move keeps its WK02 rich tooltip
 // Order history header toolbar (02 Elegant, right aligned) + selection toolbar
 $('#o-tools').innerHTML=toolbar('elegant',[
@@ -1564,6 +1569,7 @@ function focusPos(p){ // the chosen ingredient glides to the centre of the left 
 }
 function resetProd(){ PROD.forEach(p=>Object.assign(p.el.style,{left:p.x+'px',top:p.y+'px',width:p.w+'px',height:p.h+'px'})); }
 async function openChat(p,firstQ){
+  if(cvFilter!=='all'){ cvFilter='all'; cvG.pick('all'); PROD.forEach(q=>q.el.classList.remove('dim')); $('#s-chat').classList.remove('filtered'); }
   if(mpan.x||mpan.y||zoom!==1){ mpan={x:0,y:0}; zoom=1; applyView(); } // bring the canvas home so the pick lands centre-left
   const first=!talking; talking=p; state.chat=p.name;
   PROD.forEach(q=>q.el.classList.toggle('focus',q===p));
@@ -1601,20 +1607,29 @@ const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:-400,r:1490,t:-235,b:964}, OX=605, OY=38
 PR.style.transformOrigin=`${OX}px ${OY}px`;
 function clampPan(){ const L=OX+(EXT.l-OX)*zoom, R=OX+(EXT.r-OX)*zoom, T=OY+(EXT.t-OY)*zoom, B=OY+(EXT.b-OY)*zoom;
   mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }
-function paintCv(){ $('#zoom-100 .tbb-label').textContent=Math.round(zoom*100)+'%';
-  $('#recentre').setAttribute('aria-disabled',!mpan.x&&!mpan.y&&zoom===1); $('#zoom-out').setAttribute('aria-disabled',zoom<=ZOOMS[0]+1e-3); $('#zoom-in').setAttribute('aria-disabled',zoom>=ZOOMS[ZOOMS.length-1]-1e-3); }
+function paintCv(){}
 function applyView(anim=true){ PR.style.transition=anim?'transform .6s cubic-bezier(.45,0,.2,1)':'none';
   PR.style.transform=(mpan.x||mpan.y||zoom!==1)?`translate(${mpan.x}px,${mpan.y}px) scale(${zoom})`:''; paintCv(); }
 function setZoom(z,anim=true){ const nz=clamp(z,ZOOMS[0],ZOOMS[ZOOMS.length-1]); mpan={x:mpan.x*nz/zoom,y:mpan.y*nz/zoom}; zoom=nz; clampPan(); applyView(anim); }
 const zoomStep=d=>setZoom(d>0?(ZOOMS.find(v=>v>zoom+1e-3)||zoom):([...ZOOMS].reverse().find(v=>v<zoom-1e-3)||zoom));
 function recentre(){ mpan={x:0,y:0}; zoom=1; applyView(); }
 $('#move').onclick=()=>{ moving=!moving; $('#move').setAttribute('aria-pressed',moving); chat.classList.toggle('moving',moving); };
-$('#zoom-in').onclick=()=>zoomStep(1); $('#zoom-out').onclick=()=>zoomStep(-1); $('#zoom-100').onclick=()=>setZoom(1); $('#recentre').onclick=recentre;
-PR.addEventListener('wheel',e=>{ if(talking) return;
-  if(e.ctrlKey){ e.preventDefault(); setZoom(zoom*Math.exp(-e.deltaY*.01),false); }            // pinch / ⌃ + scroll
-  else if(moving){ e.preventDefault(); mpan={x:mpan.x-e.deltaX,y:mpan.y-e.deltaY}; clampPan(); applyView(false); } },{passive:false});
+/* filter (replaces zoom, per feedback): a WK08 button group in the WK07 toolbar. Matching ingredients stay,
+   the rest step back, and the canvas glides to frame the matches (extras off-canvas included). */
+const CAT={lettuce2:'greens',onion:'veggies',beet:'veggies',tomato:'veggies',cucumber:'veggies',pepper:'veggies',pumpkin:'veggies',pea:'veggies',
+  salmon:'protein',avocado:'toppings',corn:'toppings',garlic:'toppings',artichoke:'toppings'};
+let cvFilter='all';
+function frameMatches(L){ if(!L.length){ recentre(); return; }
+  const l=Math.min(...L.map(p=>p.x)), r=Math.max(...L.map(p=>p.x+p.w)), t=Math.min(...L.map(p=>p.y)), b=Math.max(...L.map(p=>p.y+p.h));
+  const VW0=typeof VW!=='undefined'?VW:1210, top=95, bot=(typeof VH!=='undefined'?VH-(typeof HB!=='undefined'?HB:0):834)-110;
+  const z=clamp(Math.min((VW0-60)/(r-l),(bot-top)/(b-t)),ZOOMS[0],1.15);
+  zoom=z; const cx=(l+r)/2, cy=(t+b)/2; mpan={x:VW0/2-(OX+(cx-OX)*z), y:(top+bot)/2-(OY+(cy-OY)*z)}; clampPan(); applyView(); }
+function setCvFilter(f){ cvFilter=f; const L=[]; $('#s-chat').classList.toggle('filtered',f!=='all');
+  PROD.forEach(p=>{ const on=f==='all'||CAT[p.k]===f; p.el.classList.toggle('dim',!on); if(on&&(f!=='all'||!p.extra)) L.push(p); });
+  if(f==='all') recentre(); else frameMatches(L); }
+const cvG=wireGroup($('#cv-filter'),setCvFilter);
 addEventListener('keydown',e=>{ if(app.dataset.screen!=='chat'||talking||e.metaKey||e.ctrlKey||e.target.closest('input,textarea')) return;
-  if(e.key==='+'||e.key==='='){ zoomStep(1); } else if(e.key==='-'){ zoomStep(-1); } else if(e.key==='0'){ setZoom(1); } else if(e.key==='h'||e.key==='H'){ $('#move').click(); } });
+  if(e.key==='h'||e.key==='H'){ $('#move').click(); } });
 paintCv();
 $('#move-act').onclick=()=>{$('#move').click(); $('#move').closest('.tiphost').classList.remove('show');};
 PR.addEventListener('pointerdown',e=>{ moved=false; if(!moving) return; mv={x:e.clientX,y:e.clientY,px:mpan.x,py:mpan.y,id:e.pointerId}; });
@@ -2112,7 +2127,7 @@ function route(){
     return true; }
   if(scr==='toolbar'){ closeSheet();
     if(act==='select'){ go('orders',{push:false}); setTimeout(()=>{ setSelect(true); [...$$('#grid .hrow')].slice(0,2).forEach(toggleSel); },500); }
-    else { go('chat',{push:false}); setTimeout(()=>{ setZoom(.75); },700); }
+    else { go('chat',{push:false}); setTimeout(()=>{ const g=$('#cv-filter [data-value=veggies]'); g&&g.click(); },900); }
     return true; }
   if(scr==='menu'){ go('orders',{push:false}); closeSheet();
     setTimeout(()=>{ if(act==='order'){ const b=$$('#grid .hrow [data-more]')[0]; const m=openOrderMenu(ORDERS[b.dataset.more],{anchor:b}); setTimeout(()=>{ const r=$$('.mi',m.el).find(x=>x.textContent.trim()==='Share'); r&&openSub(m,r); },700); }
