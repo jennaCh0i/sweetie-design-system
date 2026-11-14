@@ -372,7 +372,7 @@ body.forced #fs-exit{display:none}
 .tb .btg.in-tb .bt{height:44px;padding:0 16px;font-size:17px;line-height:22px;color:rgba(0,71,61,.78)}
 .tb .btg.in-tb .bt[aria-checked=true]{color:var(--green-950)}
 #s-chat.talking .exp-host{left:345px}
-#s-chat.moving{cursor:grab}
+#s-chat.moving .produce{cursor:grab}#s-chat.moving .produce:active{cursor:grabbing}#s-chat.moving .prod.tap{cursor:pointer}
 .panel{position:absolute;left:690px;top:75px;right:-2px;bottom:0;background:var(--bg-chat);border-left:.5px solid var(--line);transform:translateX(100%);transition:transform 1s var(--ease);display:flex;flex-direction:column;padding:var(--m) var(--m) var(--m)}
 #s-chat.talking .panel{transform:none}
 .p-head{display:flex;justify-content:space-between;align-items:center;height:29px;flex:none}
@@ -1008,9 +1008,8 @@ svg.cmp-ic :is(path,circle,rect){vector-effect:non-scaling-stroke;stroke-width:v
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 // WK07 · 01 Serene · canvas toolbar (centre aligned, floating over the chat canvas)
 $('#cv-host').insertAdjacentHTML('afterbegin',toolbar('serene',[
-  {id:'move',icon:'hand',label:'Move',aria:'Move around',pressed:false,attrs:' aria-describedby="mv2"'},{sep:1},
   {html:btnGroup('serene',[{value:'all',label:'All'},{value:'greens',label:'Greens'},{value:'veggies',label:'Veggies'},{value:'protein',label:'Protein'},{value:'toppings',label:'Toppings'}],{label:'Show ingredients',id:'cv-filter',cls:'in-tb'})}],{label:'Canvas',id:'cv-tb'}));
-{ const w=$('#cv-tip'), mv=$('#move'); mv.before(w); w.prepend(mv); } // Move keeps its WK02 rich tooltip
+$('#cv-tip').hidden=true; // Move was removed: the canvas always drags (tap still opens an ingredient)
 // Order history header toolbar (02 Elegant, right aligned) + selection toolbar
 $('#o-tools').innerHTML=toolbar('elegant',[
   {html:'<label class="tb-field" id="o-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.5 15.5 4.7 4.7"/></svg><input id="o-q" type="search" placeholder="Search bowls or ingredients" aria-label="Search orders" autocomplete="off"></label>'},
@@ -1698,7 +1697,7 @@ async function ask(q){
 $('#sugg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) ask(b.dataset.q);});
 $('#ask').addEventListener('submit',e=>{e.preventDefault(); const i=$('#ask-in'); if(i.value.trim()) ask(i.value.trim()); i.value='';});
 // move canvas (drag the produce field)
-let moving=false, moved=false, mv=null, mpan={x:0,y:0}, zoom=1;
+let moving=true, moved=false, mv=null, mpan={x:0,y:0}, zoom=1;
 /* WK07 · 01 Serene canvas toolbar: Move (hand tool) · zoom − / 100% / + · Recentre */
 const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:-200,r:556,t:-150,b:817}, OX=196, OY=450;
 PR.style.transformOrigin=`${OX}px ${OY}px`;
@@ -1710,7 +1709,7 @@ function applyView(anim=true){ PR.style.transition=anim?'transform .6s cubic-bez
 function setZoom(z,anim=true){ const nz=clamp(z,ZOOMS[0],ZOOMS[ZOOMS.length-1]); mpan={x:mpan.x*nz/zoom,y:mpan.y*nz/zoom}; zoom=nz; clampPan(); applyView(anim); }
 const zoomStep=d=>setZoom(d>0?(ZOOMS.find(v=>v>zoom+1e-3)||zoom):([...ZOOMS].reverse().find(v=>v<zoom-1e-3)||zoom));
 function recentre(){ mpan={x:0,y:0}; zoom=1; applyView(); }
-$('#move').onclick=()=>{ moving=!moving; $('#move').setAttribute('aria-pressed',moving); chat.classList.toggle('moving',moving); };
+chat.classList.add('moving'); // drag anywhere on the canvas to look around — no Move mode
 /* filter (replaces zoom, per feedback): a WK08 button group in the WK07 toolbar. Matching ingredients stay,
    the rest step back, and the canvas glides to frame the matches (extras off-canvas included). */
 const CAT={lettuce2:'greens',onion:'veggies',beet:'veggies',tomato:'veggies',cucumber:'veggies',pepper:'veggies',pumpkin:'veggies',pea:'veggies',
@@ -1726,10 +1725,9 @@ function setCvFilter(f){ cvFilter=f; const L=[]; $('#s-chat').classList.toggle('
   if(f==='all') recentre(); else frameMatches(L); }
 const cvG=wireGroup($('#cv-filter'),setCvFilter);
 addEventListener('keydown',e=>{ if(app.dataset.screen!=='chat'||talking||e.metaKey||e.ctrlKey||e.target.closest('input,textarea')) return;
-  if(e.key==='h'||e.key==='H'){ $('#move').click(); } });
+});
 paintCv();
-$('#move-act').onclick=()=>{$('#move').click(); $('#move').closest('.tiphost').classList.remove('show');};
-PR.addEventListener('pointerdown',e=>{ moved=false; if(!moving) return; mv={x:e.clientX,y:e.clientY,px:mpan.x,py:mpan.y,id:e.pointerId}; });
+PR.addEventListener('pointerdown',e=>{ moved=false; if(!moving||talking) return; mv={x:e.clientX,y:e.clientY,px:mpan.x,py:mpan.y,id:e.pointerId}; });
 PR.addEventListener('pointermove',e=>{ if(!mv) return; const dx=(e.clientX-mv.x)/SCALE, dy=(e.clientY-mv.y)/SCALE; if(Math.hypot(dx,dy)>6){moved=true;PR.setPointerCapture(mv.id);}
   mpan={x:mv.px+dx,y:mv.py+dy}; clampPan(); applyView(false); });
 PR.addEventListener('pointerup',()=>{ mv=null; setTimeout(()=>moved=false,0); });
