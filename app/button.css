@@ -28,8 +28,8 @@
 .bt[data-tone=serene]{--e:cubic-bezier(.45,0,.2,1);height:56px;gap:10px;padding:0 28px;border-radius:40px;
   font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.01em;
   transition:background .36s var(--e),color .36s var(--e),box-shadow .36s var(--e),transform .25s var(--e)}
-.bt[data-tone=serene] .bt-ic{width:22px;height:22px}
-.bt[data-tone=serene] .bt-ic svg{width:22px;height:22px;stroke-width:1.5}
+.bt[data-tone=serene] .bt-ic{width:20px;height:20px}
+.bt[data-tone=serene] .bt-ic svg{width:20px;height:20px;stroke-width:1.5}
 .bt[data-tone=serene][data-kind=it]{padding:0 28px 0 22px}
 .bt[data-tone=serene][data-kind=ic]{width:56px;padding:0}
 .bt[data-tone=serene].sm{height:32px;padding:0 14px;gap:6px;font-size:13px;line-height:18px}
@@ -55,7 +55,7 @@
 .btg[data-tone=serene]{--e:cubic-bezier(.45,0,.2,1);height:52px;padding:4px;gap:0;border-radius:40px;background:#DBE4CB}
 .btg[data-tone=serene] .btg-ind{left:0;top:0;border-radius:40px;background:#F5F3E8;box-shadow:0 1px 2px rgba(0,71,61,.10),0 4px 12px -4px rgba(0,71,61,.18);transition:transform .45s var(--e),width .45s var(--e)}
 .btg[data-tone=serene] .bt{height:44px;padding:0 18px;gap:8px;border-radius:40px;background:transparent;color:rgba(0,71,61,.72);font-size:15px;line-height:20px;letter-spacing:-.005em}
-.btg[data-tone=serene] .bt .bt-ic,.btg[data-tone=serene] .bt .bt-ic svg{width:18px;height:18px}
+.btg[data-tone=serene] .bt .bt-ic,.btg[data-tone=serene] .bt .bt-ic svg{width:16px;height:16px}
 .btg[data-tone=serene] .bt:hover,.btg[data-tone=serene] .bt.is-hover{background:rgba(255,255,255,.4);color:var(--g)}
 .btg[data-tone=serene] .bt:active,.btg[data-tone=serene] .bt.is-pressed{background:rgba(192,227,150,.5);transform:scale(.97);transition-duration:.12s}
 .btg[data-tone=serene] .bt[aria-checked=true]{color:var(--g);background:transparent}
@@ -66,13 +66,13 @@
 .bt[data-tone=elegant]{--e:cubic-bezier(.32,.72,0,1);--line:#BDBDBD;height:52px;gap:10px;padding:0 24px;border-radius:40px;
   font-size:17px;line-height:22px;font-weight:300;letter-spacing:0;transition:background .2s ease-in-out,color .2s ease-in-out,box-shadow .2s ease-in-out}
 .bt[data-tone=elegant] .bt-ic{width:20px;height:20px}
-.bt[data-tone=elegant] .bt-ic svg{width:19px;height:19px;stroke-width:1.25}
+.bt[data-tone=elegant] .bt-ic svg{width:20px;height:20px;stroke-width:1.25}
 .bt[data-tone=elegant][data-kind=it]{padding:0 24px 0 20px}
 .bt[data-tone=elegant][data-kind=ic]{width:52px;padding:0}
 .bt[data-tone=elegant].md{height:44px;padding:0 18px;font-size:15px;line-height:20px}
 .bt[data-tone=elegant].md[data-kind=it]{padding:0 18px 0 14px;gap:8px}
 .bt[data-tone=elegant].md[data-kind=ic]{width:44px;padding:0}
-.bt[data-tone=elegant].md .bt-ic svg{width:18px;height:18px}
+.bt[data-tone=elegant].md .bt-ic svg{width:16px;height:16px}
 /* 1 primary */
 .bt[data-tone=elegant][data-level="1"]{background:var(--g);color:var(--cream);font-weight:400}
 .bt[data-tone=elegant][data-level="1"]:hover,.bt[data-tone=elegant][data-level="1"].is-hover{background:#00382F}
@@ -96,7 +96,7 @@
 .btg[data-tone=elegant]:not(.picked) .btg-ind{opacity:0}
 .btg[data-tone=elegant] .bt{height:44px;padding:0 16px;gap:8px;border-radius:0;background:transparent;color:#00473D;font-size:15px;line-height:20px;font-weight:300;transition:background .2s ease-in-out,color .2s ease-in-out}
 .btg[data-tone=elegant] .bt+.bt{box-shadow:inset 1px 0 0 #BDBDBD}
-.btg[data-tone=elegant] .bt .bt-ic,.btg[data-tone=elegant] .bt .bt-ic svg{width:17px;height:17px}
+.btg[data-tone=elegant] .bt .bt-ic,.btg[data-tone=elegant] .bt .bt-ic svg{width:16px;height:16px}
 .btg[data-tone=elegant] .bt .bt-ic svg{stroke-width:1.25}
 .btg[data-tone=elegant] .bt:hover,.btg[data-tone=elegant] .bt.is-hover{background:rgba(235,229,220,.85)}
 .btg[data-tone=elegant] .bt:active,.btg[data-tone=elegant] .bt.is-pressed{background:rgba(0,71,61,.09);transition-duration:.08s}

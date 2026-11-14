@@ -38,7 +38,7 @@
 .tb[data-tone=serene] .tbb.it{padding:0 18px 0 14px}
 .tb[data-tone=serene] .tbb.tx{min-width:68px;padding:0 14px}
 .tb[data-tone=serene] .tbb-ic{width:24px;height:24px}
-.tb[data-tone=serene] .tbb-ic svg{width:22px;height:22px;stroke-width:1.5}
+.tb[data-tone=serene] .tbb-ic svg{width:20px;height:20px;stroke-width:1.5}
 .tb[data-tone=serene] .tb-sep{width:.5px;height:24px;margin:0 6px;background:rgba(0,71,61,.22)}
 .tb[data-tone=serene] .tb-text{padding:0 12px;font-size:15px;line-height:20px;color:var(--tb-text-2)}
 .tb[data-tone=serene] .tbb:hover,.tb[data-tone=serene] .tbb:focus-visible,.tb[data-tone=serene] .tbb.is-hover{background:rgba(255,255,255,.55)}
@@ -58,13 +58,13 @@
 .tb[data-tone=elegant]>.tbb:last-child,.tb[data-tone=elegant]>.tb-group:last-child>:last-child{padding-right:20px}
 .tb[data-tone=elegant] .tbb+.tbb,.tb[data-tone=elegant] .tb-field+.tbb,.tb[data-tone=elegant] .tbb+.tb-field,.tb[data-tone=elegant] .tb-text+.tbb{box-shadow:inset .5px 0 0 var(--tb-line)}
 .tb[data-tone=elegant] .tbb-ic{width:20px;height:20px}
-.tb[data-tone=elegant] .tbb-ic svg{width:18px;height:18px;stroke-width:1.25}
+.tb[data-tone=elegant] .tbb-ic svg{width:20px;height:20px;stroke-width:1.25}
 .tb[data-tone=elegant] .tbb.strong{font-weight:500}
 .tb[data-tone=elegant] .tbb.danger{color:var(--tb-danger);font-weight:400}
 .tb[data-tone=elegant] .tb-sep{align-self:stretch;width:6px;background:rgba(235,229,220,.85);box-shadow:inset .5px 0 0 var(--tb-line),inset -.5px 0 0 var(--tb-line)}
 .tb[data-tone=elegant] .tb-text{padding:0 16px;font-size:13px;line-height:18px;letter-spacing:.06em;text-transform:uppercase;color:var(--tb-text-2)}
 .tb[data-tone=elegant] .tb-field{height:100%;gap:8px;padding:0 4px 0 14px;color:var(--tb-ink);font-size:17px;font-weight:300}
-.tb[data-tone=elegant] .tb-field svg{flex:none;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round}
+.tb[data-tone=elegant] .tb-field svg{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round}
 .tb[data-tone=elegant] .tb-field input::placeholder{color:var(--tb-text-3)}
 .tb[data-tone=elegant] .tbb:hover,.tb[data-tone=elegant] .tbb:focus-visible,.tb[data-tone=elegant] .tbb.is-hover{background:rgba(235,229,220,.85)}
 .tb[data-tone=elegant] .tbb:active,.tb[data-tone=elegant] .tbb.is-pressed{background:rgba(0,71,61,.09);transition-duration:.08s}
