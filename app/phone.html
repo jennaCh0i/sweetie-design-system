@@ -748,6 +748,86 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 .obag.added{background:var(--green-700)}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}}
+/* ═════════════ KIOSK CHECKOUT (tablet = in-store kiosk) ═════════════
+   Right column asks three things, no scrolling: For here / To go · name to call · rewards. Pay happens at the reader. */
+.kiosk #s-bag .co{display:flex;flex-direction:column;gap:var(--s-6);padding-top:var(--s-6);overflow:visible}
+.kiosk .co .k-sec h4{padding-bottom:var(--s-3)}
+.kiosk .co .k-sec h4 label{cursor:inherit}
+.kiosk #kmode{width:100%;display:flex}.kiosk #kmode .bt{flex:1}
+.k-field{position:relative}
+.k-field input{width:100%;height:var(--h-l);border:0;border-radius:var(--r-pill);background:var(--cream-100);box-shadow:inset 0 0 0 1px var(--line);padding:0 56px 0 24px;font:inherit;font-size:var(--t-body-l);letter-spacing:var(--tr-body-l);color:var(--green-950);outline:none;transition:box-shadow var(--s-dur) var(--snap)}
+.k-field input::placeholder{color:var(--n-500)}
+.k-field input:focus{box-shadow:inset 0 0 0 1.5px var(--green-950),0 0 0 5px rgba(0,71,61,.07)}
+.k-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--n-600)}
+.k-clear:hover{background:var(--cream-200)}
+.k-clear svg{width:16px;height:16px;fill:none;stroke:currentColor}
+.k-hint{margin-top:var(--s-2);padding-left:24px;font-size:var(--t-cap);color:var(--n-600);letter-spacing:var(--tr-cap)}
+.k-row{display:flex;align-items:center;gap:var(--s-3);min-height:var(--h-l);padding:4px}
+.k-ic{flex:none;width:40px;height:40px;border-radius:50%;background:var(--green-100);display:grid;place-items:center;color:var(--green-950)}
+.k-ic svg{width:20px;height:20px;fill:none;stroke:currentColor}
+.k-row .lab{flex:1;min-width:0;font-size:var(--t-body);letter-spacing:var(--tr-body)}
+.k-row .lab small{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--text-3);letter-spacing:var(--tr-cap)}
+.k-row .bt{flex:none}
+.kiosk #k-rw .li{margin-top:var(--s-1)}
+.k-ut{margin-top:var(--s-4);padding:6px 4px;border-top:1px solid var(--line-soft);padding-top:var(--s-3)}
+.k-ut .lab small{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--text-3)}
+.kiosk .co-foot small{font-size:var(--t-cap)}
+.kiosk #place .bt-ic svg{width:20px;height:20px}
+/* modal: keypad + pay at the reader */
+.kmodal{position:absolute;inset:0;z-index:60;display:grid;place-items:center;background:rgba(18,32,24,.32);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s var(--snap)}
+.kmodal.show{opacity:1;pointer-events:auto}
+.km-card{position:relative;width:440px;padding:var(--s-6) var(--s-6) var(--s-5);border-radius:var(--r-lg);background:var(--cream-100);box-shadow:var(--elev-2);text-align:center;transform:translateY(16px) scale(.98);transition:transform .45s var(--ease)}
+.kmodal.show .km-card{transform:none}
+.km-card h3{font-size:var(--t-heading);font-weight:400;letter-spacing:var(--tr-heading);color:var(--text-brand)}
+.km-card>p{margin:var(--s-2) auto 0;max-width:330px;font-size:var(--t-body-s);color:var(--n-600);letter-spacing:var(--tr-body-s)}
+.km-card>.bt{width:100%;margin-top:var(--s-5)}
+.km-x{position:absolute;right:16px;top:16px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--n-600)}
+.km-x:hover{background:var(--cream-200)}
+.km-x svg{width:16px;height:16px;fill:none;stroke:currentColor}
+.kp-out{display:block;margin-top:var(--s-5);font-size:32px;letter-spacing:.02em;color:var(--green-950);font-variant-numeric:tabular-nums}
+.kp-out i{font-style:normal;color:var(--n-300)}
+.kp-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:var(--s-4)}
+.kp-keys button{height:60px;border-radius:var(--r-pill);background:var(--cream-200);font-size:24px;color:var(--n-950);display:grid;place-items:center;transition:background .2s var(--snap),transform .15s var(--snap)}
+.kp-keys button:hover{background:var(--green-100)}.kp-keys button:active{transform:scale(.96);background:var(--green-200)}
+.kp-keys button svg{width:24px;height:24px;fill:none;stroke:currentColor}
+.kp-keys button[data-k="⌫"]{background:transparent}
+.km-card>.pay-amt{margin-top:0;max-width:none;font-size:var(--t-display);letter-spacing:var(--tr-display);line-height:1;color:var(--green-950);margin-bottom:var(--s-3)}
+.reader{position:relative;width:220px;height:200px;margin:var(--s-5) auto 0;cursor:pointer}
+.reader .dev{position:absolute;left:60px;top:40px;width:100px;height:120px;border-radius:20px;background:var(--n-800);box-shadow:var(--elev-1)}
+.reader .dev i{position:absolute;left:14px;right:14px;top:14px;height:48px;border-radius:8px;background:#9DBF8A;transition:background .4s}
+.reader .waves{position:absolute;left:50%;top:0;width:44px;height:44px;transform:translateX(-50%) rotate(-90deg);color:var(--green-700)}
+.reader .waves svg{width:100%;height:100%;fill:none;stroke:currentColor;animation:wave 1.6s var(--ease) infinite}
+@keyframes wave{0%,100%{opacity:.35;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
+.reader .arrow{position:absolute;left:50%;bottom:-6px;width:28px;height:28px;transform:translateX(-50%);color:var(--green-950);animation:nudge 1.4s var(--ease) infinite}
+.reader .arrow svg{width:100%;height:100%;fill:none;stroke:currentColor}
+@keyframes nudge{50%{transform:translate(-50%,6px)}}
+.km-card.reading .dev i{background:#DCE9C9}
+.km-card.reading .waves svg{animation-duration:.5s}
+.km-card.ok .dev i{background:var(--green-700)}
+.km-card.ok .waves,.km-card.ok .arrow{opacity:0;transition:opacity .3s}
+.dn-reset{margin-top:var(--s-4);font-size:var(--t-cap);color:var(--n-600);letter-spacing:var(--tr-cap);font-variant-numeric:tabular-nums}
+.kiosk .dn-btns .bt{flex:none;padding:0 28px}
+
+/* iPad keyboard copy (light, iPadOS) — only when the kiosk prototype runs with a mouse */
+.ipadkb{position:absolute;left:0;right:0;bottom:0;z-index:70;height:var(--kbh);padding:8px 6px 10px;background:#D1D4DA;display:flex;flex-direction:column;gap:9px;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);font-family:-apple-system,"SF Pro Text","Helvetica Neue",system-ui,sans-serif}
+.ipadkb.show{transform:none}
+.ipadkb .kr{flex:1;display:flex;gap:9px;padding:0 4px}
+.ipadkb .kr:nth-child(2){padding-left:38px}
+.kk{flex:1;border-radius:7px;background:#FFF;box-shadow:0 1px 0 #898A8D;color:#000;font-size:23px;display:grid;place-items:center;text-transform:none;transition:background .08s}
+.ipadkb.up .kk.ch{text-transform:uppercase}
+.kk:active{background:#ADB3BC}
+.kk.del,.kk.ret,.kk.shift,.kk.fn,.kk.hide{background:#ADB3BC;font-size:17px}
+.kk.del:active,.kk.ret:active,.kk.shift:active,.kk.fn:active,.kk.hide:active{background:#FFF}
+.kk.del{flex:1.4}.kk.ret{flex:1.9}.kk.shift{flex:1.6}.kk.fn{flex:1.2}.kk.space{flex:6.2}.kk.hide{flex:1.2}
+.ipadkb.up .kk.shift{background:#FFF}
+.kk svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+#app{--kbh:313px}
+#app.kb-on #b-cmp{z-index:30;bottom:calc(var(--kbh) + 16px);transition:bottom .32s cubic-bezier(.32,.72,0,1)}
+#b-cmp{transition:bottom .32s cubic-bezier(.32,.72,0,1)}
+#app.kb-on .panel{bottom:var(--kbh)}
+.panel{transition:transform 1s var(--ease),bottom .32s cubic-bezier(.32,.72,0,1)}
+#app.kb-on .toast{bottom:calc(var(--kbh) + 20px)}
+
 /* ═════════════ ICON SYSTEM ═════════════
    One 24px grid for every glyph · sizes 24 (nav, send) · 20 (inline, buttons, list leads) · 16 (small actions) · 12 (chips)
    One optical weight at every size: stroke is drawn in screen pixels (non-scaling), 1.5px Serene, 1.25px Elegant. Round caps + joins. */
@@ -1788,6 +1868,7 @@ function buildBowlFromOrder(o){
 }
 
 
+const KIOSK=false; // tablet = the in-store ordering kiosk (phone build sets false: the phone keeps the app checkout)
 const TICK='<svg class="tick" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.6 7.3 5.7 10.2 11.4 3.9"/></svg>'; // WK03 tick
 /* ═════════════ 06 · BAG (cart → checkout) ═════════════ */
 const MINUS='<svg viewBox="0 0 24 24"><path d="M5.5 12h13"/></svg>', PLUS='<svg viewBox="0 0 24 24"><path d="M5.5 12h13M12 5.5v13"/></svg>',
@@ -1880,7 +1961,7 @@ $('#bg-list').addEventListener('click',e=>{
 function totals(){ const sub=state.bag.reduce((s2,x)=>s2+x.price*x.qty,0), rw=co.reward&&sub?Math.min(REWARD,sub):0, fee=co.mode==='delivery'&&sub?DFEE:0,
   tax=(sub-rw)*.0925, tip=sub*TIPV[co.tip], tot=sub-rw+tax+tip+fee, gift=co.cpay===2?Math.min(GIFT,tot):0;
   return {sub,rw,tax,tip,fee,tot,gift,pts:Math.floor((sub-rw)*10)}; }
-const modeLine=()=>co.mode==='delivery'?'delivery to Home':co.mode==='dinein'?`dine-in at ${STORE.name}`:`pickup at ${STORE.name}`;
+let modeLine=()=>co.mode==='delivery'?'delivery to Home':co.mode==='dinein'?`dine-in at ${STORE.name}`:`pickup at ${STORE.name}`;
 function setMode(m){ co.mode=m; const D=m==='delivery';
   $('#mode-h').textContent=D?'Delivery':m==='dinein'?'Dine-in':'Pickup'; $('#deliv').hidden=!D; $('.store').classList.toggle('from',D);
   const n=bagCount(); if(n) $('#bg-sub').textContent=`${n} bowl${n>1?'s':''} · ${modeLine()}`; paintSlots(); summary(); }
@@ -1929,6 +2010,147 @@ function confirmOrder(){
 $('#dn-chat').onclick=()=>go('chat');
 $('#dn-done').onclick=()=>go('orders');
 ENTER.done=()=>{};
+
+/* ═════════════ 06K · IN-STORE KIOSK CHECKOUT (tablet) ═════════════
+   The tablet is the ordering kiosk at Saratoga + Campbell: you're already in the store, so no delivery, store or time picker,
+   no saved cards. Checkout asks three things — For here / To go, a name to call, rewards (optional) — then you pay at the
+   card reader under the screen. After ordering it shows your number and resets itself for the next guest. */
+if(KIOSK){
+  app.classList.add('kiosk');
+  Object.assign(co,{mode:'here',name:'',member:false,reward:true,utensils:false});
+  const KREADY=8, MEMBER={name:'Matt',phone:'(408) 555-0142'};
+  const ico=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${MI[k]}</svg>`;
+  $('#s-bag .bg-title').textContent='Your order';
+  $('#co').innerHTML=`
+    <section class="k-sec"><h4>How you’ll eat</h4>${btnGroup('serene',[{value:'here',icon:'seat',label:'For here'},{value:'togo',icon:'bag',label:'To go'}],{label:'For here or to go',id:'kmode'})}</section>
+    <section class="k-sec"><h4><label for="k-name">Name for your order</label></h4>
+      <div class="k-field"><input id="k-name" type="text" maxlength="14" autocomplete="off" spellcheck="false" autocapitalize="words" placeholder="We’ll call this name"><button class="k-clear" type="button" aria-label="Clear name" hidden>${ICON.x}</button></div>
+      <p class="k-hint" id="k-hint">Ready in about ${KREADY} min · we’ll call it at the pickup shelf</p></section>
+    <section class="k-sec"><h4>Rewards</h4><div id="k-rw"></div></section>`;
+  wireGroup($('#kmode'),m=>{ co.mode=m; const u=$('#utensils'); if(u){ u.checked=co.utensils=m==='togo'; } paintMode(); });
+  const nm=$('#k-name'), clr=$('.k-clear');
+  nm.addEventListener('input',()=>{ nm.value=nm.value.replace(/^\s+/,'').replace(/\b\w/g,c=>c.toUpperCase()); co.name=nm.value.trim(); clr.hidden=!nm.value; summary(); });
+  clr.onclick=()=>{ nm.value=''; nm.dispatchEvent(new Event('input')); nm.focus(); };
+  function paintRw(){ const {sub,rw}=totals(), earn=Math.floor((sub-rw)*10);
+    const html=co.member
+      ?`<div class="k-row"><span class="k-ic">${ico('person')}</span><span class="lab">${MEMBER.name} · ${PTS.toLocaleString()} pts<small>+${earn.toLocaleString()} pts with this order</small></span><button class="link" type="button" id="k-out">Not you?</button></div>
+        <label class="li"><span class="lab">$${REWARD} off · Birthday reward<small>Expires Oct 31 · one per order</small></span><input class="sel" type="checkbox" role="switch" id="reward"${co.reward?' checked':''}><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label>`
+      :`<div class="k-row"><span class="k-ic">${ico('star')}</span><span class="lab">Earn ${earn.toLocaleString()} pts with this order<small>Use your phone number or scan the Sweetie app</small></span>${btn('serene',{level:2,icon:'phone',label:'Add',cls:'sm',id:'k-join'})}</div>`;
+    const host=$('#k-rw'); if(host._h===html) return; host._h=html; host.innerHTML=html; // repaint only on change: a blur 'change' must not swap the button under a tap
+    const j=$('#k-join'); if(j) j.onclick=()=>keypad({title:'Your phone number',sub:'Scan the code in the Sweetie app on the reader below, or type your number.',ok:'Find my rewards',done:()=>{ co.member=true; paintRw(); summary(); toast(`Welcome back, ${MEMBER.name} · Birthday reward applied`); if(!co.name){ nm.value=MEMBER.name; nm.dispatchEvent(new Event('input')); } }});
+    const o=$('#k-out'); if(o) o.onclick=()=>{ co.member=false; paintRw(); summary(); };
+    const r=$('#reward'); if(r) r.onchange=()=>{ co.reward=r.checked; summary(); }; }
+  function paintMode(){ const n=bagCount(); if(n) $('#bg-sub').textContent=`${n} bowl${n>1?'s':''} · ${co.mode==='togo'?'To go':'For here'}`; summary(); }
+
+  // totals: no delivery, reward only for members, card paid at the reader
+  totals=function(){ const sub=state.bag.reduce((s2,x)=>s2+x.price*x.qty,0), rw=co.member&&co.reward&&sub?Math.min(REWARD,sub):0,
+    tax=(sub-rw)*.0925, tip=sub*TIPV[co.tip], tot=sub-rw+tax+tip; return {sub,rw,tax,tip,fee:0,tot,gift:0,pts:Math.floor((sub-rw)*10)}; };
+  modeLine=()=>co.mode==='togo'?'To go':'For here';
+  summary=function(){
+    const {sub,rw,tax,tip,tot}=totals(), f=money;
+    $('#sum').innerHTML=`<div><span>Subtotal</span><span>${f(sub)}</span></div>${rw?`<div class="save"><span>Birthday reward</span><span>−${f(rw)}</span></div>`:''}<div><span>Tax</span><span>${f(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${f(tip)}</span></div><div class="tot"><span>Total</span><span>${f(tot)}</span></div>`;
+    const pb=$('#place'), need=!sub?'Add a bowl to order':!co.name?'Add a name to continue':'';
+    pb.disabled=!!need; pb.classList.remove('applepay'); pb.dataset.kind=need?'tx':'it';
+    pb.innerHTML=need?`<span class="bt-label">${need}</span>`:`<span class="bt-ic">${mico('card')}</span><span class="bt-label">Pay ${f(tot)}</span>`;
+    $('#co-note').textContent=sub?'Pay at the card reader below · tap, insert or use your phone':'';
+    const por=$('#tipwrap .portion'); if(por&&co.tip) por.textContent=`${TIPS[co.tip]} · ${f(tip)}`;
+    if($('#k-rw')&&!summary._p){ summary._p=1; paintRw(); summary._p=0; }
+  };
+  paintSlots=()=>{};
+  // left column: utensils (on for To go) + Add another bowl; nothing to save for later at a kiosk
+  const baseRender=renderBag;
+  renderBag=function(){ baseRender(); const m=$('.bg-more'); if(!m) return;
+    $('#bg-save')&&$('#bg-save').remove();
+    m.insertAdjacentHTML('afterend',`<label class="li k-ut"><span class="lab">Utensils &amp; napkins<small>Skip them to cut waste</small></span><input class="sel" type="checkbox" role="switch" id="utensils"${co.utensils?' checked':''}><span class="ctl sw" aria-hidden="true"><span class="fill"></span><span class="knob">${TICK}</span></span></label>`);
+    $('#utensils').onchange=e=>co.utensils=e.target.checked; const n=bagCount(); if(n) $('#bg-sub').textContent=`${n} bowl${n>1?'s':''} · ${modeLine()}`; };
+  ENTER.bag=()=>{ renderBag(); };
+
+  // ── modal layer: phone keypad + pay at the reader
+  const M=document.createElement('div'); M.className='kmodal'; M.innerHTML='<div class="km-card" role="dialog" aria-modal="true"></div>'; $('#app').appendChild(M);
+  const card=$('.km-card',M); let mT;
+  const closeM=()=>{ clearTimeout(mT); M.classList.remove('show'); };
+  M.addEventListener('click',e=>{ if(e.target===M) closeM(); });
+  function keypad({title,sub,ok,done}){ let d='';
+    const fmt=v=>{ const a=v.padEnd(10,'_'); return `(${a.slice(0,3)}) ${a.slice(3,6)}-${a.slice(6)}`; };
+    card.className='km-card kp'; card.innerHTML=`<button class="km-x" type="button" aria-label="Close">${ICON.x}</button><h3>${title}</h3><p>${sub}</p><output class="kp-out"></output>
+      <div class="kp-keys">${['1','2','3','4','5','6','7','8','9','','0','⌫'].map(k=>k?`<button type="button" data-k="${k}"${k==='⌫'?' aria-label="Delete"':''}>${k==='⌫'?`<svg viewBox="0 0 24 24"><path d="M9 6h10.5v12H9L3.5 12z"/><path d="M12 9.5l5 5M17 9.5l-5 5"/></svg>`:k}</button>`:'<i></i>').join('')}</div>
+      ${btn('serene',{level:1,label:ok,id:'kp-ok',disabled:true})}`;
+    const out=$('.kp-out',card), paint=()=>{ out.innerHTML=fmt(d).replace(/_/g,'<i>0</i>'); $('#kp-ok').disabled=d.length<10; };
+    $('.kp-keys',card).onclick=e=>{ const k=e.target.closest('[data-k]'); if(!k) return; d=k.dataset.k==='⌫'?d.slice(0,-1):(d+k.dataset.k).slice(0,10); paint(); };
+    $('#kp-ok').onclick=()=>{ closeM(); done(d); }; $('.km-x',card).onclick=closeM;
+    paint(); M.classList.add('show'); }
+  window.keypad=keypad;
+  function payAtReader(){ const {tot}=totals();
+    card.className='km-card pay'; card.innerHTML=`<button class="km-x" type="button" aria-label="Cancel">${ICON.x}</button>
+      <p class="pay-amt">${money(tot)}</p><h3 id="pay-h">Tap, insert or swipe on the reader below</h3><p id="pay-p">Cards, Apple Pay, Google Pay and Sweetie gift cards all work.</p>
+      <div class="reader" aria-hidden="true"><span class="waves">${ico('tap')}</span><span class="dev"><i></i></span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6"/></svg></span></div>
+      ${btn('serene',{level:3,label:'Cancel',id:'pay-x'})}`;
+    const cancel=()=>closeM(); $('.km-x',card).onclick=cancel; $('#pay-x').onclick=cancel;
+    M.classList.add('show');
+    // the prototype has no reader: tapping the drawing (or waiting) stands in for a card
+    const approve=()=>{ clearTimeout(mT); card.classList.add('reading'); $('#pay-h').textContent='Reading card…'; $('#pay-p').textContent='Keep it on the reader';
+      mT=setTimeout(()=>{ card.classList.remove('reading'); card.classList.add('ok'); $('#pay-h').textContent='Approved'; $('#pay-p').textContent='Visa •••• 4417'; $('#pay-x').remove();
+        mT=setTimeout(()=>{ closeM(); placeOrder(); },1100); },1300); };
+    $('.reader',card).onclick=approve; mT=setTimeout(approve,3200); }
+  $('#place').onclick=()=>payAtReader();
+
+  // ── confirmation: your number + name, then the kiosk resets for the next guest
+  $('#dn-chat').outerHTML=btn('serene',{level:2,icon:'phone',label:'Text me a receipt',id:'dn-text'});
+  $('#dn-done').outerHTML=btn('serene',{level:1,label:'Done',id:'dn-done'});
+  $('.dn-btns').insertAdjacentHTML('afterend','<p class="dn-reset" id="dn-reset"></p>');
+  let rT;
+  function resetKiosk(){ clearInterval(rT); co.name=''; co.member=false; co.reward=true; co.tip=2; nm.value=''; clr.hidden=true; if(window._tip) window._tip.set(2); state.bag=[]; bagRender(); go('start'); }
+  $('#dn-done').onclick=resetKiosk;
+  $('#dn-text').onclick=()=>{ clearInterval(rT); keypad({title:'Text me a receipt',sub:'We only use it for this receipt.',ok:'Send receipt',done:()=>{ toast('Receipt sent'); countdown(); }}); };
+  function countdown(){ let s=30; clearInterval(rT); const el=$('#dn-reset'), t=()=>{ el.textContent=`Starting a new order in ${s} s`; if(s--<=0) resetKiosk(); }; t(); rT=setInterval(t,1000); }
+  confirmOrder=function(){
+    const {sub,rw,tax,tip,tot,pts}=totals(), at=new Date(Date.now()+KREADY*6e4), num=String(40+Math.floor(Math.random()*59)), n=bagCount(), today=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    $('.dn-label').textContent=`Order #${num} · ${co.mode==='togo'?'To go':'For here'}`;
+    $('#dn-when').textContent=`Thanks, ${co.name}`;
+    $('#dn-sub').textContent=`We’ll call ${co.name} at the pickup shelf in about ${KREADY} min · ${n} bowl${n>1?'s':''}`;
+    $('#dn-items').innerHTML=state.bag.map(x=>`<div class="dn-it"><img src="assets/${x.photo}.webp" alt=""><span><b>${x.name}</b><small>${x.qty>1?x.qty+' × ':''}${kcalOf(x.items)} cal</small></span><em>${money(x.price*x.qty)}</em></div>`).join('');
+    $('#dn-sum').innerHTML=`<div><span>Subtotal</span><span>${money(sub)}</span></div>${rw?`<div><span>Birthday reward</span><span>−${money(rw)}</span></div>`:''}<div><span>Tax</span><span>${money(tax)}</span></div><div><span>Tip${co.tip?' · '+TIPS[co.tip]:''}</span><span>${money(tip)}</span></div><div class="tot"><span>Total</span><span>${money(tot)}</span></div>
+      <p class="dn-paid">Paid at the reader · Visa •••• 4417${co.member?` · +${pts.toLocaleString()} pts for ${MEMBER.name}`:''} · ${co.utensils?'Utensils included':'No utensils'}</p>`;
+    state.bag.slice().reverse().forEach(x=>ORDERS.unshift({time:clock(new Date()),name:x.name.replace(/ Bowl$/,''),photo:x.photo,date:today,preset:'fresh',items:x.items,kcal:kcalOf(x.items),price:x.price}));
+    renderGrid(); state.bag=[]; bagRender(); renderBag(); startPickup(at);
+    const steps=$$('#dn-steps li'); steps[2].lastChild.textContent='Ready on the pickup shelf'; steps.forEach((l,i)=>l.classList.toggle('on',i===0));
+    clearTimeout(confirmOrder._t); confirmOrder._t=setTimeout(()=>steps[1]&&steps[1].classList.add('on'),2600);
+    countdown(); };
+  ENTER.done=()=>{};
+  paintRw(); renderBag(); summary();
+}
+/* ═════════════ iPad keyboard (kiosk demo on a laptop) ═════════════
+   On the real kiosk the iPad's own keyboard comes up. When the prototype runs with a mouse there is none, so a copy of the
+   standard iPadOS keyboard (not a Sweetie one) slides up when a text field is tapped, and the screen keeps the field above it. */
+if(KIOSK&&!matchMedia('(pointer:coarse)').matches){
+  const KB=document.createElement('div'); KB.className='ipadkb'; KB.setAttribute('aria-hidden','true');
+  const L=[['q','w','e','r','t','y','u','i','o','p',['⌫','del']],['a','s','d','f','g','h','j','k','l',['return','ret']],[['⇧','shift'],'z','x','c','v','b','n','m',',','.',['⇧','shift']],[['.?123','fn'],['globe','fn'],['mic','fn'],[' ','space'],['.?123','fn'],['⌨︎','hide']]];
+  KB.innerHTML=L.map(r=>`<div class="kr">${r.map(k=>{ const [c,t]=Array.isArray(k)?k:[k,'ch']; return `<button type="button" class="kk ${t}" data-k="${t==='ch'?c:t}">${t==='space'?'':t==='hide'?'<svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="11" rx="2"/><path d="M6.5 8h1M10 8h1M13.5 8h1M17 8h.5M7.5 12h9M9.5 18.5l2.5 2 2.5-2"/></svg>':t==='fn'&&c==='globe'?'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5s1.1-6.1 3.5-8.5z"/></svg>':t==='fn'&&c==='mic'?'<svg viewBox="0 0 24 24"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3"/></svg>':t==='del'?'<svg viewBox="0 0 24 24"><path d="M9 6h10.5v12H9L3.5 12z"/><path d="M12 9.5l5 5M17 9.5l-5 5"/></svg>':c}</button>`; }).join('')}</div>`).join('');
+  $('#app').appendChild(KB);
+  let field=null, tapped=false, shift=false;
+  const setShift=v=>{ shift=v; KB.classList.toggle('up',v); };
+  const show=f=>{ field=f; app.classList.add('kb-on'); KB.classList.add('show'); setShift(!f.value); };
+  const hide=()=>{ field=null; app.classList.remove('kb-on'); KB.classList.remove('show'); };
+  const isText=t=>t&&t.matches&&t.matches('input:not([type]),input[type=text],input[type=search]');
+  app.addEventListener('pointerdown',e=>{ tapped=isText(e.target); },true);
+  app.addEventListener('focusin',e=>{ if(isText(e.target)&&tapped) show(e.target); tapped=false; });
+  app.addEventListener('focusout',e=>{ if(e.target===field) setTimeout(()=>{ if(document.activeElement!==field) hide(); },0); });
+  KB.addEventListener('pointerdown',e=>{ e.preventDefault(); const b=e.target.closest('.kk'); if(!b||!field) return;
+    const k=b.dataset.k, f=field, a=f.selectionStart??f.value.length, z=f.selectionEnd??a;
+    const put=(v,s,e2)=>{ f.value=v; f.setSelectionRange(s,s); f.dispatchEvent(new Event('input',{bubbles:true})); };
+    if(k==='shift') return setShift(!shift);
+    if(k==='hide') return f.blur();
+    if(k==='fn') return;
+    if(k==='del'){ if(a===z&&a===0) return; const s=a===z?a-1:a; put(f.value.slice(0,s)+f.value.slice(z),s); if(!f.value) setShift(true); return; }
+    if(k==='ret'){ const ev=new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}); f.dispatchEvent(ev);
+      if(!ev.defaultPrevented&&f.form) f.form.requestSubmit(); if(f.id==='k-name'||f.id==='o-q') f.blur(); return; }
+    if(f.maxLength>0&&f.value.length-(z-a)>=f.maxLength) return;
+    const ch=k==='space'?' ':(shift?k.toUpperCase():k); put(f.value.slice(0,a)+ch+f.value.slice(z),a+1); if(shift) setShift(false); });
+  window.kbHide=hide;
+  const g0=go; go=function(...x){ hide(); return g0.apply(this,x); };
+}
+
+
 
 /* ═════════════ Profile sheet: WK03 Serene selectors + WK05 list ═════════════ */
 function openProfile(){ closeMenus();

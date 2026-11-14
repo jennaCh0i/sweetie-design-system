@@ -2,6 +2,9 @@
    Slots: lead icon · single-line label · one trailing accessory (submenu chevron | badge | shortcut | icon | check) */
 // WK06 menu icons (24 grid, stroked) — also used by the ··· buttons in Order history
 var MI={
+  card:'<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 9.5h18M7 14.5h4"/>',
+  phone:'<rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 17.8h2"/>',
+  tap:'<path d="M8.5 8.5a5 5 0 0 1 0 7M12 6a8.5 8.5 0 0 1 0 12M15.5 3.5a12 12 0 0 1 0 17"/>',
   receipt:'<path d="M6 3.5h12v17l-3-2-3 2-3-2-3 2z"/><path d="M9 8.5h6M9 12.5h6"/>',
   star:'<path d="M12 3.8l2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z"/>',
   bag:'<path d="M5 8.5h14l-1 11.8a1.6 1.6 0 0 1-1.6 1.5H7.6A1.6 1.6 0 0 1 6 20.3z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/>',

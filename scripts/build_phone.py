@@ -129,6 +129,7 @@ rep("<h2 class=\"hh-date\">${D.toLocaleDateString('en-US',{weekday:'long',month:
 rep('<span class="sep"></span><button id="stage-btn">Background</button><button id="rec" title="Hide the controls (press H to bring them back)">Hide for recording</button>', '<span class="sep"></span><button id="stage-btn" hidden>Background</button><button id="rec" hidden>Hide for recording</button>')
 
 # phone-only behaviour (sticky pay button, status bar clock, selection count) after the shared script
+rep("const KIOSK=true;", "const KIOSK=false;")  # the phone is the personal app: it keeps pickup / delivery / saved cards
 rep('</script>\n</body>', '</script>\n<script src="phone.js"></script>\n</body>')
 
 out = ROOT / 'app/phone.html'
