@@ -81,30 +81,46 @@ rep("pan={x:clamp(pan.x+vel.x,-1100,1100),y:clamp(pan.y+vel.y,-700,700)};", "pan
 # Chat: portrait canvas (393 × 852), extras just off each edge
 a = s.index("const PROD=["); b = s.index("];", a) + 2
 s = s[:a] + '''const PROD=[
-  {k:'radish',img:'macro/radish',x:-40,y:245,w:142,h:142,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
-  {k:'fennel',img:'macro/fennel',x:65,y:106,w:125,h:171,name:'Fennel',fd:'11s',fy:'8px'},
-  {k:'fig',img:'macro/fig',x:226,y:113,w:110,h:140,name:'Fig',fd:'12s',fr:'-2deg'},
-  {k:'beet',img:'macro/beet',x:298,y:251,w:136,h:134,name:'Beet',fd:'14s',fx:'-6px'},
-  {k:'pomegranate',img:'macro/pomegranate',x:-47,y:537,w:164,h:161,name:'Pomegranate',fd:'12.5s',fx:'6px'},
-  {k:'apple',img:'macro/apple',x:108,y:477,w:203,h:202,name:'Apple',fd:'15s',fy:'6px'},
-  {k:'salmon',img:'macro/salmon',x:203,y:602,w:261,h:149,name:'Salmon',fd:'13.5s',fr:'-1deg'},
-  // off-canvas: found by dragging around (not in this bowl yet),
-  {k:'egg',img:'macro/egg',x:56,y:-148,w:112,h:137,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
-  {k:'kiwi',img:'macro/kiwi',x:228,y:-139,w:117,h:116,name:'Kiwi',fd:'12s',fy:'7px',extra:1},
-  {k:'steak',img:'macro/steak',x:385,y:128,w:187,h:108,name:'Steak',fd:'14s',fr:'-1.5deg',extra:1},
-  {k:'tofu',img:'macro/tofu',x:433,y:449,w:136,h:98,name:'Tofu',fd:'11.5s',fx:'-6px',extra:1},
-  {k:'chicken',img:'macro/chicken',x:406,y:699,w:142,h:99,name:'Chicken',fd:'12.5s',fr:'2deg',extra:1}
+  // one size, one staggered lattice (equal centre spacing), title and toolbar kept clear; the 7 in Matt's bowl sit closest
+  {k:'radish',img:'macro/radish',x:124,y:241,w:104,h:104,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
+  {k:'fennel',img:'macro/fennel',x:124,y:494,w:104,h:104,name:'Fennel',fd:'11s',fy:'6px'},
+  {k:'fig',img:'macro/fig',x:270,y:241,w:104,h:104,name:'Fig',fd:'12s',fr:'-2deg'},
+  {k:'beet',img:'macro/beet',x:270,y:494,w:104,h:104,name:'Beet',fd:'14s',fx:'-5px'},
+  {k:'pomegranate',img:'macro/pomegranate',x:197,y:115,w:104,h:104,name:'Pomegranate',fd:'12.5s',fx:'5px'},
+  {k:'apple',img:'macro/apple',x:197,y:620,w:104,h:104,name:'Apple',fd:'15s',fy:'6px'},
+  {k:'salmon',img:'macro/salmon',x:51,y:115,w:104,h:104,name:'Salmon',fd:'13.5s',fr:'-1deg'},
+  // the rest of the pantry: same size, same lattice — some peek in at the edges, the rest are found by dragging (not in this bowl yet),
+  {k:'avocado',img:'macro/avocado',x:51,y:620,w:104,h:104,name:'Avocado',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'tomato',img:'macro/tomato',x:-22,y:241,w:104,h:104,name:'Tomato',fd:'11s',fy:'6px',extra:1},
+  {k:'onion',img:'macro/onion',x:-22,y:494,w:104,h:104,name:'Red onion',fd:'12s',fr:'-2deg',extra:1},
+  {k:'carrot',img:'macro/carrot',x:-95,y:368,w:104,h:104,name:'Carrot',fd:'14s',fx:'-5px',extra:1},
+  {k:'lemon',img:'macro/lemon',x:124,y:-12,w:104,h:104,name:'Lemon',fd:'12.5s',fx:'5px',extra:1},
+  {k:'pear',img:'macro/pear',x:343,y:115,w:104,h:104,name:'Pear',fd:'15s',fy:'6px',extra:1},
+  {k:'pepper',img:'macro/pepper',x:343,y:620,w:104,h:104,name:'Red pepper',fd:'13.5s',fr:'-1deg',extra:1},
+  {k:'redcabbage',img:'macro/redcabbage',x:270,y:-12,w:104,h:104,name:'Red cabbage',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'spinach',img:'macro/spinach',x:416,y:241,w:104,h:104,name:'Spinach',fd:'11s',fy:'6px',extra:1},
+  {k:'arugula',img:'macro/arugula',x:416,y:494,w:104,h:104,name:'Arugula',fd:'12s',fr:'-2deg',extra:1},
+  {k:'cilantro',img:'macro/cilantro',x:-95,y:115,w:104,h:104,name:'Cilantro',fd:'14s',fx:'-5px',extra:1},
+  {k:'cabbage',img:'macro/cabbage',x:-95,y:620,w:104,h:104,name:'Cabbage',fd:'12.5s',fx:'5px',extra:1},
+  {k:'shallot',img:'macro/shallot',x:-22,y:-12,w:104,h:104,name:'Shallot',fd:'15s',fy:'6px',extra:1},
+  {k:'chickpea',img:'macro/chickpea',x:-168,y:241,w:104,h:104,name:'Chickpea',fd:'13.5s',fr:'-1deg',extra:1},
+  {k:'egg',img:'macro/egg',x:-168,y:494,w:104,h:104,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'kiwi',img:'macro/kiwi',x:197,y:-138,w:104,h:104,name:'Kiwi',fd:'11s',fy:'6px',extra:1},
+  {k:'tofu',img:'macro/tofu',x:197,y:873,w:104,h:104,name:'Tofu',fd:'12s',fr:'-2deg',extra:1},
+  {k:'chicken',img:'macro/chicken',x:51,y:-138,w:104,h:104,name:'Chicken',fd:'14s',fx:'-5px',extra:1},
+  {k:'steak',img:'macro/steak',x:51,y:873,w:104,h:104,name:'Steak',fd:'12.5s',fx:'5px',extra:1},
+  {k:'rice',img:'macro/rice',x:489,y:368,w:104,h:104,name:'Rice',fd:'15s',fy:'6px',extra:1},
+  {k:'wildrice',img:'macro/wildrice',x:416,y:-12,w:104,h:104,name:'Wild rice',fd:'13.5s',fr:'-1deg',extra:1}
 ];''' + s[b:]
 rep("    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,1210), y0=Math.max(p.y,0), y1=Math.min(p.y+p.h,759-24);",
     "    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,VW), y0=Math.max(p.y,103), y1=Math.min(p.y+p.h,VH-HB-70);")
-rep("""  const H=Math.min(400,p.h*1.25), W=H*p.w/p.h, w2=Math.min(W,480), h2=w2*p.h/p.w;
+rep("""  const H=Math.max(360,Math.min(400,p.h*1.25)), W=H*p.w/p.h, w2=Math.min(W,480), h2=w2*p.h/p.w;
   return {left:345-w2/2, top:457-h2/2, width:w2, height:h2};""",
-"""  const H=Math.min(220,p.h*1.25), W=H*p.w/p.h, w2=Math.min(W,270), h2=w2*p.h/p.w; // glides into the space above the conversation sheet
+"""  const H=Math.max(200,Math.min(220,p.h*1.25)), W=H*p.w/p.h, w2=Math.min(W,270), h2=w2*p.h/p.w; // glides into the space above the conversation sheet
   return {left:196-w2/2, top:248-h2/2, width:w2, height:h2};""")
 rep("PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<345?q.x-120:q.x+80)+'px';});",
     "PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<196?q.x-70:q.x+50)+'px';});")
-rep("const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:-400,r:1490,t:-235,b:964}, OX=605, OY=380;",
-    "const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:-200,r:556,t:-150,b:817}, OX=196, OY=450;")
+rep("OX=605, OY=380;", "OX=196, OY=450;")
 rep("mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }",
     "mpan={x:clamp(mpan.x,Math.min(0,VW-16-R),Math.max(0,16-L)), y:clamp(mpan.y,Math.min(0,VH-HB-80-B),Math.max(0,115-T))}; }")
 
