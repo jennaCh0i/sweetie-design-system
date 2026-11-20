@@ -358,6 +358,7 @@ body.forced #fs-exit{display:none}
 #s-chat.talking .prod:not(.focus){filter:blur(18px);opacity:.75}
 #s-chat.talking .prod.focus{filter:none;opacity:1}
 #s-chat.talking .prod,#s-chat.filtered .prod{--dof:0px!important}
+.prod.gone{opacity:0!important;pointer-events:none}
 .chat-head{position:absolute;left:0;right:0;top:396px;text-align:center;pointer-events:none;transition:opacity .8s var(--ease),filter .8s var(--ease),transform .8s var(--ease)}
 .chat-head small{display:block;font-size:var(--t-body);color:var(--n-800);letter-spacing:var(--tr-body)}
 .chat-head h2{margin-top:4px;font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);color:var(--text-brand)}
@@ -1596,29 +1597,29 @@ ENTER.builder=()=>{ setTimeout(()=>{ allItems().forEach(i=>i.bar&&i.bar.relayout
 // layout from Figma "Chat with ingredients / Desktop · Intro" (160:5340), scaled 0.8 into the tablet frame
 const PROD=[
   // one size, one staggered lattice (equal centre spacing), title and toolbar kept clear; the 7 in Matt's bowl sit closest
-  {k:'radish',img:'macro/radish',x:405,y:43,w:228,h:228,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
-  {k:'fennel',img:'macro/fennel',x:835,y:292,w:228,h:228,name:'Fennel',fd:'11s',fy:'6px'},
-  {k:'fig',img:'macro/fig',x:692,y:43,w:228,h:228,name:'Fig',fd:'12s',fr:'-2deg'},
-  {k:'beet',img:'macro/beet',x:118,y:43,w:228,h:228,name:'Beet',fd:'14s',fx:'-5px'},
-  {k:'pomegranate',img:'macro/pomegranate',x:405,y:541,w:228,h:228,name:'Pomegranate',fd:'12.5s',fx:'5px'},
-  {k:'apple',img:'macro/apple',x:692,y:541,w:228,h:228,name:'Apple',fd:'15s',fy:'6px'},
-  {k:'salmon',img:'macro/salmon',x:-25,y:292,w:228,h:228,name:'Salmon',fd:'13.5s',fr:'-1deg'},
+  {k:'radish',img:'macro/radish',x:405,y:43,w:228,h:228,name:'Watermelon radish',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'fennel',img:'macro/fennel',x:835,y:292,w:228,h:228,name:'Fennel',fd:'11s',fy:'6px',extra:1},
+  {k:'fig',img:'macro/fig',x:692,y:43,w:228,h:228,name:'Fig',fd:'12s',fr:'-2deg',extra:1},
+  {k:'beet',img:'macro/beet',x:118,y:43,w:228,h:228,name:'Beet',fd:'14s',fx:'-5px',extra:1},
+  {k:'pomegranate',img:'macro/pomegranate',x:405,y:541,w:228,h:228,name:'Pomegranate',fd:'12.5s',fx:'5px',extra:1},
+  {k:'apple',img:'macro/apple',x:692,y:541,w:228,h:228,name:'Apple',fd:'15s',fy:'6px',extra:1},
+  {k:'salmon',img:'macro/salmon',x:-25,y:292,w:228,h:228,name:'Salmon',fd:'13.5s',fr:'-1deg',extra:1},
   // the rest of the pantry: same size, same lattice — some peek in at the edges, the rest are found by dragging (not in this bowl yet),
-  {k:'avocado',img:'macro/avocado',x:979,y:43,w:228,h:228,name:'Avocado',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'avocado',img:'macro/avocado',x:979,y:43,w:228,h:228,name:'Avocado',fd:'13s',fr:'1.5deg'},
   {k:'tomato',img:'macro/tomato',x:118,y:541,w:228,h:228,name:'Tomato',fd:'11s',fy:'6px',extra:1},
   {k:'onion',img:'macro/onion',x:1122,y:292,w:228,h:228,name:'Red onion',fd:'12s',fr:'-2deg',extra:1},
-  {k:'carrot',img:'macro/carrot',x:979,y:541,w:228,h:228,name:'Carrot',fd:'14s',fx:'-5px',extra:1},
+  {k:'carrot',img:'macro/carrot',x:979,y:541,w:228,h:228,name:'Carrot',fd:'14s',fx:'-5px'},
   {k:'lemon',img:'macro/lemon',x:548,y:-205,w:228,h:228,name:'Lemon',fd:'12.5s',fx:'5px',extra:1},
-  {k:'pear',img:'macro/pear',x:-169,y:43,w:228,h:228,name:'Pear',fd:'15s',fy:'6px',extra:1},
+  {k:'pear',img:'macro/pear',x:-169,y:43,w:228,h:228,name:'Pear',fd:'15s',fy:'6px'},
   {k:'pepper',img:'macro/pepper',x:262,y:-205,w:228,h:228,name:'Red pepper',fd:'13.5s',fr:'-1deg',extra:1},
-  {k:'redcabbage',img:'macro/redcabbage',x:-312,y:292,w:228,h:228,name:'Red cabbage',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'redcabbage',img:'macro/redcabbage',x:-312,y:292,w:228,h:228,name:'Red cabbage',fd:'13s',fr:'1.5deg'},
   {k:'spinach',img:'macro/spinach',x:-169,y:541,w:228,h:228,name:'Spinach',fd:'11s',fy:'6px',extra:1},
-  {k:'arugula',img:'macro/arugula',x:835,y:-205,w:228,h:228,name:'Arugula',fd:'12s',fr:'-2deg',extra:1},
+  {k:'arugula',img:'macro/arugula',x:835,y:-205,w:228,h:228,name:'Arugula',fd:'12s',fr:'-2deg'},
   {k:'cilantro',img:'macro/cilantro',x:1266,y:43,w:228,h:228,name:'Cilantro',fd:'14s',fx:'-5px',extra:1},
   {k:'cabbage',img:'macro/cabbage',x:548,y:790,w:228,h:228,name:'Cabbage',fd:'12.5s',fx:'5px',extra:1},
-  {k:'shallot',img:'macro/shallot',x:262,y:790,w:228,h:228,name:'Shallot',fd:'15s',fy:'6px',extra:1},
+  {k:'shallot',img:'macro/shallot',x:262,y:790,w:228,h:228,name:'Shallot',fd:'15s',fy:'6px'},
   {k:'chickpea',img:'macro/chickpea',x:-25,y:-205,w:228,h:228,name:'Chickpea',fd:'13.5s',fr:'-1deg',extra:1},
-  {k:'egg',img:'macro/egg',x:1266,y:541,w:228,h:228,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'egg',img:'macro/egg',x:1266,y:541,w:228,h:228,name:'Egg',fd:'13s',fr:'1.5deg'},
   {k:'kiwi',img:'macro/kiwi',x:1409,y:292,w:228,h:228,name:'Kiwi',fd:'11s',fy:'6px',extra:1},
   {k:'tofu',img:'macro/tofu',x:835,y:790,w:228,h:228,name:'Tofu',fd:'12s',fr:'-2deg',extra:1},
   {k:'chicken',img:'macro/chicken',x:1122,y:-205,w:228,h:228,name:'Chicken',fd:'14s',fx:'-5px',extra:1},
@@ -1626,23 +1627,26 @@ const PROD=[
   {k:'rice',img:'macro/rice',x:-25,y:790,w:228,h:228,name:'Rice',fd:'15s',fy:'6px',extra:1},
   {k:'wildrice',img:'macro/wildrice',x:-456,y:541,w:228,h:228,name:'Wild rice',fd:'13.5s',fr:'-1deg',extra:1}
 ];
+// All tab: only Matt's bowl, big and tilted around the title (Figma "Chat with ingredients · Desktop · Intro"): [x, y, size, soft focus]
+const ALLV={avocado:[360,-40,300,0],arugula:[850,10,250,1],shallot:[-62,140,290,1],redcabbage:[1000,290,300,1],pear:[-40,560,290,1],egg:[296,520,290,0],carrot:[790,580,300,0]};
+PROD.forEach(p=>{ p.L={x:p.x,y:p.y,w:p.w,h:p.h}; const a=ALLV[p.k]; if(a) p.A={x:a[0],y:a[1],w:a[2],h:a[2],soft:a[3]}; });
 const ANS={
-  'Watermelon radish':{why:'I’m watermelon radish — crisp, peppery and a little sweet, and I give your bowl that hot-pink pop.',nutrition:'I bring vitamin C, fiber and almost no calories.',
-    calories:'About 10 cal in your bowl.',sourcing:'I’m grown in Watsonville, California, and sliced paper-thin every morning.',pair:'Citrus, avocado, salmon and a bright vinaigrette.',hi:'Hi Matt, I’m the watermelon radish. Ask me anything.'},
-  Fennel:{why:'I’m shaved fennel — cool, crunchy and lightly anise-sweet, so every bite tastes fresh.',nutrition:'I bring fiber, potassium and vitamin C.',
-    calories:'About 15 cal in your bowl.',sourcing:'I’m grown in the Salinas Valley and shaved to order.',pair:'Apple, citrus, salmon and parmesan.',hi:'Hi Matt, I’m the fennel. Ask me anything.'},
-  Fig:{why:'I’m fresh fig — jammy, honey-sweet and soft against the crunchy parts of your bowl.',nutrition:'I bring fiber, potassium and a little calcium.',
-    calories:'About 40 cal in your bowl.',sourcing:'I’m a Black Mission fig from Madera County, in season until the first frost.',pair:'Goat cheese, walnuts, greens and balsamic.',hi:'Hi Matt, I’m the fig. Ask me anything.'},
-  Beet:{why:'I’m roasted beet — earthy, a little sweet, and I give your bowl its deep color.',nutrition:'I bring folate, fiber and nitrates that support blood flow.',
-    calories:'About 35 cal in your bowl.',sourcing:'I’m grown in Ventura County and roasted in-house.',pair:'Goat cheese, citrus, walnuts and greens.',hi:'Hi Matt, I’m the beet. Ask me anything.'},
-  Pomegranate:{why:'I add bright, tart little bursts that wake up everything around me.',nutrition:'I’m rich in antioxidants (punicalagins), vitamin C and fiber.',
-    calories:'About 35 cal in your bowl.',sourcing:'I’m grown in the San Joaquin Valley and seeded by hand.',pair:'Feta, mint, roasted squash and chicken.',hi:'Hi Matt, I’m the pomegranate. Ask me anything.'},
-  Apple:{why:'I’m crisp apple — sweet, juicy crunch that balances the savory parts of your bowl.',nutrition:'I bring fiber (pectin) and a little vitamin C.',
-    calories:'About 30 cal in your bowl.',sourcing:'I’m a Honeycrisp from Watsonville, sliced fresh so I stay bright.',pair:'Fennel, chicken, goat cheese and pecans.',hi:'Hi Matt, I’m the apple. Ask me anything.'},
-  Salmon:{why:'I’m your protein — roasted, flaky and satisfying.',nutrition:'I’m high in protein and omega-3 fatty acids.',
-    calories:'About 220 cal in your bowl.',sourcing:'I’m responsibly farmed Atlantic salmon from Norway. I’m sold out at this store today, so check back tomorrow.',pair:'Fennel, radish, rice and miso sesame.',hi:'Hi Matt, I’m the salmon. Ask me anything.'},
-  Egg:{why:'I’m not in your bowl yet. A jammy soft egg makes any bowl richer and more filling.',nutrition:'I bring complete protein, choline and vitamin D.',
-    calories:'About 70 cal for one egg.',sourcing:'I’m pasture-raised from Petaluma, cooked for exactly 7 minutes.',pair:'Kale, avocado, rice and anything spicy.',hi:'Hi Matt, I’m the soft egg. I’m not in your bowl yet, but ask me anything.'},
+  'Watermelon radish':{why:'I’m not in your bowl yet. I’m watermelon radish — crisp, peppery and a little sweet, and I give your bowl that hot-pink pop.',nutrition:'I bring vitamin C, fiber and almost no calories.',
+    calories:'About 10 cal in your bowl.',sourcing:'I’m grown in Watsonville, California, and sliced paper-thin every morning.',pair:'Citrus, avocado, salmon and a bright vinaigrette.',hi:'Hi Matt, I’m the watermelon radish. I’m not in your bowl yet, but ask me anything.'},
+  Fennel:{why:'I’m not in your bowl yet. I’m shaved fennel — cool, crunchy and lightly anise-sweet, so every bite tastes fresh.',nutrition:'I bring fiber, potassium and vitamin C.',
+    calories:'About 15 cal in your bowl.',sourcing:'I’m grown in the Salinas Valley and shaved to order.',pair:'Apple, citrus, salmon and parmesan.',hi:'Hi Matt, I’m the fennel. I’m not in your bowl yet, but ask me anything.'},
+  Fig:{why:'I’m not in your bowl yet. I’m fresh fig — jammy, honey-sweet and soft against the crunchy parts of your bowl.',nutrition:'I bring fiber, potassium and a little calcium.',
+    calories:'About 40 cal in your bowl.',sourcing:'I’m a Black Mission fig from Madera County, in season until the first frost.',pair:'Goat cheese, walnuts, greens and balsamic.',hi:'Hi Matt, I’m the fig. I’m not in your bowl yet, but ask me anything.'},
+  Beet:{why:'I’m not in your bowl yet. I’m roasted beet — earthy, a little sweet, and I give your bowl its deep color.',nutrition:'I bring folate, fiber and nitrates that support blood flow.',
+    calories:'About 35 cal in your bowl.',sourcing:'I’m grown in Ventura County and roasted in-house.',pair:'Goat cheese, citrus, walnuts and greens.',hi:'Hi Matt, I’m the beet. I’m not in your bowl yet, but ask me anything.'},
+  Pomegranate:{why:'I’m not in your bowl yet. I add bright, tart little bursts that wake up everything around me.',nutrition:'I’m rich in antioxidants (punicalagins), vitamin C and fiber.',
+    calories:'About 35 cal in your bowl.',sourcing:'I’m grown in the San Joaquin Valley and seeded by hand.',pair:'Feta, mint, roasted squash and chicken.',hi:'Hi Matt, I’m the pomegranate. I’m not in your bowl yet, but ask me anything.'},
+  Apple:{why:'I’m not in your bowl yet. I’m crisp apple — sweet, juicy crunch that balances the savory parts of your bowl.',nutrition:'I bring fiber (pectin) and a little vitamin C.',
+    calories:'About 30 cal in your bowl.',sourcing:'I’m a Honeycrisp from Watsonville, sliced fresh so I stay bright.',pair:'Fennel, chicken, goat cheese and pecans.',hi:'Hi Matt, I’m the apple. I’m not in your bowl yet, but ask me anything.'},
+  Salmon:{why:'I’m not in your bowl yet. I’m your protein — roasted, flaky and satisfying.',nutrition:'I’m high in protein and omega-3 fatty acids.',
+    calories:'About 220 cal in your bowl.',sourcing:'I’m responsibly farmed Atlantic salmon from Norway. I’m sold out at this store today, so check back tomorrow.',pair:'Fennel, radish, rice and miso sesame.',hi:'Hi Matt, I’m the salmon. I’m not in your bowl yet, but ask me anything.'},
+  Egg:{why:'A jammy soft egg makes any bowl richer and more filling.',nutrition:'I bring complete protein, choline and vitamin D.',
+    calories:'About 70 cal for one egg.',sourcing:'I’m pasture-raised from Petaluma, cooked for exactly 7 minutes.',pair:'Kale, avocado, rice and anything spicy.',hi:'Hi Matt, I’m the soft egg. I’m in your bowl — ask me anything.'},
   Kiwi:{why:'I’m not in your bowl yet. I’d add a tangy, tropical brightness — great with greens and seafood.',nutrition:'I have more vitamin C than an orange, plus vitamin K and fiber.',
     calories:'About 40 cal in a bowl.',sourcing:'I’m grown in Gridley, California, and peeled to order.',pair:'Salmon, cucumber, lime and mint.',hi:'Hi Matt, I’m the kiwi. I’m not in your bowl yet, but ask me anything.'},
   Steak:{why:'I’m not in your bowl yet. Seared and sliced, I make a bowl hearty and savory.',nutrition:'I bring protein, iron, zinc and vitamin B12.',
@@ -1651,19 +1655,19 @@ const ANS={
     calories:'About 120 cal in a bowl.',sourcing:'I’m organic tofu made in San Jose from non-GMO soybeans, baked with tamari.',pair:'Miso sesame, cabbage, rice and radish.',hi:'Hi Matt, I’m the tofu. I’m not in your bowl yet, but ask me anything.'},
   Chicken:{why:'I’m not in your bowl yet. Roasted, I’m the classic lean protein that goes with everything.',nutrition:'I’m high in lean protein, with niacin and vitamin B6.',
     calories:'About 180 cal in a bowl.',sourcing:'I’m antibiotic-free chicken from Petaluma, roasted every morning.',pair:'Apple, pomegranate, kale and a lemony dressing.',hi:'Hi Matt, I’m the chicken. I’m not in your bowl yet, but ask me anything.'},
-  Avocado:{why:'I’m not in your bowl yet. I make any bowl creamy and filling.',nutrition:'Mostly heart-healthy monounsaturated fat, plus fiber and potassium.',calories:'About 130 cal in a bowl.',sourcing:'I’m a Hass avocado from San Diego County, sliced to order.',pair:'Tomato, lime, red onion and a little heat.',hi:'Hi Matt, I’m the avocado. I’m not in your bowl yet, but ask me anything.'},
+  Avocado:{why:'I make any bowl creamy and filling.',nutrition:'Mostly heart-healthy monounsaturated fat, plus fiber and potassium.',calories:'About 130 cal in a bowl.',sourcing:'I’m a Hass avocado from San Diego County, sliced to order.',pair:'Tomato, lime, red onion and a little heat.',hi:'Hi Matt, I’m the avocado. I’m in your bowl — ask me anything.'},
   Tomato:{why:'I’m not in your bowl yet. I add juicy acidity that keeps every bite fresh.',nutrition:'I’m rich in vitamin C and lycopene.',calories:'About 25 cal in a bowl.',sourcing:'I’m grown in Fresno County and picked ripe.',pair:'Avocado, basil, cucumber and feta.',hi:'Hi Matt, I’m the tomato. I’m not in your bowl yet, but ask me anything.'},
   'Red onion':{why:'I’m not in your bowl yet. Pickled, I add a sharp, tangy bite that cuts through creamy things.',nutrition:'I bring quercetin, an antioxidant, and a little fiber.',calories:'About 15 cal in a bowl.',sourcing:'I’m grown in Imperial Valley and pickled in-house every morning.',pair:'Avocado, salmon, feta and citrus.',hi:'Hi Matt, I’m the red onion. I’m not in your bowl yet, but ask me anything.'},
-  Carrot:{why:'I’m not in your bowl yet. Shredded or roasted, I add sweet crunch and color.',nutrition:'I’m packed with beta-carotene (vitamin A) and fiber.',calories:'About 25 cal in a bowl.',sourcing:'I’m grown in Bakersfield and shredded fresh.',pair:'Cabbage, cilantro, chicken and miso sesame.',hi:'Hi Matt, I’m the carrot. I’m not in your bowl yet, but ask me anything.'},
+  Carrot:{why:'Shredded or roasted, I add sweet crunch and color.',nutrition:'I’m packed with beta-carotene (vitamin A) and fiber.',calories:'About 25 cal in a bowl.',sourcing:'I’m grown in Bakersfield and shredded fresh.',pair:'Cabbage, cilantro, chicken and miso sesame.',hi:'Hi Matt, I’m the carrot. I’m in your bowl — ask me anything.'},
   Lemon:{why:'I’m not in your bowl yet. A squeeze of me brightens every other flavor.',nutrition:'I bring vitamin C and almost no calories.',calories:'About 5 cal for a squeeze.',sourcing:'I’m a Eureka lemon from Ventura County.',pair:'Arugula, salmon, chickpeas and olive oil.',hi:'Hi Matt, I’m the lemon. I’m not in your bowl yet, but ask me anything.'},
-  Pear:{why:'I’m not in your bowl yet. I add soft, honeyed sweetness to bitter greens.',nutrition:'I bring fiber and a little vitamin C and copper.',calories:'About 45 cal in a bowl.',sourcing:'I’m a Bartlett pear from Lake County, California.',pair:'Arugula, blue cheese, walnuts and fig.',hi:'Hi Matt, I’m the pear. I’m not in your bowl yet, but ask me anything.'},
+  Pear:{why:'I add soft, honeyed sweetness to bitter greens.',nutrition:'I bring fiber and a little vitamin C and copper.',calories:'About 45 cal in a bowl.',sourcing:'I’m a Bartlett pear from Lake County, California.',pair:'Arugula, blue cheese, walnuts and fig.',hi:'Hi Matt, I’m the pear. I’m in your bowl — ask me anything.'},
   'Red pepper':{why:'I’m not in your bowl yet. I add a sweet, juicy crunch and bright color.',nutrition:'I have more vitamin C than an orange, plus vitamin A.',calories:'About 15 cal in a bowl.',sourcing:'I’m a red bell pepper from Oxnard, sliced fresh daily.',pair:'Chicken, corn, avocado and lime.',hi:'Hi Matt, I’m the red pepper. I’m not in your bowl yet, but ask me anything.'},
-  'Red cabbage':{why:'I’m not in your bowl yet. Shredded, I add a crisp, peppery crunch that stays fresh.',nutrition:'I bring vitamin C, vitamin K and anthocyanins (my purple color).',calories:'About 15 cal in a bowl.',sourcing:'I’m grown in the Salinas Valley and shredded every morning.',pair:'Carrot, cilantro, tofu and a spicy dressing.',hi:'Hi Matt, I’m the red cabbage. I’m not in your bowl yet, but ask me anything.'},
+  'Red cabbage':{why:'Shredded, I add a crisp, peppery crunch that stays fresh.',nutrition:'I bring vitamin C, vitamin K and anthocyanins (my purple color).',calories:'About 15 cal in a bowl.',sourcing:'I’m grown in the Salinas Valley and shredded every morning.',pair:'Carrot, cilantro, tofu and a spicy dressing.',hi:'Hi Matt, I’m the red cabbage. I’m in your bowl — ask me anything.'},
   Spinach:{why:'I’m not in your bowl yet. I’m a soft, mild base that lets everything else shine.',nutrition:'I bring iron, folate and vitamin K.',calories:'About 10 cal as a base.',sourcing:'I’m baby spinach from the Salinas Valley, harvested this week.',pair:'Egg, beet, goat cheese and balsamic.',hi:'Hi Matt, I’m the spinach. I’m not in your bowl yet, but ask me anything.'},
-  Arugula:{why:'I’m not in your bowl yet. I’m a peppery green that wakes up sweet toppings.',nutrition:'I bring vitamin K, calcium and folate.',calories:'About 5 cal as a base.',sourcing:'I’m grown in Watsonville and picked young.',pair:'Pear, fig, parmesan and lemon.',hi:'Hi Matt, I’m the arugula. I’m not in your bowl yet, but ask me anything.'},
+  Arugula:{why:'I’m a peppery green that wakes up sweet toppings.',nutrition:'I bring vitamin K, calcium and folate.',calories:'About 5 cal as a base.',sourcing:'I’m grown in Watsonville and picked young.',pair:'Pear, fig, parmesan and lemon.',hi:'Hi Matt, I’m the arugula. I’m in your bowl — ask me anything.'},
   Cilantro:{why:'I’m not in your bowl yet. A handful of me adds a fresh, citrusy lift.',nutrition:'I bring vitamin K and antioxidants for almost no calories.',calories:'About 1 cal — I’m all flavor.',sourcing:'I’m grown in Oxnard and chopped to order.',pair:'Lime, avocado, chicken and red cabbage.',hi:'Hi Matt, I’m the cilantro. I’m not in your bowl yet, but ask me anything.'},
   Cabbage:{why:'I’m not in your bowl yet. I add a sweet, clean crunch that holds up to any dressing.',nutrition:'I bring vitamin C, vitamin K and fiber.',calories:'About 15 cal in a bowl.',sourcing:'I’m green cabbage from the Salinas Valley.',pair:'Carrot, sesame, tofu and lime.',hi:'Hi Matt, I’m the cabbage. I’m not in your bowl yet, but ask me anything.'},
-  Shallot:{why:'I’m not in your bowl yet. Crispy or raw, I’m a gentler, sweeter onion.',nutrition:'I bring antioxidants and a little vitamin B6.',calories:'About 15 cal in a bowl.',sourcing:'I’m grown in Gilroy and fried crispy in-house.',pair:'Steak, spinach, egg and a mustard dressing.',hi:'Hi Matt, I’m the shallot. I’m not in your bowl yet, but ask me anything.'},
+  Shallot:{why:'Crispy or raw, I’m a gentler, sweeter onion.',nutrition:'I bring antioxidants and a little vitamin B6.',calories:'About 15 cal in a bowl.',sourcing:'I’m grown in Gilroy and fried crispy in-house.',pair:'Steak, spinach, egg and a mustard dressing.',hi:'Hi Matt, I’m the shallot. I’m in your bowl — ask me anything.'},
   Chickpea:{why:'I’m not in your bowl yet. Roasted, I’m crunchy plant protein that keeps you full.',nutrition:'I bring plant protein, fiber and iron.',calories:'About 90 cal in a bowl.',sourcing:'I’m grown in the Sacramento Valley and roasted with spices.',pair:'Lemon, cucumber, feta and tahini.',hi:'Hi Matt, I’m the chickpea. I’m not in your bowl yet, but ask me anything.'},
   Rice:{why:'I’m not in your bowl yet. I’m a warm, simple base that soaks up dressing.',nutrition:'I bring easy energy from carbs and a little protein.',calories:'About 200 cal as a base.',sourcing:'I’m California medium-grain rice from the Sacramento Valley.',pair:'Salmon, cabbage, avocado and miso sesame.',hi:'Hi Matt, I’m the rice. I’m not in your bowl yet, but ask me anything.'},
   'Wild rice':{why:'I’m not in your bowl yet. I add a nutty, chewy bite and make a bowl hearty.',nutrition:'I bring more protein and fiber than white rice, plus zinc.',calories:'About 170 cal as a base.',sourcing:'I’m wild rice from Northern California paddies.',pair:'Roasted squash, kale, chicken and pecans.',hi:'Hi Matt, I’m the wild rice. I’m not in your bowl yet, but ask me anything.'}
@@ -1693,7 +1697,6 @@ function focusPos(p){ // the chosen ingredient glides to the centre of the left 
 }
 function resetProd(){ PROD.forEach(p=>Object.assign(p.el.style,{left:p.x+'px',top:p.y+'px',width:p.w+'px',height:p.h+'px'})); }
 async function openChat(p,firstQ){
-  if(cvFilter!=='all'){ cvFilter='all'; cvG.pick('all'); PROD.forEach(q=>q.el.classList.remove('dim')); $('#s-chat').classList.remove('filtered'); }
   if(mpan.x||mpan.y||zoom!==1){ mpan={x:0,y:0}; zoom=1; applyView(); } // bring the canvas home so the pick lands centre-left
   const first=!talking; talking=p; state.chat=p.name;
   PROD.forEach(q=>q.el.classList.toggle('focus',q===p));
@@ -1704,7 +1707,7 @@ async function openChat(p,firstQ){
   $('#msgs').innerHTML=''; await wait(first?650:250);
   if(firstQ) ask(firstQ); else say(ANS[p.name].hi);
 }
-function closeChat(){ talking=null; chat.classList.remove('talking'); PROD.forEach(q=>q.el.classList.remove('focus')); resetProd(); if(cvFilter==='all') recentre(); }
+function closeChat(){ talking=null; chat.classList.remove('talking'); PROD.forEach(q=>q.el.classList.remove('focus')); resetProd(); setCvFilter(cvFilter); }
 PROD.forEach(p=>{ if(!p.name) return;
   p.el.addEventListener('click',e=>{ if(moved) return; if(talking!==p) openChat(p); });
 });
@@ -1725,17 +1728,17 @@ async function ask(q){
 $('#sugg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) ask(b.dataset.q);});
 $('#ask').addEventListener('submit',e=>{e.preventDefault(); const i=$('#ask-in'); if(i.value.trim()) ask(i.value.trim()); i.value='';});
 // move canvas (drag the produce field)
-const ALLZ=1.15, FOCUSN=4; // All view is pulled in: bigger, closer ingredients; the edges fall out of focus
+const ALLZ=1; let cvFilter='all'; // All = the bowl at full size; a filter swaps to the pantry lattice and zooms out to frame it
 let moving=true, moved=false, mv=null, mpan={x:0,y:0}, zoom=ALLZ;
 /* WK07 · 01 Serene canvas toolbar: Move (hand tool) · zoom − / 100% / + · Recentre */
-const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:Math.min(...PROD.map(p=>p.x)),r:Math.max(...PROD.map(p=>p.x+p.w)),t:Math.min(...PROD.map(p=>p.y)),b:Math.max(...PROD.map(p=>p.y+p.h))}, OX=605, OY=380;
-PR.style.transformOrigin=`${OX}px ${OY}px`; applyView(false);
+const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:Math.min(...PROD.map(p=>p.L.x)),r:Math.max(...PROD.map(p=>p.L.x+p.L.w)),t:Math.min(...PROD.map(p=>p.L.y)),b:Math.max(...PROD.map(p=>p.L.y+p.L.h))}, OX=605, OY=380;
+PR.style.transformOrigin=`${OX}px ${OY}px`; useLayout('all'); applyView(false);
 function clampPan(){ const L=OX+(EXT.l-OX)*zoom, R=OX+(EXT.r-OX)*zoom, T=OY+(EXT.t-OY)*zoom, B=OY+(EXT.b-OY)*zoom;
   mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }
-function paintCv(){ // depth of field: the few ingredients nearest the middle stay sharp, everything further out softens (drag to bring others into focus)
-  const D=PROD.map(p=>{ const sx=OX+(p.x+p.w/2-OX)*zoom+mpan.x, sy=OY+(p.y+p.h/2-OY)*zoom+mpan.y; return Math.hypot((sx-OX)/OX,(sy-OY)/OY); });
-  const cut=[...D].sort((a,b)=>a-b)[FOCUSN-1]+.02;
-  PROD.forEach((p,i)=>p.el.style.setProperty('--dof',(D[i]<=cut?0:Math.min(11,4+(D[i]-cut)*16)).toFixed(1)+'px')); }
+function paintCv(){ // All tab: a fixed depth of field like the Figma intro — the outer ingredients sit softly out of focus
+  PROD.forEach(p=>p.el.style.setProperty('--dof',cvFilter==='all'&&p.A&&p.A.soft?'9px':'0px')); }
+function useLayout(m){ // 'all' = the 7 bowl ingredients in the intro layout; 'grid' = every ingredient on the lattice
+  PROD.forEach(p=>{ Object.assign(p,m==='all'&&p.A?{x:p.A.x,y:p.A.y,w:p.A.w,h:p.A.h}:p.L); p.el.classList.toggle('gone',m==='all'&&!p.A); }); resetProd(); }
 function applyView(anim=true){ PR.style.transition=anim?'transform .6s cubic-bezier(.45,0,.2,1)':'none';
   PR.style.transform=(mpan.x||mpan.y||zoom!==1)?`translate(${mpan.x}px,${mpan.y}px) scale(${zoom})`:''; paintCv(); }
 function setZoom(z,anim=true){ const nz=clamp(z,ZOOMS[0],ZOOMS[ZOOMS.length-1]); mpan={x:mpan.x*nz/zoom,y:mpan.y*nz/zoom}; zoom=nz; clampPan(); applyView(anim); }
@@ -1748,20 +1751,19 @@ const CAT={spinach:'greens',arugula:'greens',cilantro:'greens',cabbage:'greens',
   radish:'veggies',fennel:'veggies',beet:'veggies',avocado:'veggies',tomato:'veggies',onion:'veggies',shallot:'veggies',carrot:'veggies',pepper:'veggies',redcabbage:'veggies',
   fig:'fruit',pomegranate:'fruit',apple:'fruit',kiwi:'fruit',lemon:'fruit',pear:'fruit',
   salmon:'protein',egg:'protein',steak:'protein',tofu:'protein',chicken:'protein',chickpea:'protein',rice:'grains',wildrice:'grains'};
-let cvFilter='all';
 function frameMatches(L){ if(!L.length){ recentre(); return; }
   const l=Math.min(...L.map(p=>p.x)), r=Math.max(...L.map(p=>p.x+p.w)), t=Math.min(...L.map(p=>p.y)), b=Math.max(...L.map(p=>p.y+p.h));
   const VW0=typeof VW!=='undefined'?VW:1210, top=95, bot=(typeof VH!=='undefined'?VH-(typeof HB!=='undefined'?HB:0):834)-110;
   const z=clamp(Math.min((VW0-60)/(r-l),(bot-top)/(b-t)),ZOOMS[0],1.15);
   zoom=z; const cx=(l+r)/2, cy=(t+b)/2; mpan={x:VW0/2-(OX+(cx-OX)*z), y:(top+bot)/2-(OY+(cy-OY)*z)}; clampPan(); applyView(); }
-function setCvFilter(f){ cvFilter=f; const L=[]; $('#s-chat').classList.toggle('filtered',f!=='all');
+function setCvFilter(f){ cvFilter=f; const L=[]; $('#s-chat').classList.toggle('filtered',f!=='all'); useLayout(f==='all'?'all':'grid');
   PROD.forEach(p=>{ const on=f==='all'||CAT[p.k]===f; p.el.classList.toggle('dim',!on); if(on&&(f!=='all'||!p.extra)) L.push(p); });
   if(f==='all') recentre(); else frameMatches(L); }
 const cvG=wireGroup($('#cv-filter'),setCvFilter);
 addEventListener('keydown',e=>{ if(app.dataset.screen!=='chat'||talking||e.metaKey||e.ctrlKey||e.target.closest('input,textarea')) return;
 });
 paintCv();
-PR.addEventListener('pointerdown',e=>{ moved=false; if(!moving||talking) return; mv={x:e.clientX,y:e.clientY,px:mpan.x,py:mpan.y,id:e.pointerId}; });
+PR.addEventListener('pointerdown',e=>{ moved=false; if(!moving||talking||cvFilter==='all') return; mv={x:e.clientX,y:e.clientY,px:mpan.x,py:mpan.y,id:e.pointerId}; });
 PR.addEventListener('pointermove',e=>{ if(!mv) return; const dx=(e.clientX-mv.x)/SCALE, dy=(e.clientY-mv.y)/SCALE; if(Math.hypot(dx,dy)>6){moved=true;PR.setPointerCapture(mv.id);}
   mpan={x:mv.px+dx,y:mv.py+dy}; clampPan(); applyView(false); });
 PR.addEventListener('pointerup',()=>{ mv=null; setTimeout(()=>moved=false,0); });

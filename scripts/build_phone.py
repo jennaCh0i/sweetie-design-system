@@ -82,29 +82,29 @@ rep("pan={x:clamp(pan.x+vel.x,-1100,1100),y:clamp(pan.y+vel.y,-700,700)};", "pan
 a = s.index("const PROD=["); b = s.index("];", a) + 2
 s = s[:a] + '''const PROD=[
   // one size, one staggered lattice (equal centre spacing), title and toolbar kept clear; the 7 in Matt's bowl sit closest
-  {k:'radish',img:'macro/radish',x:52,y:453,w:130,h:130,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
-  {k:'fennel',img:'macro/fennel',x:215,y:453,w:130,h:130,name:'Fennel',fd:'11s',fy:'6px'},
-  {k:'fig',img:'macro/fig',x:133,y:594,w:130,h:130,name:'Fig',fd:'12s',fr:'-2deg'},
-  {k:'beet',img:'macro/beet',x:52,y:169,w:130,h:130,name:'Beet',fd:'14s',fx:'-5px'},
-  {k:'pomegranate',img:'macro/pomegranate',x:215,y:169,w:130,h:130,name:'Pomegranate',fd:'12.5s',fx:'5px'},
-  {k:'apple',img:'macro/apple',x:-30,y:594,w:130,h:130,name:'Apple',fd:'15s',fy:'6px'},
-  {k:'salmon',img:'macro/salmon',x:133,y:28,w:130,h:130,name:'Salmon',fd:'13.5s',fr:'-1deg'},
+  {k:'radish',img:'macro/radish',x:52,y:453,w:130,h:130,name:'Watermelon radish',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'fennel',img:'macro/fennel',x:215,y:453,w:130,h:130,name:'Fennel',fd:'11s',fy:'6px',extra:1},
+  {k:'fig',img:'macro/fig',x:133,y:594,w:130,h:130,name:'Fig',fd:'12s',fr:'-2deg',extra:1},
+  {k:'beet',img:'macro/beet',x:52,y:169,w:130,h:130,name:'Beet',fd:'14s',fx:'-5px',extra:1},
+  {k:'pomegranate',img:'macro/pomegranate',x:215,y:169,w:130,h:130,name:'Pomegranate',fd:'12.5s',fx:'5px',extra:1},
+  {k:'apple',img:'macro/apple',x:-30,y:594,w:130,h:130,name:'Apple',fd:'15s',fy:'6px',extra:1},
+  {k:'salmon',img:'macro/salmon',x:133,y:28,w:130,h:130,name:'Salmon',fd:'13.5s',fr:'-1deg',extra:1},
   // the rest of the pantry: same size, same lattice — some peek in at the edges, the rest are found by dragging (not in this bowl yet),
-  {k:'avocado',img:'macro/avocado',x:297,y:594,w:130,h:130,name:'Avocado',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'avocado',img:'macro/avocado',x:297,y:594,w:130,h:130,name:'Avocado',fd:'13s',fr:'1.5deg'},
   {k:'tomato',img:'macro/tomato',x:52,y:736,w:130,h:130,name:'Tomato',fd:'11s',fy:'6px',extra:1},
   {k:'onion',img:'macro/onion',x:215,y:736,w:130,h:130,name:'Red onion',fd:'12s',fr:'-2deg',extra:1},
-  {k:'carrot',img:'macro/carrot',x:-112,y:453,w:130,h:130,name:'Carrot',fd:'14s',fx:'-5px',extra:1},
+  {k:'carrot',img:'macro/carrot',x:-112,y:453,w:130,h:130,name:'Carrot',fd:'14s',fx:'-5px'},
   {k:'lemon',img:'macro/lemon',x:379,y:453,w:130,h:130,name:'Lemon',fd:'12.5s',fx:'5px',extra:1},
-  {k:'pear',img:'macro/pear',x:-30,y:28,w:130,h:130,name:'Pear',fd:'15s',fy:'6px',extra:1},
+  {k:'pear',img:'macro/pear',x:-30,y:28,w:130,h:130,name:'Pear',fd:'15s',fy:'6px'},
   {k:'pepper',img:'macro/pepper',x:297,y:28,w:130,h:130,name:'Red pepper',fd:'13.5s',fr:'-1deg',extra:1},
-  {k:'redcabbage',img:'macro/redcabbage',x:-112,y:169,w:130,h:130,name:'Red cabbage',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'redcabbage',img:'macro/redcabbage',x:-112,y:169,w:130,h:130,name:'Red cabbage',fd:'13s',fr:'1.5deg'},
   {k:'spinach',img:'macro/spinach',x:379,y:169,w:130,h:130,name:'Spinach',fd:'11s',fy:'6px',extra:1},
-  {k:'arugula',img:'macro/arugula',x:133,y:877,w:130,h:130,name:'Arugula',fd:'12s',fr:'-2deg',extra:1},
+  {k:'arugula',img:'macro/arugula',x:133,y:877,w:130,h:130,name:'Arugula',fd:'12s',fr:'-2deg'},
   {k:'cilantro',img:'macro/cilantro',x:52,y:-113,w:130,h:130,name:'Cilantro',fd:'14s',fx:'-5px',extra:1},
   {k:'cabbage',img:'macro/cabbage',x:215,y:-113,w:130,h:130,name:'Cabbage',fd:'12.5s',fx:'5px',extra:1},
-  {k:'shallot',img:'macro/shallot',x:-112,y:736,w:130,h:130,name:'Shallot',fd:'15s',fy:'6px',extra:1},
+  {k:'shallot',img:'macro/shallot',x:-112,y:736,w:130,h:130,name:'Shallot',fd:'15s',fy:'6px'},
   {k:'chickpea',img:'macro/chickpea',x:379,y:736,w:130,h:130,name:'Chickpea',fd:'13.5s',fr:'-1deg',extra:1},
-  {k:'egg',img:'macro/egg',x:-30,y:877,w:130,h:130,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'egg',img:'macro/egg',x:-30,y:877,w:130,h:130,name:'Egg',fd:'13s',fr:'1.5deg'},
   {k:'kiwi',img:'macro/kiwi',x:297,y:877,w:130,h:130,name:'Kiwi',fd:'11s',fy:'6px',extra:1},
   {k:'tofu',img:'macro/tofu',x:-194,y:311,w:130,h:130,name:'Tofu',fd:'12s',fr:'-2deg',extra:1},
   {k:'chicken',img:'macro/chicken',x:460,y:311,w:130,h:130,name:'Chicken',fd:'14s',fx:'-5px',extra:1},
@@ -120,7 +120,8 @@ rep("""  const H=Math.max(360,Math.min(400,p.h*1.25)), W=H*p.w/p.h, w2=Math.min(
   return {left:196-w2/2, top:248-h2/2, width:w2, height:h2};""")
 rep("PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<345?q.x-120:q.x+80)+'px';});",
     "PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<196?q.x-70:q.x+50)+'px';});")
-rep("const ALLZ=1.15, FOCUSN=4;", "const ALLZ=1.15, FOCUSN=3;")
+rep("const ALLV={avocado:[360,-40,300,0],arugula:[850,10,250,1],shallot:[-62,140,290,1],redcabbage:[1000,290,300,1],pear:[-40,560,290,1],egg:[296,520,290,0],carrot:[790,580,300,0]};",
+    "const ALLV={avocado:[40,112,168,0],arugula:[236,100,150,1],shallot:[-56,286,156,1],redcabbage:[292,262,160,1],pear:[-40,520,160,1],egg:[112,470,152,0],carrot:[262,606,164,0]};")
 rep("OX=605, OY=380;", "OX=196, OY=450;")
 rep("mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }",
     "mpan={x:clamp(mpan.x,Math.min(0,VW-16-R),Math.max(0,16-L)), y:clamp(mpan.y,Math.min(0,VH-HB-80-B),Math.max(0,115-T))}; }")
