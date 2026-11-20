@@ -2211,6 +2211,9 @@ if(KIOSK){
   function resetKiosk(){ clearInterval(rT); co.name=''; co.member=false; co.reward=true; co.tip=2; nm.value=''; clr.hidden=true; if(window._tip) window._tip.set(2); state.bag=[]; bagRender(); go('start'); }
   $('#dn-done').onclick=resetKiosk;
   $('#dn-text').onclick=()=>{ clearInterval(rT); keypad({title:'Text me a receipt',sub:'We only use it for this receipt.',ok:'Send receipt',done:()=>{ toast('Receipt sent'); countdown(); }}); };
+  // keep "Chat with your ingredients" at the kiosk too: something to explore while the bowl is made (pauses the reset)
+  $('#dn-text').insertAdjacentHTML('beforebegin',btn('serene',{level:2,label:'Chat with your ingredients',id:'dn-chat'}));
+  $('#dn-chat').onclick=()=>{ clearInterval(rT); $('#dn-reset').textContent=''; go('chat'); };
   function countdown(){ let s=30; clearInterval(rT); const el=$('#dn-reset'), t=()=>{ el.textContent=`Starting a new order in ${s} s`; if(s--<=0) resetKiosk(); }; t(); rT=setInterval(t,1000); }
   confirmOrder=function(){
     const {sub,rw,tax,tip,tot,pts}=totals(), at=new Date(Date.now()+KREADY*6e4), num=String(40+Math.floor(Math.random()*59)), n=bagCount(), today=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
