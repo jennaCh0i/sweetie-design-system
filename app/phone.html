@@ -352,7 +352,8 @@ body.forced #fs-exit{display:none}
 @keyframes float{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--fx,6px),var(--fy,-10px)) rotate(var(--fr,2deg))}}
 .prod.soft{filter:blur(16px);opacity:.95}
 .prod.tap{cursor:pointer}
-.prod.tap:hover .float img{transform:scale(1.03)}
+.prod .float img{transform:rotate(var(--rot,0deg))}
+.prod.tap:hover .float img{transform:rotate(var(--rot,0deg)) scale(1.03)}
 .prod .float img{transition:transform .8s var(--ease)}
 .prod .ptip{position:absolute;left:50%;top:-14px;transform:translate(-50%,-100%)}
 .prod .ask{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(6px);padding:7px 14px;border-radius:var(--r-pill);background:rgba(245,243,232,.92);box-shadow:var(--hair),var(--elev-1);color:var(--green-950);font-size:var(--t-cap);white-space:nowrap;pointer-events:none;opacity:0;filter:blur(3px);transition:opacity .35s var(--snap),transform .35s var(--snap),filter .35s var(--snap);letter-spacing:var(--tr-cap)}
@@ -1600,35 +1601,35 @@ ENTER.builder=()=>{ setTimeout(()=>{ allItems().forEach(i=>i.bar&&i.bar.relayout
 // layout from Figma "Chat with ingredients / Desktop · Intro" (160:5340), scaled 0.8 into the tablet frame
 const PROD=[
   // one size, one staggered lattice (equal centre spacing), title and toolbar kept clear; the 7 in Matt's bowl sit closest
-  {k:'radish',img:'macro/radish',x:124,y:241,w:104,h:104,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
-  {k:'fennel',img:'macro/fennel',x:124,y:494,w:104,h:104,name:'Fennel',fd:'11s',fy:'6px'},
-  {k:'fig',img:'macro/fig',x:270,y:241,w:104,h:104,name:'Fig',fd:'12s',fr:'-2deg'},
-  {k:'beet',img:'macro/beet',x:270,y:494,w:104,h:104,name:'Beet',fd:'14s',fx:'-5px'},
-  {k:'pomegranate',img:'macro/pomegranate',x:197,y:115,w:104,h:104,name:'Pomegranate',fd:'12.5s',fx:'5px'},
-  {k:'apple',img:'macro/apple',x:197,y:620,w:104,h:104,name:'Apple',fd:'15s',fy:'6px'},
-  {k:'salmon',img:'macro/salmon',x:51,y:115,w:104,h:104,name:'Salmon',fd:'13.5s',fr:'-1deg'},
+  {k:'radish',img:'macro/radish',x:52,y:453,w:130,h:130,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
+  {k:'fennel',img:'macro/fennel',x:215,y:453,w:130,h:130,name:'Fennel',fd:'11s',fy:'6px'},
+  {k:'fig',img:'macro/fig',x:133,y:594,w:130,h:130,name:'Fig',fd:'12s',fr:'-2deg'},
+  {k:'beet',img:'macro/beet',x:52,y:169,w:130,h:130,name:'Beet',fd:'14s',fx:'-5px'},
+  {k:'pomegranate',img:'macro/pomegranate',x:215,y:169,w:130,h:130,name:'Pomegranate',fd:'12.5s',fx:'5px'},
+  {k:'apple',img:'macro/apple',x:-30,y:594,w:130,h:130,name:'Apple',fd:'15s',fy:'6px'},
+  {k:'salmon',img:'macro/salmon',x:133,y:28,w:130,h:130,name:'Salmon',fd:'13.5s',fr:'-1deg'},
   // the rest of the pantry: same size, same lattice — some peek in at the edges, the rest are found by dragging (not in this bowl yet),
-  {k:'avocado',img:'macro/avocado',x:51,y:620,w:104,h:104,name:'Avocado',fd:'13s',fr:'1.5deg',extra:1},
-  {k:'tomato',img:'macro/tomato',x:-22,y:241,w:104,h:104,name:'Tomato',fd:'11s',fy:'6px',extra:1},
-  {k:'onion',img:'macro/onion',x:-22,y:494,w:104,h:104,name:'Red onion',fd:'12s',fr:'-2deg',extra:1},
-  {k:'carrot',img:'macro/carrot',x:-95,y:368,w:104,h:104,name:'Carrot',fd:'14s',fx:'-5px',extra:1},
-  {k:'lemon',img:'macro/lemon',x:124,y:-12,w:104,h:104,name:'Lemon',fd:'12.5s',fx:'5px',extra:1},
-  {k:'pear',img:'macro/pear',x:343,y:115,w:104,h:104,name:'Pear',fd:'15s',fy:'6px',extra:1},
-  {k:'pepper',img:'macro/pepper',x:343,y:620,w:104,h:104,name:'Red pepper',fd:'13.5s',fr:'-1deg',extra:1},
-  {k:'redcabbage',img:'macro/redcabbage',x:270,y:-12,w:104,h:104,name:'Red cabbage',fd:'13s',fr:'1.5deg',extra:1},
-  {k:'spinach',img:'macro/spinach',x:416,y:241,w:104,h:104,name:'Spinach',fd:'11s',fy:'6px',extra:1},
-  {k:'arugula',img:'macro/arugula',x:416,y:494,w:104,h:104,name:'Arugula',fd:'12s',fr:'-2deg',extra:1},
-  {k:'cilantro',img:'macro/cilantro',x:-95,y:115,w:104,h:104,name:'Cilantro',fd:'14s',fx:'-5px',extra:1},
-  {k:'cabbage',img:'macro/cabbage',x:-95,y:620,w:104,h:104,name:'Cabbage',fd:'12.5s',fx:'5px',extra:1},
-  {k:'shallot',img:'macro/shallot',x:-22,y:-12,w:104,h:104,name:'Shallot',fd:'15s',fy:'6px',extra:1},
-  {k:'chickpea',img:'macro/chickpea',x:-168,y:241,w:104,h:104,name:'Chickpea',fd:'13.5s',fr:'-1deg',extra:1},
-  {k:'egg',img:'macro/egg',x:-168,y:494,w:104,h:104,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
-  {k:'kiwi',img:'macro/kiwi',x:197,y:-138,w:104,h:104,name:'Kiwi',fd:'11s',fy:'6px',extra:1},
-  {k:'tofu',img:'macro/tofu',x:197,y:873,w:104,h:104,name:'Tofu',fd:'12s',fr:'-2deg',extra:1},
-  {k:'chicken',img:'macro/chicken',x:51,y:-138,w:104,h:104,name:'Chicken',fd:'14s',fx:'-5px',extra:1},
-  {k:'steak',img:'macro/steak',x:51,y:873,w:104,h:104,name:'Steak',fd:'12.5s',fx:'5px',extra:1},
-  {k:'rice',img:'macro/rice',x:489,y:368,w:104,h:104,name:'Rice',fd:'15s',fy:'6px',extra:1},
-  {k:'wildrice',img:'macro/wildrice',x:416,y:-12,w:104,h:104,name:'Wild rice',fd:'13.5s',fr:'-1deg',extra:1}
+  {k:'avocado',img:'macro/avocado',x:297,y:594,w:130,h:130,name:'Avocado',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'tomato',img:'macro/tomato',x:52,y:736,w:130,h:130,name:'Tomato',fd:'11s',fy:'6px',extra:1},
+  {k:'onion',img:'macro/onion',x:215,y:736,w:130,h:130,name:'Red onion',fd:'12s',fr:'-2deg',extra:1},
+  {k:'carrot',img:'macro/carrot',x:-112,y:453,w:130,h:130,name:'Carrot',fd:'14s',fx:'-5px',extra:1},
+  {k:'lemon',img:'macro/lemon',x:379,y:453,w:130,h:130,name:'Lemon',fd:'12.5s',fx:'5px',extra:1},
+  {k:'pear',img:'macro/pear',x:-30,y:28,w:130,h:130,name:'Pear',fd:'15s',fy:'6px',extra:1},
+  {k:'pepper',img:'macro/pepper',x:297,y:28,w:130,h:130,name:'Red pepper',fd:'13.5s',fr:'-1deg',extra:1},
+  {k:'redcabbage',img:'macro/redcabbage',x:-112,y:169,w:130,h:130,name:'Red cabbage',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'spinach',img:'macro/spinach',x:379,y:169,w:130,h:130,name:'Spinach',fd:'11s',fy:'6px',extra:1},
+  {k:'arugula',img:'macro/arugula',x:133,y:877,w:130,h:130,name:'Arugula',fd:'12s',fr:'-2deg',extra:1},
+  {k:'cilantro',img:'macro/cilantro',x:52,y:-113,w:130,h:130,name:'Cilantro',fd:'14s',fx:'-5px',extra:1},
+  {k:'cabbage',img:'macro/cabbage',x:215,y:-113,w:130,h:130,name:'Cabbage',fd:'12.5s',fx:'5px',extra:1},
+  {k:'shallot',img:'macro/shallot',x:-112,y:736,w:130,h:130,name:'Shallot',fd:'15s',fy:'6px',extra:1},
+  {k:'chickpea',img:'macro/chickpea',x:379,y:736,w:130,h:130,name:'Chickpea',fd:'13.5s',fr:'-1deg',extra:1},
+  {k:'egg',img:'macro/egg',x:-30,y:877,w:130,h:130,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'kiwi',img:'macro/kiwi',x:297,y:877,w:130,h:130,name:'Kiwi',fd:'11s',fy:'6px',extra:1},
+  {k:'tofu',img:'macro/tofu',x:-194,y:311,w:130,h:130,name:'Tofu',fd:'12s',fr:'-2deg',extra:1},
+  {k:'chicken',img:'macro/chicken',x:460,y:311,w:130,h:130,name:'Chicken',fd:'14s',fx:'-5px',extra:1},
+  {k:'steak',img:'macro/steak',x:-194,y:594,w:130,h:130,name:'Steak',fd:'12.5s',fx:'5px',extra:1},
+  {k:'rice',img:'macro/rice',x:460,y:594,w:130,h:130,name:'Rice',fd:'15s',fy:'6px',extra:1},
+  {k:'wildrice',img:'macro/wildrice',x:133,y:-255,w:130,h:130,name:'Wild rice',fd:'13.5s',fr:'-1deg',extra:1}
 ];
 const ANS={
   'Watermelon radish':{why:'I’m watermelon radish — crisp, peppery and a little sweet, and I give your bowl that hot-pink pop.',nutrition:'I bring vitamin C, fiber and almost no calories.',
@@ -1680,6 +1681,7 @@ PROD.forEach(p=>{
   Object.assign(el.style,{left:p.x+'px',top:p.y+'px',width:p.w+'px',height:p.h+'px'});
   el.style.setProperty('--fd',p.fd); if(p.fx) el.style.setProperty('--fx',p.fx); if(p.fy) el.style.setProperty('--fy',p.fy); if(p.fr) el.style.setProperty('--fr',p.fr);
   el.style.setProperty('--fdl',(-Math.random()*6).toFixed(1)+'s');
+  { let h=0; for(const c of p.k) h=(h*31+c.charCodeAt(0))%997; el.style.setProperty('--rot',((h%57)-28)+'deg'); } // a fixed, random-looking tilt per ingredient (−28°…+28°)
   el.innerHTML=`<span class="float"><img src="assets/${p.img||p.k}.webp" alt="${p.name||''}"></span>`;
   if(p.name){ el.type='button'; el.setAttribute('aria-label','Chat with '+p.name); }
   if(p.name){ const a=document.createElement('span'); a.className='ask'; a.textContent='Chat with '+p.name; el.appendChild(a); p.askEl=a; }
@@ -1728,7 +1730,7 @@ async function ask(q){
 $('#sugg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) ask(b.dataset.q);});
 $('#ask').addEventListener('submit',e=>{e.preventDefault(); const i=$('#ask-in'); if(i.value.trim()) ask(i.value.trim()); i.value='';});
 // move canvas (drag the produce field)
-const ALLZ=1.3, FOCUSN=3; // All view is pulled in: bigger, closer ingredients; the edges fall out of focus
+const ALLZ=1.15, FOCUSN=3; // All view is pulled in: bigger, closer ingredients; the edges fall out of focus
 let moving=true, moved=false, mv=null, mpan={x:0,y:0}, zoom=ALLZ;
 /* WK07 · 01 Serene canvas toolbar: Move (hand tool) · zoom − / 100% / + · Recentre */
 const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:Math.min(...PROD.map(p=>p.x)),r:Math.max(...PROD.map(p=>p.x+p.w)),t:Math.min(...PROD.map(p=>p.y)),b:Math.max(...PROD.map(p=>p.y+p.h))}, OX=196, OY=450;
