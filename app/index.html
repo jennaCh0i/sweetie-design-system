@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sweetie">
+<link rel="apple-touch-icon" href="assets/sweetie-mark-ink.png">
 <title>Sweetie — Tablet Prototype</title>
 <meta name="description" content="Sweetie (sweetgreen LLM) tablet prototype: Start with one word, Discover, Bowl builder, Chat with ingredients and Order history, using the WK01–WK05 interactions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,6 +115,10 @@ body.rec .flowbar,body.rec .notes,body.rec .fs-bar{display:none!important}
 body.full .fs-bar{display:flex}
 body.embed .fs-bar{display:none!important}
 body.forced #fs-exit{display:none}
+/* on a real iPad the prototype behaves like the app: no prototype chrome, no zoom / bounce / long-press callouts */
+body.tablet .fs-bar,body.tablet .flowbar,body.tablet .notes{display:none!important}
+body.tablet{overscroll-behavior:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.tablet input,body.tablet textarea{-webkit-user-select:text;user-select:text}
 
 /* ═════════════ Nav bar (75) ═════════════ */
 .nav{position:absolute;left:0;top:0;right:0;height:75px;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 var(--m);background:var(--cream-100);border-bottom:.5px solid var(--line)}
@@ -1093,7 +1101,7 @@ const ST={bg:'green',frame:'win',size:72}; try{Object.assign(ST,JSON.parse(local
    On a real iPad (touch) it fills the screen with no frame; on a computer the flow bar switches 11" / 12.9". */
 const DEVS={'11':834,'12.9':907}, QDEV=new URLSearchParams(location.search).get('ipad');
 const TOUCH_TAB=matchMedia('(pointer:coarse)').matches&&Math.min(innerWidth,innerHeight)>=700;
-if(TOUCH_TAB) full=true;
+if(TOUCH_TAB){ full=true; document.body.classList.add('tablet'); }
 window.DH=834;
 function fit(){
   const W=innerWidth,H=innerHeight, framed=!full&&W>=900&&H>=560;

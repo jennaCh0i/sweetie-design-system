@@ -21,7 +21,7 @@ def rep(old, new, count=1):
 # ── head ──
 rep('<title>Sweetie — Tablet Prototype</title>', '<title>Sweetie — iPhone Prototype</title>')
 rep('<meta name="description" content="Sweetie (sweetgreen LLM) tablet prototype:', '<meta name="description" content="Sweetie (sweetgreen LLM) iPhone prototype:')
-rep('<meta name="apple-mobile-web-app-capable" content="yes">', '<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-status-bar-style" content="default">\n<meta name="apple-mobile-web-app-title" content="Sweetie">\n<meta name="theme-color" content="#F5F3E8">\n<link rel="apple-touch-icon" href="assets/sweetie-mark-ink.png">')
+rep('<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">', '<meta name="apple-mobile-web-app-status-bar-style" content="default">\n<meta name="theme-color" content="#F5F3E8">')
 rep('</style>\n</head>', '</style>\n<link rel="stylesheet" href="phone.css"><!-- iPhone layout on top of the shared styles -->\n</head>')
 
 # ── status bar, Dynamic Island, home indicator ──
