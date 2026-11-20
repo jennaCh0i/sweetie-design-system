@@ -117,7 +117,8 @@ body.embed .fs-bar{display:none!important}
 body.forced #fs-exit{display:none}
 /* on a real iPad the prototype behaves like the app: no prototype chrome, no zoom / bounce / long-press callouts */
 body.tablet .fs-bar,body.tablet .flowbar,body.tablet .notes{display:none!important}
-body.tablet{overscroll-behavior:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.tablet{background:var(--cream-100)!important;overscroll-behavior:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.tablet #stage-bg{display:none}
 body.tablet input,body.tablet textarea{-webkit-user-select:text;user-select:text}
 
 /* ═════════════ Nav bar (75) ═════════════ */
@@ -1103,7 +1104,26 @@ const DEVS={'11':834,'12.9':907}, QDEV=new URLSearchParams(location.search).get(
 const TOUCH_TAB=matchMedia('(pointer:coarse)').matches&&Math.min(innerWidth,innerHeight)>=700;
 if(TOUCH_TAB){ full=true; document.body.classList.add('tablet'); }
 window.DH=834;
+/* iPad home-screen app (status bar "black-translucent"): the page is drawn under the status bar, but iPadOS
+   reports a height without it, so the nav sat under the clock and a strip was left empty at the bottom.
+   On a touch iPad we measure the real screen, keep the artboard below the status bar (safe-area top)
+   and let it run to the bottom edge (the home indicator floats over it, as in native apps). */
+const SAFE=document.createElement('div');
+SAFE.style.cssText='position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top)';
+document.documentElement.appendChild(SAFE);
+const STANDALONE=navigator.standalone===true||matchMedia('(display-mode: standalone)').matches;
+function tabletView(){
+  let W=innerWidth,H=innerHeight; const land=W>=H;
+  const long=Math.max(screen.width,screen.height), short=Math.min(screen.width,screen.height);
+  // full-screen home-screen app: trust the screen size (not in Split View / Stage Manager, where the window is smaller)
+  if(STANDALONE&&Math.abs(W-(land?long:short))<=2) H=land?short:long;
+  let top=parseFloat(getComputedStyle(SAFE).paddingTop)||0;
+  if(STANDALONE&&!top) top=24; // iPad status bar height, in case env() reports 0
+  document.documentElement.style.height=document.body.style.height=H+'px';
+  return {W,H,top};
+}
 function fit(){
+  if(TOUCH_TAB) return fitTablet();
   const W=innerWidth,H=innerHeight, framed=!full&&W>=900&&H>=560;
   const dev=QDEV||ST.dev||'11';
   DH=TOUCH_TAB&&W>H?Math.round(Math.min(1000,Math.max(760,1210*H/W))):(DEVS[dev]||834);
@@ -1116,7 +1136,16 @@ function fit(){
   device.style.setProperty('--s',s); device.style.setProperty('--top','50%'); // always the screen's true centre, so nothing moves when the controls hide
   window.SCALE=s;
 }
-addEventListener('resize',fit); fit();
+function fitTablet(){
+  const {W,H,top}=tabletView(), avail=H-top; // the artboard fills the screen below the status bar
+  DH=W>H?Math.round(Math.min(1000,Math.max(760,1210*avail/W))):834;
+  device.style.setProperty('--dh',DH+'px'); document.body.dataset.ipad=DH>860?'12.9':'11';
+  document.body.classList.remove('framed','forced'); document.body.classList.add('full');
+  const s=Math.min(W/1210,avail/DH);
+  device.style.setProperty('--s',s); device.style.setProperty('--top',(top+avail/2)+'px');
+  window.SCALE=s;
+}
+addEventListener('resize',fit); addEventListener('orientationchange',()=>setTimeout(fit,250)); fit();
 $$('#dev-seg [data-dev]').forEach(b=>b.onclick=()=>{ ST.dev=b.dataset.dev; try{localStorage['sweetie-stage']=JSON.stringify(ST)}catch(e){} fit(); dispatchEvent(new Event('resize')); });
 $('#full').onclick=()=>{full=true;fit()};
 // recording mode: hide every prototype control; H toggles (works in any screen)
