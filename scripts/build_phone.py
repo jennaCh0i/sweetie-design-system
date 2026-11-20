@@ -53,7 +53,7 @@ rep("const ST={bg:'green',frame:'win',size:72}; try{Object.assign(ST,JSON.parse(
     "const ST={bg:'green',frame:'ipad',size:88}; try{Object.assign(ST,JSON.parse(localStorage.getItem('sweetie-stage-phone')||'{}'))}catch(e){}")
 rep("localStorage.setItem('sweetie-stage',JSON.stringify", "localStorage.setItem('sweetie-stage-phone',JSON.stringify")
 rep("framed=!full&&W>=900&&H>=560;", "framed=!full&&W>=520&&H>=700;")
-rep("const s=framed?Math.min((W-60)/1210,(H-140)/834)*k:Math.min(W/1210,H/834);", "const s=framed?Math.min((W-60)/VW,(H-140)/VH)*k:Math.min(W/VW,H/VH);")
+rep("const s=framed?Math.min((W-60)/1210,(H-140)/DH)*k:Math.min(W/1210,H/DH);", "const s=framed?Math.min((W-60)/VW,(H-140)/VH)*k:Math.min(W/VW,H/VH);")
 
 # Discover: honeycomb at phone size (150 px cells), headline words on the ring around the title
 a = s.index("(function(){\n  // honeycomb from the Figma frame"); b = s.index("})();", a) + len("})();")
@@ -112,7 +112,7 @@ s = s[:a] + '''const PROD=[
   {k:'rice',img:'macro/rice',x:460,y:594,w:130,h:130,name:'Rice',fd:'15s',fy:'6px',extra:1},
   {k:'wildrice',img:'macro/wildrice',x:133,y:-255,w:130,h:130,name:'Wild rice',fd:'13.5s',fr:'-1deg',extra:1}
 ];''' + s[b:]
-rep("    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,1210), y0=Math.max(p.y,0), y1=Math.min(p.y+p.h,759-24);",
+rep("    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,1210), y0=Math.max(p.y,0), y1=Math.min(p.y+p.h,DH-75-24);",
     "    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,VW), y0=Math.max(p.y,103), y1=Math.min(p.y+p.h,VH-HB-70);")
 rep("""  const H=Math.max(360,Math.min(400,p.h*1.25)), W=H*p.w/p.h, w2=Math.min(W,480), h2=w2*p.h/p.w;
   return {left:345-w2/2, top:457-h2/2, width:w2, height:h2};""",
@@ -132,8 +132,8 @@ rep("""    const right=R.right+W+6<1210; x=right?R.right+4:R.left-W-4; y=R.top-(
 """    const right=R.right+W+6<VW, left=R.left-W-4>0;
     if(right||left){ x=right?R.right+4:R.left-W-4; y=R.top-(tone==='serene'?8:0); origin=right?'top left':'top right'; el.style.setProperty('--mn-from',right?'-6px':'6px'); }
     else { const P=MSTACK[level-1].el; x=P.offsetLeft+20; y=R.top+(tone==='serene'?30:34); origin='top left'; el.style.setProperty('--mn-from','0px'); el.style.zIndex=61+level; }""")
-rep("    if(y+H>834-12){ y=R.top-8-H; origin=origin.replace('top','bottom'); }", "    if(y+H>VH-HB-12){ y=R.top-8-H; origin=origin.replace('top','bottom'); }")
-rep("  x=Math.max(12,Math.min(x,1210-W-12)); y=Math.max(12,Math.min(y,834-H-12));", "  x=Math.max(12,Math.min(x,VW-W-12)); y=Math.max(66,Math.min(y,VH-HB-H-12));")
+rep("    if(y+H>DH-12){ y=R.top-8-H; origin=origin.replace('top','bottom'); }", "    if(y+H>VH-HB-12){ y=R.top-8-H; origin=origin.replace('top','bottom'); }")
+rep("  x=Math.max(12,Math.min(x,1210-W-12)); y=Math.max(12,Math.min(y,DH-H-12));", "  x=Math.max(12,Math.min(x,VW-W-12)); y=Math.max(66,Math.min(y,VH-HB-H-12));")
 
 rep("Visa •••• 4417 · default on this iPad", "Visa •••• 4417 · default on this iPhone")
 
@@ -148,6 +148,10 @@ rep('<span class="sep"></span><button id="stage-btn">Background</button><button 
 # phone-only behaviour (sticky pay button, status bar clock, selection count) after the shared script
 rep("const KIOSK=true;", "const KIOSK=false;")  # the phone is the personal app: it keeps pickup / delivery / saved cards
 rep('</script>\n</body>', '</script>\n<script src="phone.js"></script>\n</body>')
+
+# the iPad size switch is tablet-only
+_a = s.index('<span class="seg dev-seg" id="dev-seg"'); _b = s.index('</span>', s.index('iPad Pro 12.9', _a)) + 7
+s = s[:_a] + s[_b:]
 
 out = ROOT / 'app/phone.html'
 out.write_text(s)
