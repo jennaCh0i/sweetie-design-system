@@ -1008,7 +1008,7 @@ svg.cmp-ic :is(path,circle,rect){vector-effect:non-scaling-stroke;stroke-width:v
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 // WK07 · 01 Serene · canvas toolbar (centre aligned, floating over the chat canvas)
 $('#cv-host').insertAdjacentHTML('afterbegin',toolbar('serene',[
-  {html:btnGroup('serene',[{value:'all',label:'All'},{value:'greens',label:'Greens'},{value:'veggies',label:'Veggies'},{value:'protein',label:'Protein'},{value:'toppings',label:'Toppings'}],{label:'Show ingredients',id:'cv-filter',cls:'in-tb'})}],{label:'Canvas',id:'cv-tb'}));
+  {html:btnGroup('serene',[{value:'all',label:'All'},{value:'veggies',label:'Veggies'},{value:'fruit',label:'Fruit'},{value:'protein',label:'Protein'}],{label:'Show ingredients',id:'cv-filter',cls:'in-tb'})}],{label:'Canvas',id:'cv-tb'}));
 $('#cv-tip').hidden=true; // Move was removed: the canvas always drags (tap still opens an ingredient)
 // Order history header toolbar (02 Elegant, right aligned) + selection toolbar
 $('#o-tools').innerHTML=toolbar('elegant',[
@@ -1598,48 +1598,45 @@ ENTER.builder=()=>{ setTimeout(()=>{ allItems().forEach(i=>i.bar&&i.bar.relayout
 /* ═════════════ 04 · CHAT WITH INGREDIENTS ═════════════ */
 // layout from Figma "Chat with ingredients / Desktop · Intro" (160:5340), scaled 0.8 into the tablet frame
 const PROD=[
-  {k:'onion',x:-44,y:252,w:150,h:128,name:'Onion',fd:'13s',fr:'1.5deg'},
-  {k:'avocado',x:70,y:104,w:116,h:176,name:'Avocado',fd:'11s',fy:'8px'},
-  {k:'pea',x:238,y:98,w:86,h:170,name:'Peas',fd:'12s',fr:'-2deg'},
-  {k:'beet',x:300,y:252,w:132,h:132,name:'Beet',fd:'14s',fx:'-6px'},
-  {k:'tomato',x:-46,y:540,w:162,h:155,name:'Tomato',fd:'12.5s',fx:'6px'},
-  {k:'lettuce2',x:112,y:478,w:196,h:199,name:'Lettuce',fd:'15s',fy:'6px'},
-  // off-canvas: found by dragging with Move around (not in this bowl yet)
-  {k:'artichoke',x:60,y:-150,w:104,h:140,name:'Artichoke',fd:'13s',fr:'1.5deg',extra:1},
-  {k:'garlic',x:232,y:-140,w:110,h:118,name:'Garlic',fd:'12s',fy:'7px',extra:1},
-  {k:'pepper',x:404,y:118,w:150,h:129,name:'Pepper',fd:'14s',fr:'-1.5deg',extra:1},
-  {k:'cucumber',x:446,y:440,w:110,h:115,name:'Cucumber',fd:'11.5s',fx:'-6px',extra:1},
-  {k:'corn',x:420,y:690,w:115,h:117,name:'Corn',fd:'12.5s',fr:'2deg',extra:1},
-  {k:'pumpkin',x:-200,y:430,w:146,h:130,name:'Pumpkin',fd:'13.5s',fy:'8px',extra:1},
-  {k:'salmon',x:226,y:590,w:214,h:173,name:'Salmon',fd:'13.5s',fr:'-1deg'}
+  {k:'radish',img:'macro/radish',x:-40,y:245,w:142,h:142,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
+  {k:'fennel',img:'macro/fennel',x:65,y:106,w:125,h:171,name:'Fennel',fd:'11s',fy:'8px'},
+  {k:'fig',img:'macro/fig',x:226,y:113,w:110,h:140,name:'Fig',fd:'12s',fr:'-2deg'},
+  {k:'beet',img:'macro/beet',x:298,y:251,w:136,h:134,name:'Beet',fd:'14s',fx:'-6px'},
+  {k:'pomegranate',img:'macro/pomegranate',x:-47,y:537,w:164,h:161,name:'Pomegranate',fd:'12.5s',fx:'6px'},
+  {k:'apple',img:'macro/apple',x:108,y:477,w:203,h:202,name:'Apple',fd:'15s',fy:'6px'},
+  {k:'salmon',img:'macro/salmon',x:203,y:602,w:261,h:149,name:'Salmon',fd:'13.5s',fr:'-1deg'},
+  // off-canvas: found by dragging around (not in this bowl yet),
+  {k:'egg',img:'macro/egg',x:56,y:-148,w:112,h:137,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'kiwi',img:'macro/kiwi',x:228,y:-139,w:117,h:116,name:'Kiwi',fd:'12s',fy:'7px',extra:1},
+  {k:'steak',img:'macro/steak',x:385,y:128,w:187,h:108,name:'Steak',fd:'14s',fr:'-1.5deg',extra:1},
+  {k:'tofu',img:'macro/tofu',x:433,y:449,w:136,h:98,name:'Tofu',fd:'11.5s',fx:'-6px',extra:1},
+  {k:'chicken',img:'macro/chicken',x:406,y:699,w:142,h:99,name:'Chicken',fd:'12.5s',fr:'2deg',extra:1}
 ];
 const ANS={
-  Artichoke:{why:'I’m not in your bowl yet. I’d add a soft, nutty, slightly tangy bite — great with greens and lemon.',nutrition:'I’m one of the most fiber-rich vegetables, with folate and vitamin K.',
-    calories:'About 30 cal as a side scoop.',sourcing:'I’m grown in Castroville, California, the artichoke capital, and marinated in-house.',pair:'Lemon, feta, chickpeas and a herby dressing.',hi:'Hi Matt, I’m the artichoke. I’m not in your bowl yet, but ask me anything.'},
-  Garlic:{why:'I’m not in your bowl yet. Roasted, I turn sweet and mellow and make every dressing deeper.',nutrition:'I bring allicin, plus a little vitamin C and B6.',
-    calories:'About 10 cal — a little goes a long way.',sourcing:'I’m grown in Gilroy, California, and slow-roasted every morning.',pair:'Chicken, kale, roasted squash and anything creamy.',hi:'Hi Matt, I’m roasted garlic. I’m not in your bowl yet, but ask me anything.'},
-  Pepper:{why:'I’m not in your bowl yet. I’d add a sweet, juicy crunch and a pop of sunshine color.',nutrition:'I have more vitamin C than an orange, plus vitamin A.',
-    calories:'About 15 cal in a bowl.',sourcing:'I’m a yellow bell pepper from Oxnard, California, sliced fresh daily.',pair:'Chicken, corn, avocado and a little lime.',hi:'Hi Matt, I’m the bell pepper. I’m not in your bowl yet, but ask me anything.'},
-  Cucumber:{why:'I’m not in your bowl yet. I’d add cool, crisp freshness — perfect next to anything spicy.',nutrition:'I’m about 96% water, with a little vitamin K.',
-    calories:'About 8 cal in a bowl.',sourcing:'I’m grown in Fresno County and sliced to order.',pair:'Salmon, tomato, feta and a lemony dressing.',hi:'Hi Matt, I’m the cucumber. I’m not in your bowl yet, but ask me anything.'},
-  Corn:{why:'I’m not in your bowl yet. Roasted, I add sweet, smoky crunch.',nutrition:'I bring fiber, a little plant protein and lutein for your eyes.',
-    calories:'About 70 cal in a bowl.',sourcing:'I’m sweet corn from the Central Valley, roasted in-house.',pair:'Pepper, avocado, black beans and lime.',hi:'Hi Matt, I’m roasted corn. I’m not in your bowl yet, but ask me anything.'},
-  Pumpkin:{why:'I’m not in your bowl yet. Roasted, I’m sweet, soft and cozy — a fall favorite.',nutrition:'I’m packed with beta-carotene (vitamin A) and fiber.',
-    calories:'About 45 cal in a bowl.',sourcing:'I’m grown in Half Moon Bay and roasted with a little maple.',pair:'Kale, goat cheese, pecans and wild rice.',hi:'Hi Matt, I’m roasted pumpkin. I’m not in your bowl yet, but ask me anything.'},
-  Onion:{why:'I’m pickled red onion — a sharp, tangy bite that cuts through the creamy parts of your bowl.',nutrition:'I bring a little fiber and quercetin, an antioxidant, for almost no calories.',
-    calories:'About 15 cal in your bowl.',sourcing:'I’m grown in Imperial Valley, California, and pickled in-house every morning.',pair:'Avocado, salmon, feta and anything citrusy.',hi:'Hi Matt, I’m the red onion. Ask me anything.'},
-  Avocado:{why:'I make your bowl creamy and filling, so the greens feel like a meal.',nutrition:'Mostly heart-healthy monounsaturated fat, plus fiber and potassium.',
-    calories:'About 130 cal in your bowl — I’m the richest thing in here, in a good way.',sourcing:'I’m a Hass avocado from San Diego County, sliced to order.',pair:'Tomato, lime, red onion and a little heat.',hi:'Hi Matt, I’m the avocado. Ask me anything.'},
-  Peas:{why:'I add a sweet pop and a little plant protein.',nutrition:'I’m a good source of fiber, plant protein and vitamin C.',
-    calories:'About 30 cal in your bowl.',sourcing:'I come from Salinas Valley farms and arrive fresh, never frozen.',pair:'Mint, lemon, feta and grains like quinoa.',hi:'Hi Matt, we’re the peas. Ask us anything.'},
-  Beet:{why:'I’m roasted beet — earthy, a little sweet, and I give your bowl its color.',nutrition:'I bring folate, fiber and nitrates that support blood flow.',
+  'Watermelon radish':{why:'I’m watermelon radish — crisp, peppery and a little sweet, and I give your bowl that hot-pink pop.',nutrition:'I bring vitamin C, fiber and almost no calories.',
+    calories:'About 10 cal in your bowl.',sourcing:'I’m grown in Watsonville, California, and sliced paper-thin every morning.',pair:'Citrus, avocado, salmon and a bright vinaigrette.',hi:'Hi Matt, I’m the watermelon radish. Ask me anything.'},
+  Fennel:{why:'I’m shaved fennel — cool, crunchy and lightly anise-sweet, so every bite tastes fresh.',nutrition:'I bring fiber, potassium and vitamin C.',
+    calories:'About 15 cal in your bowl.',sourcing:'I’m grown in the Salinas Valley and shaved to order.',pair:'Apple, citrus, salmon and parmesan.',hi:'Hi Matt, I’m the fennel. Ask me anything.'},
+  Fig:{why:'I’m fresh fig — jammy, honey-sweet and soft against the crunchy parts of your bowl.',nutrition:'I bring fiber, potassium and a little calcium.',
+    calories:'About 40 cal in your bowl.',sourcing:'I’m a Black Mission fig from Madera County, in season until the first frost.',pair:'Goat cheese, walnuts, greens and balsamic.',hi:'Hi Matt, I’m the fig. Ask me anything.'},
+  Beet:{why:'I’m roasted beet — earthy, a little sweet, and I give your bowl its deep color.',nutrition:'I bring folate, fiber and nitrates that support blood flow.',
     calories:'About 35 cal in your bowl.',sourcing:'I’m grown in Ventura County and roasted in-house.',pair:'Goat cheese, citrus, walnuts and greens.',hi:'Hi Matt, I’m the beet. Ask me anything.'},
-  Tomato:{why:'I add juicy acidity that keeps every bite fresh.',nutrition:'I’m rich in vitamin C and lycopene.',
-    calories:'About 25 cal in your bowl.',sourcing:'I’m grown in Fresno County and picked ripe.',pair:'Avocado, basil, cucumber and feta.',hi:'Hi Matt, I’m the tomato. Ask me anything.'},
-  Lettuce:{why:'I’m your base — crisp, cool and hydrating, so every other ingredient has room to shine.',nutrition:'I’m about 95% water, with vitamin K and folate.',
-    calories:'Only about 15 cal in your bowl.',sourcing:'I’m green leaf from the Salinas Valley, harvested two days ago.',pair:'Tomato, avocado, chicken and a bright lemon dressing.',hi:'Hi Matt, I’m the lettuce holding your bowl together.'},
-  Salmon:{why:'I’m your protein — rich, flaky and satisfying.',nutrition:'I’m high in protein and omega-3 fatty acids.',
-    calories:'About 220 cal in your bowl.',sourcing:'I’m responsibly farmed Atlantic salmon from Norway. I’m sold out at this store today, so check back tomorrow.',pair:'Rice, avocado, cucumber and miso sesame.',hi:'Hi Matt, I’m the salmon. Ask me anything.'}
+  Pomegranate:{why:'I add bright, tart little bursts that wake up everything around me.',nutrition:'I’m rich in antioxidants (punicalagins), vitamin C and fiber.',
+    calories:'About 35 cal in your bowl.',sourcing:'I’m grown in the San Joaquin Valley and seeded by hand.',pair:'Feta, mint, roasted squash and chicken.',hi:'Hi Matt, I’m the pomegranate. Ask me anything.'},
+  Apple:{why:'I’m crisp apple — sweet, juicy crunch that balances the savory parts of your bowl.',nutrition:'I bring fiber (pectin) and a little vitamin C.',
+    calories:'About 30 cal in your bowl.',sourcing:'I’m a Honeycrisp from Watsonville, sliced fresh so I stay bright.',pair:'Fennel, chicken, goat cheese and pecans.',hi:'Hi Matt, I’m the apple. Ask me anything.'},
+  Salmon:{why:'I’m your protein — roasted, flaky and satisfying.',nutrition:'I’m high in protein and omega-3 fatty acids.',
+    calories:'About 220 cal in your bowl.',sourcing:'I’m responsibly farmed Atlantic salmon from Norway. I’m sold out at this store today, so check back tomorrow.',pair:'Fennel, radish, rice and miso sesame.',hi:'Hi Matt, I’m the salmon. Ask me anything.'},
+  Egg:{why:'I’m not in your bowl yet. A jammy soft egg makes any bowl richer and more filling.',nutrition:'I bring complete protein, choline and vitamin D.',
+    calories:'About 70 cal for one egg.',sourcing:'I’m pasture-raised from Petaluma, cooked for exactly 7 minutes.',pair:'Kale, avocado, rice and anything spicy.',hi:'Hi Matt, I’m the soft egg. I’m not in your bowl yet, but ask me anything.'},
+  Kiwi:{why:'I’m not in your bowl yet. I’d add a tangy, tropical brightness — great with greens and seafood.',nutrition:'I have more vitamin C than an orange, plus vitamin K and fiber.',
+    calories:'About 40 cal in a bowl.',sourcing:'I’m grown in Gridley, California, and peeled to order.',pair:'Salmon, cucumber, lime and mint.',hi:'Hi Matt, I’m the kiwi. I’m not in your bowl yet, but ask me anything.'},
+  Steak:{why:'I’m not in your bowl yet. Seared and sliced, I make a bowl hearty and savory.',nutrition:'I bring protein, iron, zinc and vitamin B12.',
+    calories:'About 230 cal in a bowl.',sourcing:'I’m grass-fed beef from Northern California, seared to medium-rare in-house.',pair:'Beet, arugula, blue cheese and balsamic.',hi:'Hi Matt, I’m the steak. I’m not in your bowl yet, but ask me anything.'},
+  Tofu:{why:'I’m not in your bowl yet. Baked, I’m golden outside, soft inside and soak up any dressing.',nutrition:'I’m plant protein with calcium and iron.',
+    calories:'About 120 cal in a bowl.',sourcing:'I’m organic tofu made in San Jose from non-GMO soybeans, baked with tamari.',pair:'Miso sesame, cabbage, rice and radish.',hi:'Hi Matt, I’m the tofu. I’m not in your bowl yet, but ask me anything.'},
+  Chicken:{why:'I’m not in your bowl yet. Roasted, I’m the classic lean protein that goes with everything.',nutrition:'I’m high in lean protein, with niacin and vitamin B6.',
+    calories:'About 180 cal in a bowl.',sourcing:'I’m antibiotic-free chicken from Petaluma, roasted every morning.',pair:'Apple, pomegranate, kale and a lemony dressing.',hi:'Hi Matt, I’m the chicken. I’m not in your bowl yet, but ask me anything.'}
 };
 const intent=q=>{q=q.toLowerCase(); if(/calor|kcal/.test(q))return'calories'; if(/why|in my bowl/.test(q))return'why'; if(/health|nutri|vitamin|protein|good for/.test(q))return'nutrition';
   if(/sourc|where|from|farm|grown/.test(q))return'sourcing'; if(/pair|go with|favorite|together/.test(q))return'pair'; return null;};
@@ -1649,7 +1646,7 @@ PROD.forEach(p=>{
   Object.assign(el.style,{left:p.x+'px',top:p.y+'px',width:p.w+'px',height:p.h+'px'});
   el.style.setProperty('--fd',p.fd); if(p.fx) el.style.setProperty('--fx',p.fx); if(p.fy) el.style.setProperty('--fy',p.fy); if(p.fr) el.style.setProperty('--fr',p.fr);
   el.style.setProperty('--fdl',(-Math.random()*6).toFixed(1)+'s');
-  el.innerHTML=`<span class="float"><img src="assets/${p.k}.webp" alt="${p.name||''}"></span>`;
+  el.innerHTML=`<span class="float"><img src="assets/${p.img||p.k}.webp" alt="${p.name||''}"></span>`;
   if(p.name){ el.type='button'; el.setAttribute('aria-label','Chat with '+p.name); }
   if(p.name){ const a=document.createElement('span'); a.className='ask'; a.textContent='Chat with '+p.name; el.appendChild(a); p.askEl=a; }
   if(p.name){ // centre the hover label on the part of the ingredient that is on screen
@@ -1712,8 +1709,8 @@ function recentre(){ mpan={x:0,y:0}; zoom=1; applyView(); }
 chat.classList.add('moving'); // drag anywhere on the canvas to look around — no Move mode
 /* filter (replaces zoom, per feedback): a WK08 button group in the WK07 toolbar. Matching ingredients stay,
    the rest step back, and the canvas glides to frame the matches (extras off-canvas included). */
-const CAT={lettuce2:'greens',onion:'veggies',beet:'veggies',tomato:'veggies',cucumber:'veggies',pepper:'veggies',pumpkin:'veggies',pea:'veggies',
-  salmon:'protein',avocado:'toppings',corn:'toppings',garlic:'toppings',artichoke:'toppings'};
+const CAT={radish:'veggies',fennel:'veggies',beet:'veggies',fig:'fruit',pomegranate:'fruit',apple:'fruit',kiwi:'fruit',
+  salmon:'protein',egg:'protein',steak:'protein',tofu:'protein',chicken:'protein'};
 let cvFilter='all';
 function frameMatches(L){ if(!L.length){ recentre(); return; }
   const l=Math.min(...L.map(p=>p.x)), r=Math.max(...L.map(p=>p.x+p.w)), t=Math.min(...L.map(p=>p.y)), b=Math.max(...L.map(p=>p.y+p.h));

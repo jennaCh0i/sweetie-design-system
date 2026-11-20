@@ -81,20 +81,19 @@ rep("pan={x:clamp(pan.x+vel.x,-1100,1100),y:clamp(pan.y+vel.y,-700,700)};", "pan
 # Chat: portrait canvas (393 × 852), extras just off each edge
 a = s.index("const PROD=["); b = s.index("];", a) + 2
 s = s[:a] + '''const PROD=[
-  {k:'onion',x:-44,y:252,w:150,h:128,name:'Onion',fd:'13s',fr:'1.5deg'},
-  {k:'avocado',x:70,y:104,w:116,h:176,name:'Avocado',fd:'11s',fy:'8px'},
-  {k:'pea',x:238,y:98,w:86,h:170,name:'Peas',fd:'12s',fr:'-2deg'},
-  {k:'beet',x:300,y:252,w:132,h:132,name:'Beet',fd:'14s',fx:'-6px'},
-  {k:'tomato',x:-46,y:540,w:162,h:155,name:'Tomato',fd:'12.5s',fx:'6px'},
-  {k:'lettuce2',x:112,y:478,w:196,h:199,name:'Lettuce',fd:'15s',fy:'6px'},
-  // off-canvas: found by dragging with Move around (not in this bowl yet)
-  {k:'artichoke',x:60,y:-150,w:104,h:140,name:'Artichoke',fd:'13s',fr:'1.5deg',extra:1},
-  {k:'garlic',x:232,y:-140,w:110,h:118,name:'Garlic',fd:'12s',fy:'7px',extra:1},
-  {k:'pepper',x:404,y:118,w:150,h:129,name:'Pepper',fd:'14s',fr:'-1.5deg',extra:1},
-  {k:'cucumber',x:446,y:440,w:110,h:115,name:'Cucumber',fd:'11.5s',fx:'-6px',extra:1},
-  {k:'corn',x:420,y:690,w:115,h:117,name:'Corn',fd:'12.5s',fr:'2deg',extra:1},
-  {k:'pumpkin',x:-200,y:430,w:146,h:130,name:'Pumpkin',fd:'13.5s',fy:'8px',extra:1},
-  {k:'salmon',x:226,y:590,w:214,h:173,name:'Salmon',fd:'13.5s',fr:'-1deg'}
+  {k:'radish',img:'macro/radish',x:-40,y:245,w:142,h:142,name:'Watermelon radish',fd:'13s',fr:'1.5deg'},
+  {k:'fennel',img:'macro/fennel',x:65,y:106,w:125,h:171,name:'Fennel',fd:'11s',fy:'8px'},
+  {k:'fig',img:'macro/fig',x:226,y:113,w:110,h:140,name:'Fig',fd:'12s',fr:'-2deg'},
+  {k:'beet',img:'macro/beet',x:298,y:251,w:136,h:134,name:'Beet',fd:'14s',fx:'-6px'},
+  {k:'pomegranate',img:'macro/pomegranate',x:-47,y:537,w:164,h:161,name:'Pomegranate',fd:'12.5s',fx:'6px'},
+  {k:'apple',img:'macro/apple',x:108,y:477,w:203,h:202,name:'Apple',fd:'15s',fy:'6px'},
+  {k:'salmon',img:'macro/salmon',x:203,y:602,w:261,h:149,name:'Salmon',fd:'13.5s',fr:'-1deg'},
+  // off-canvas: found by dragging around (not in this bowl yet),
+  {k:'egg',img:'macro/egg',x:56,y:-148,w:112,h:137,name:'Egg',fd:'13s',fr:'1.5deg',extra:1},
+  {k:'kiwi',img:'macro/kiwi',x:228,y:-139,w:117,h:116,name:'Kiwi',fd:'12s',fy:'7px',extra:1},
+  {k:'steak',img:'macro/steak',x:385,y:128,w:187,h:108,name:'Steak',fd:'14s',fr:'-1.5deg',extra:1},
+  {k:'tofu',img:'macro/tofu',x:433,y:449,w:136,h:98,name:'Tofu',fd:'11.5s',fx:'-6px',extra:1},
+  {k:'chicken',img:'macro/chicken',x:406,y:699,w:142,h:99,name:'Chicken',fd:'12.5s',fr:'2deg',extra:1}
 ];''' + s[b:]
 rep("    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,1210), y0=Math.max(p.y,0), y1=Math.min(p.y+p.h,759-24);",
     "    const x0=Math.max(p.x,0), x1=Math.min(p.x+p.w,VW), y0=Math.max(p.y,103), y1=Math.min(p.y+p.h,VH-HB-70);")
