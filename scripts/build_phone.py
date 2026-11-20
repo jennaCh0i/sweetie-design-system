@@ -120,8 +120,8 @@ rep("""  const H=Math.max(360,Math.min(400,p.h*1.25)), W=H*p.w/p.h, w2=Math.min(
   return {left:196-w2/2, top:248-h2/2, width:w2, height:h2};""")
 rep("PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<345?q.x-120:q.x+80)+'px';});",
     "PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<196?q.x-70:q.x+50)+'px';});")
-rep('const ALLV={steak:[-63,83,354,0,-15],avocado:[331,-44,379,0,-65],pear:[808,-8,384,1,172],redcabbage:[1021,322,367,1,-70],carrot:[-32,539,291,1,0],arugula:[173,367,480,0,125],egg:[653,540,342,0,-4]}; // [x, y, size, soft focus, tilt°] traced from the Figma frame',
-    "const ALLV={steak:[-59,129,200,0,-15],avocado:[194,80,208,0,-65],pear:[287,-45,200,1,172],redcabbage:[314,452,176,1,-70],carrot:[-73,663,184,1,0],arugula:[-4,466,240,0,125],egg:[192,624,189,0,-4]};")
+rep('const ALLV={steak:[-80,66,389,0,-15],avocado:[312,-63,417,0,-65],pear:[789,-27,422,1,172],redcabbage:[1002,304,404,1,-70],carrot:[-46,588,320,1,0],arugula:[149,449,528,0,125],egg:[636,523,376,0,-4]}; // [x, y, size, soft focus, tilt°] traced from the Figma frame',
+    "const ALLV={steak:[-69,119,220,0,-15],avocado:[184,70,229,0,-65],pear:[277,-55,220,1,172],redcabbage:[305,443,194,1,-70],carrot:[-82,694,202,1,0],arugula:[-16,507,264,0,125],egg:[182,614,208,0,-4]};")
 rep("OX=605, OY=380;", "OX=196, OY=450;")
 rep("mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }",
     "mpan={x:clamp(mpan.x,Math.min(0,VW-16-R),Math.max(0,16-L)), y:clamp(mpan.y,Math.min(0,VH-HB-80-B),Math.max(0,115-T))}; }")
