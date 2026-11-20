@@ -114,10 +114,10 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 .hist-hero{grid-template-columns:1fr;padding:var(--s-5) var(--m) var(--m);gap:var(--s-2);border-radius:var(--r-lg)}
 .hist-hero img{order:-1;width:220px;height:200px;justify-self:center}
 .hh-date{font-size:24px;line-height:1.12}
-.hh-btns .btn{flex:1}
+.hh-btns .btn,.hh-btns .bt{flex:1}
 .hh-more{top:var(--s-3);right:var(--s-3)}
 .hgroup{margin-top:28px}
-.hrow{grid-template-columns:40px 48px minmax(0,1fr) var(--h-s);grid-template-rows:auto auto;column-gap:var(--s-3);row-gap:2px;padding:var(--s-3) 0}
+.hrow{grid-template-columns:40px 48px minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:var(--s-3);row-gap:2px;padding:var(--s-3) 0}
 .hr-date{grid-row:1/3}
 .hrow img{grid-row:1/3;width:48px;height:45px}
 .hr-date b{font-size:var(--t-heading)}
@@ -128,7 +128,9 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 .hr-end small{margin:0;font-size:12px}
 .hr-end small::before{content:"· ";color:var(--text-4)}
 .omore{grid-column:4;grid-row:1/3}
-.hrow .obag{display:none}
+.hrow .omore{display:none} /* phone: Reorder takes the slot; ••• is on press-and-hold */
+.hrow .obag{grid-column:4;grid-row:1/3;padding:0 14px}
+.hrow .obag .bt-ic{display:none}
 #s-orders.selecting .hrow{padding-left:36px}
 .hsel{left:2px}
 .selbar{left:12px;right:12px;bottom:calc(var(--hb) + 6px)}
@@ -166,11 +168,11 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 #s-bag .co{overflow:visible;padding:var(--s-5) var(--m) var(--s-2)}
 #s-bag .co-foot{border-top:0;padding:0 var(--m) var(--s-3)}
 .ph-pay{position:sticky;bottom:0;z-index:6;padding:var(--s-3) var(--m) calc(var(--hb) + 6px);background:linear-gradient(rgba(235,229,220,0),var(--cream-200) 28%)}
-.ph-pay .btn{width:100%}
+.ph-pay .btn,.ph-pay .bt{width:100%}
 .ph-pay .btn[disabled]{opacity:.35;pointer-events:none}
 .ph-pay small{display:block;margin-top:8px;text-align:center;font-size:var(--t-cap);color:var(--n-600)}
 #s-bag.empty .right,#s-bag.empty .ph-pay{display:none}
-.promo .btn{padding:0 var(--s-4)}
+.promo .bt{padding:0 var(--s-4)}
 
 /* ═════════════ Order placed ═════════════ */
 #s-done.screen{overflow-x:hidden;overflow-y:auto;scrollbar-width:none}
@@ -182,7 +184,7 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 .dn-steps{margin-top:26px}
 .dn-steps li{font-size:var(--t-cap)}
 .dn-btns{flex-direction:column;margin-top:30px}
-.dn-btns .btn{flex:none;width:100%}
+.dn-btns .bt{flex:none;width:100%}
 #s-done .right{position:relative;left:auto;right:auto;top:auto;bottom:auto;border-left:0;border-top:.5px solid var(--line);padding-bottom:var(--hb)}
 #s-done .co{overflow:visible;padding:var(--s-5) var(--m)}
 
@@ -229,7 +231,7 @@ body.framed.win #device{--r:44px;--frame:0 30px 80px rgba(0,30,20,.28),0 6px 18p
 /* builder: phone-size description */
 .b-desc{font-size:var(--t-body-s);line-height:21px;color:var(--n-800)}
 /* bag items: one left edge inside the card */
-.bitem>.li{padding:10px 6px;min-height:40px}
+.bitem>.li{padding:10px 6px;min-height:44px}
 .bitem>.li .lab{font-size:var(--t-body-s)}
 .bitem>.li .tr{font-size:var(--t-cap)}
 .bitem .sub>div{padding-left:6px}
@@ -338,3 +340,7 @@ html:has(body.device){background:var(--cream-100)}
 #cv-tb #move{padding:0;width:44px}
 #cv-tb .tb-sep{margin:0 2px}
 .tb .btg.in-tb .bt{padding:0 8px;font-size:14px}
+
+/* Apple HIG: 44 pt tap targets on the phone */
+.bs-grab{min-height:44px}
+.bg-more .bt{min-height:44px}

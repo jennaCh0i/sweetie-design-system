@@ -27,7 +27,7 @@
 .menu.open,.menu.static{opacity:1;visibility:visible;pointer-events:auto}
 .menu.static{position:relative;z-index:auto}
 .menu:focus{outline:none}
-.mi{position:relative;display:flex;align-items:center;width:100%;margin:0;border:0;background:none;color:inherit;font:inherit;
+.mi{position:relative;display:flex;align-items:center;width:100%;min-height:44px;margin:0;border:0;background:none;color:inherit;font:inherit;
   text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 .mi:focus{outline:none}
 .mi-lead{flex:none;display:grid;place-items:center}
