@@ -1629,7 +1629,7 @@ const PROD=[
   {k:'wildrice',img:'macro/wildrice',x:-456,y:541,w:228,h:228,name:'Wild rice',fd:'13.5s',fr:'-1deg',extra:1}
 ];
 // All tab: only Matt's bowl, big and tilted around the title (Figma "Chat with ingredients · Desktop · Intro"): [x, y, size, soft focus]
-const ALLV={steak:[-107,39,443,0,-15],avocado:[284,-91,474,0,-65],pear:[760,-56,480,1,172],redcabbage:[975,276,459,1,-70],carrot:[-68,503,364,1,0],arugula:[113,307,600,0,125],egg:[610,497,427,0,-4]}; // [x, y, size, soft focus, tilt°] traced from the Figma frame
+const ALLV={steak:[-63,83,354,0,-15],avocado:[331,-44,379,0,-65],pear:[808,-8,384,1,172],redcabbage:[1021,322,367,1,-70],carrot:[-32,539,291,1,0],arugula:[173,367,480,0,125],egg:[653,540,342,0,-4]}; // [x, y, size, soft focus, tilt°] traced from the Figma frame
 PROD.forEach(p=>{ p.L={x:p.x,y:p.y,w:p.w,h:p.h}; const a=ALLV[p.k]; if(a) p.A={x:a[0],y:a[1],w:a[2],h:a[2],soft:a[3],rot:a[4]}; });
 const ANS={
   'Watermelon radish':{why:'I’m not in your bowl yet. I’m watermelon radish — crisp, peppery and a little sweet, and I give your bowl that hot-pink pop.',nutrition:'I bring vitamin C, fiber and almost no calories.',
