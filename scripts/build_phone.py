@@ -102,13 +102,13 @@ s = s[:a] + '''const PROD=[
   {k:'arugula',img:'macro/arugula',x:133,y:877,w:130,h:130,name:'Arugula',fd:'12s',fr:'-2deg'},
   {k:'cilantro',img:'macro/cilantro',x:52,y:-113,w:130,h:130,name:'Cilantro',fd:'14s',fx:'-5px',extra:1},
   {k:'cabbage',img:'macro/cabbage',x:215,y:-113,w:130,h:130,name:'Cabbage',fd:'12.5s',fx:'5px',extra:1},
-  {k:'shallot',img:'macro/shallot',x:-112,y:736,w:130,h:130,name:'Shallot',fd:'15s',fy:'6px'},
+  {k:'shallot',img:'macro/shallot',x:-112,y:736,w:130,h:130,name:'Shallot',fd:'15s',fy:'6px',extra:1},
   {k:'chickpea',img:'macro/chickpea',x:379,y:736,w:130,h:130,name:'Chickpea',fd:'13.5s',fr:'-1deg',extra:1},
   {k:'egg',img:'macro/egg',x:-30,y:877,w:130,h:130,name:'Egg',fd:'13s',fr:'1.5deg'},
   {k:'kiwi',img:'macro/kiwi',x:297,y:877,w:130,h:130,name:'Kiwi',fd:'11s',fy:'6px',extra:1},
   {k:'tofu',img:'macro/tofu',x:-194,y:311,w:130,h:130,name:'Tofu',fd:'12s',fr:'-2deg',extra:1},
   {k:'chicken',img:'macro/chicken',x:460,y:311,w:130,h:130,name:'Chicken',fd:'14s',fx:'-5px',extra:1},
-  {k:'steak',img:'macro/steak',x:-194,y:594,w:130,h:130,name:'Steak',fd:'12.5s',fx:'5px',extra:1},
+  {k:'steak',img:'macro/steak',x:-194,y:594,w:130,h:130,name:'Steak',fd:'12.5s',fx:'5px'},
   {k:'rice',img:'macro/rice',x:460,y:594,w:130,h:130,name:'Rice',fd:'15s',fy:'6px',extra:1},
   {k:'wildrice',img:'macro/wildrice',x:133,y:-255,w:130,h:130,name:'Wild rice',fd:'13.5s',fr:'-1deg',extra:1}
 ];''' + s[b:]
@@ -120,8 +120,8 @@ rep("""  const H=Math.max(360,Math.min(400,p.h*1.25)), W=H*p.w/p.h, w2=Math.min(
   return {left:196-w2/2, top:248-h2/2, width:w2, height:h2};""")
 rep("PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<345?q.x-120:q.x+80)+'px';});",
     "PROD.filter(q=>q!==p&&!q.soft).forEach(q=>{q.el.style.left=(q.x<196?q.x-70:q.x+50)+'px';});")
-rep("const ALLV={avocado:[360,-40,300,0],arugula:[850,10,250,1],shallot:[-62,140,290,1],redcabbage:[1000,290,300,1],pear:[-40,560,290,1],egg:[296,520,290,0],carrot:[790,580,300,0]};",
-    "const ALLV={avocado:[40,112,168,0],arugula:[236,100,150,1],shallot:[-56,286,156,1],redcabbage:[292,262,160,1],pear:[-40,520,160,1],egg:[112,470,152,0],carrot:[262,606,164,0]};")
+rep('const ALLV={steak:[-107,39,443,0,-15],avocado:[284,-91,474,0,-65],pear:[760,-56,480,1,172],redcabbage:[975,276,459,1,-70],carrot:[-68,503,364,1,0],arugula:[113,307,600,0,125],egg:[610,497,427,0,-4]}; // [x, y, size, soft focus, tilt°] traced from the Figma frame',
+    "const ALLV={steak:[-84,104,250,0,-15],avocado:[168,54,260,0,-65],pear:[262,-70,250,1,172],redcabbage:[292,430,220,1,-70],carrot:[-96,640,230,1,0],arugula:[-34,436,300,0,125],egg:[168,600,236,0,-4]};")
 rep("OX=605, OY=380;", "OX=196, OY=450;")
 rep("mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }",
     "mpan={x:clamp(mpan.x,Math.min(0,VW-16-R),Math.max(0,16-L)), y:clamp(mpan.y,Math.min(0,VH-HB-80-B),Math.max(0,115-T))}; }")
