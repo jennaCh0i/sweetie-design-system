@@ -1012,7 +1012,7 @@ svg.cmp-ic :is(path,circle,rect){vector-effect:non-scaling-stroke;stroke-width:v
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 // WK07 · 01 Serene · canvas toolbar (centre aligned, floating over the chat canvas)
 $('#cv-host').insertAdjacentHTML('afterbegin',toolbar('serene',[
-  {html:btnGroup('serene',[{value:'all',label:'All'},{value:'greens',label:'Greens'},{value:'veggies',label:'Veggies'},{value:'fruit',label:'Fruit'},{value:'protein',label:'Protein'},{value:'grains',label:'Grains'}],{label:'Show ingredients',id:'cv-filter',cls:'in-tb'})}],{label:'Canvas',id:'cv-tb'}));
+  {html:btnGroup('serene',[{value:'all',label:'Highlights'},{value:'greens',label:'Greens'},{value:'veggies',label:'Veggies'},{value:'fruit',label:'Fruit'},{value:'protein',label:'Protein'},{value:'grains',label:'Grains'}],{label:'Show ingredients',id:'cv-filter',cls:'in-tb'})}],{label:'Canvas',id:'cv-tb'}));
 $('#cv-tip').hidden=true; // Move was removed: the canvas always drags (tap still opens an ingredient)
 // Order history header toolbar (02 Elegant, right aligned) + selection toolbar
 $('#o-tools').innerHTML=toolbar('elegant',[
