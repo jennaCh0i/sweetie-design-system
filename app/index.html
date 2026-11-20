@@ -343,7 +343,7 @@ body.forced #fs-exit{display:none}
 #s-chat{overflow:hidden;overflow:clip;background:radial-gradient(70% 60% at 30% 45%,#F3F8EA 0%,rgba(243,248,234,0) 70%),linear-gradient(180deg,#EEF4E3 0%,#E6F0D6 100%)} /* canvas: soft green tint, not white */
 .produce{position:absolute;inset:0;transition:transform .9s var(--ease)}
 .prod{position:absolute;transition:left 1.1s var(--ease),top 1.1s var(--ease),width 1.1s var(--ease),height 1.1s var(--ease),filter 1s var(--ease),opacity 1s var(--ease)}
-.prod .float{position:absolute;inset:0;animation:float var(--fd,12s) ease-in-out infinite alternate;animation-delay:var(--fdl,0s)}
+.prod .float{position:absolute;inset:0;filter:blur(var(--dof,0px));transition:filter .6s var(--ease);animation:float var(--fd,12s) ease-in-out infinite alternate;animation-delay:var(--fdl,0s)}
 .prod img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;-webkit-user-drag:none;filter:drop-shadow(0 18px 22px rgba(46,66,30,.16)) drop-shadow(0 3px 5px rgba(46,66,30,.10))} /* one key light for every cutout (photos graded to one exposure — see assets/originals) */
 @keyframes float{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--fx,6px),var(--fy,-10px)) rotate(var(--fr,2deg))}}
 .prod.soft{filter:blur(16px);opacity:.95}
@@ -356,6 +356,7 @@ body.forced #fs-exit{display:none}
 #s-chat.talking .prod .ask{opacity:0}
 #s-chat.talking .prod:not(.focus){filter:blur(18px);opacity:.75}
 #s-chat.talking .prod.focus{filter:none;opacity:1}
+#s-chat.talking .prod,#s-chat.filtered .prod{--dof:0px!important}
 .chat-head{position:absolute;left:0;right:0;top:396px;text-align:center;pointer-events:none;transition:opacity .8s var(--ease),filter .8s var(--ease),transform .8s var(--ease)}
 .chat-head small{display:block;font-size:var(--t-body);color:var(--n-800);letter-spacing:var(--tr-body)}
 .chat-head h2{margin-top:4px;font-size:var(--t-display);font-weight:400;letter-spacing:var(--tr-display);color:var(--text-brand)}
@@ -1701,7 +1702,7 @@ async function openChat(p,firstQ){
   $('#msgs').innerHTML=''; await wait(first?650:250);
   if(firstQ) ask(firstQ); else say(ANS[p.name].hi);
 }
-function closeChat(){ talking=null; chat.classList.remove('talking'); PROD.forEach(q=>q.el.classList.remove('focus')); resetProd(); }
+function closeChat(){ talking=null; chat.classList.remove('talking'); PROD.forEach(q=>q.el.classList.remove('focus')); resetProd(); if(cvFilter==='all') recentre(); }
 PROD.forEach(p=>{ if(!p.name) return;
   p.el.addEventListener('click',e=>{ if(moved) return; if(talking!==p) openChat(p); });
 });
@@ -1722,18 +1723,22 @@ async function ask(q){
 $('#sugg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) ask(b.dataset.q);});
 $('#ask').addEventListener('submit',e=>{e.preventDefault(); const i=$('#ask-in'); if(i.value.trim()) ask(i.value.trim()); i.value='';});
 // move canvas (drag the produce field)
-let moving=true, moved=false, mv=null, mpan={x:0,y:0}, zoom=1;
+const ALLZ=1.32, FOCUSN=4; // All view is pulled in: bigger, closer ingredients; the edges fall out of focus
+let moving=true, moved=false, mv=null, mpan={x:0,y:0}, zoom=ALLZ;
 /* WK07 · 01 Serene canvas toolbar: Move (hand tool) · zoom − / 100% / + · Recentre */
 const ZOOMS=[.5,.75,1,1.25,1.5], EXT={l:Math.min(...PROD.map(p=>p.x)),r:Math.max(...PROD.map(p=>p.x+p.w)),t:Math.min(...PROD.map(p=>p.y)),b:Math.max(...PROD.map(p=>p.y+p.h))}, OX=605, OY=380;
-PR.style.transformOrigin=`${OX}px ${OY}px`;
+PR.style.transformOrigin=`${OX}px ${OY}px`; applyView(false);
 function clampPan(){ const L=OX+(EXT.l-OX)*zoom, R=OX+(EXT.r-OX)*zoom, T=OY+(EXT.t-OY)*zoom, B=OY+(EXT.b-OY)*zoom;
   mpan={x:clamp(mpan.x,Math.min(0,1190-R),Math.max(0,20-L)), y:clamp(mpan.y,Math.min(0,814-B),Math.max(0,95-T))}; }
-function paintCv(){}
+function paintCv(){ // depth of field: the few ingredients nearest the middle stay sharp, everything further out softens (drag to bring others into focus)
+  const D=PROD.map(p=>{ const sx=OX+(p.x+p.w/2-OX)*zoom+mpan.x, sy=OY+(p.y+p.h/2-OY)*zoom+mpan.y; return Math.hypot((sx-OX)/OX,(sy-OY)/OY); });
+  const cut=[...D].sort((a,b)=>a-b)[FOCUSN-1]+.02;
+  PROD.forEach((p,i)=>p.el.style.setProperty('--dof',(D[i]<=cut?0:Math.min(11,4+(D[i]-cut)*16)).toFixed(1)+'px')); }
 function applyView(anim=true){ PR.style.transition=anim?'transform .6s cubic-bezier(.45,0,.2,1)':'none';
   PR.style.transform=(mpan.x||mpan.y||zoom!==1)?`translate(${mpan.x}px,${mpan.y}px) scale(${zoom})`:''; paintCv(); }
 function setZoom(z,anim=true){ const nz=clamp(z,ZOOMS[0],ZOOMS[ZOOMS.length-1]); mpan={x:mpan.x*nz/zoom,y:mpan.y*nz/zoom}; zoom=nz; clampPan(); applyView(anim); }
 const zoomStep=d=>setZoom(d>0?(ZOOMS.find(v=>v>zoom+1e-3)||zoom):([...ZOOMS].reverse().find(v=>v<zoom-1e-3)||zoom));
-function recentre(){ mpan={x:0,y:0}; zoom=1; applyView(); }
+function recentre(){ mpan={x:0,y:0}; zoom=ALLZ; applyView(); }
 chat.classList.add('moving'); // drag anywhere on the canvas to look around — no Move mode
 /* filter (replaces zoom, per feedback): a WK08 button group in the WK07 toolbar. Matching ingredients stay,
    the rest step back, and the canvas glides to frame the matches (extras off-canvas included). */
