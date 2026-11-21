@@ -1119,7 +1119,7 @@ function tabletView(){
   if(STANDALONE&&Math.abs(W-(land?long:short))<=2) H=land?short:long;
   let top=parseFloat(getComputedStyle(SAFE).paddingTop)||0;
   if(STANDALONE&&!top) top=24; // iPad status bar height, in case env() reports 0
-  top=Math.round(top/2); // the nav's own padding already clears the clock, so only half the status bar is reserved
+  top=Math.round(top*.75); // reserve ¾ of the status bar: the nav clears the clock and stays below iPadOS's top-edge blur
   document.documentElement.style.height=document.body.style.height=H+'px';
   return {W,H,top};
 }
