@@ -7,6 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sweetie">
+<meta name="theme-color" content="#F5F3E8">
 <link rel="apple-touch-icon" href="assets/sweetie-mark-ink.png">
 <title>Sweetie — Tablet Prototype</title>
 <meta name="description" content="Sweetie (sweetgreen LLM) tablet prototype: Start with one word, Discover, Bowl builder, Chat with ingredients and Order history, using the WK01–WK05 interactions.">
@@ -1119,8 +1120,9 @@ function tabletView(){
   if(STANDALONE&&Math.abs(W-(land?long:short))<=2) H=land?short:long;
   let top=parseFloat(getComputedStyle(SAFE).paddingTop)||0;
   if(STANDALONE&&!top) top=24; // iPad status bar height, in case env() reports 0
-  top=Math.round(top*.75); // reserve ¾ of the status bar: the nav clears the clock and stays below iPadOS's top-edge blur
+  // iPadOS 26 blurs everything under the status bar (tinted by theme-color, set to cream above), so the nav starts fully below it
   document.documentElement.style.height=document.body.style.height=H+'px';
+  document.documentElement.style.background='#F5F3E8'; // the strip under the status bar matches the cream nav
   return {W,H,top};
 }
 function fit(){
