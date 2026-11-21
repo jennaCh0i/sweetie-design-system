@@ -856,6 +856,35 @@ label.li:hover .sel:checked+.cb::before{opacity:.85}
 [data-tone=serene]{--ic-sw:1.5px}
 :is(.icon,.circ,.loc-btn,.expand,.tbb-ic,.tb-field,.bt-ic,.mi-lead,.mi-icon,.mi-chev,.close,.x,.send,.who,.store,.pm,.deliv,.sh-date,.li .ch,.qty button,.qty2,.warn,.sold-note,.obag,.dtag,.hsel,.adj-tab,.adj-x,.ap-glyph) svg :is(path,circle,rect,line,polyline,polygon,ellipse),
 svg.cmp-ic :is(path,circle,rect){vector-effect:non-scaling-stroke;stroke-width:var(--ic-sw);stroke-linecap:round;stroke-linejoin:round}
+/* ═════════════ Presenter sidebar (Elegant) · hold one spot for 4 s anywhere to open ═════════════
+   For demoing on the iPad (no keyboard, no address bar): jump to any screen. Outlined icons, per Apple HIG for sidebars. */
+#sb-scrim{position:absolute;inset:0;z-index:90;background:rgba(17,24,20,.18);opacity:0;pointer-events:none;transition:opacity .32s ease-out}
+#sb-scrim.on{opacity:1;pointer-events:auto}
+#sb{position:absolute;left:0;top:0;bottom:0;z-index:91;width:320px;padding:24px 0 32px;overflow-y:auto;background:#F9F6E6;
+  box-shadow:.5px 0 0 #BDBDBD,24px 0 48px -28px rgba(0,0,0,.28);transform:translateX(-104%);visibility:hidden;
+  transition:transform .48s cubic-bezier(.32,.72,0,1),visibility 0s linear .48s}
+#sb.open{transform:none;visibility:visible;transition:transform .48s cubic-bezier(.32,.72,0,1),visibility 0s}
+.sb-top{display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 12px 0 24px;margin-bottom:8px}
+.sb-brand{font-size:26px;line-height:32px;font-weight:400;letter-spacing:-.03em;color:#00473D}
+.sb-x{position:relative;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;color:#595959;transition:background .2s ease-in-out}
+.sb-x:active{background:rgba(0,71,61,.09)}
+.sb-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round}
+.sb-h{padding:20px 24px 8px;font-size:11px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;color:#595959}
+.sb-i{display:flex;align-items:center;gap:14px;width:calc(100% - 24px);min-height:48px;margin:0 12px;padding:0 12px;border-radius:13px;
+  font:inherit;font-size:17px;line-height:22px;font-weight:300;letter-spacing:0;color:#00473D;text-align:left;background:transparent;transition:background .2s ease-in-out}
+.sb-i+.sb-i{margin-top:2px}
+.sb-i svg{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+.sb-i:active{background:rgba(0,71,61,.09);transition-duration:.08s}
+.sb-i.on{background:rgba(235,229,220,.85);font-weight:400}
+.sb-ring{position:fixed;z-index:9999;width:56px;height:56px;margin:-28px 0 0 -28px;pointer-events:none;opacity:0;transition:opacity .2s ease-out}
+.sb-ring.on{opacity:1}
+.sb-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.sb-ring circle{fill:none;stroke-width:3;stroke-linecap:round}
+.sb-ring .bg{stroke:rgba(0,71,61,.15)}
+.sb-ring .fg{stroke:#00473D;stroke-dasharray:157;stroke-dashoffset:157}
+.sb-ring.on .fg{animation:sbfill 3.4s linear forwards}
+@keyframes sbfill{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){#sb,#sb.open{transition:none}}
 </style>
 </head>
 <body>
@@ -988,6 +1017,8 @@ svg.cmp-ic :is(path,circle,rect){vector-effect:non-scaling-stroke;stroke-width:v
   <div class="veil" id="veil"><div class="pool" aria-live="polite"><svg class="p1"><path/></svg><svg class="p2"><path/></svg><svg class="p3"><path/></svg><span class="lbl">Placing your order…</span></div></div>
   <div class="toast" id="toast" role="status"></div>
 </div>
+  <div id="sb-scrim"></div>
+  <aside id="sb" data-tone="elegant" aria-label="Sweetie sidebar" aria-hidden="true"><div class="sb-top"><span class="sb-brand">sweetie</span><button class="sb-x" type="button" id="sb-x" aria-label="Close sidebar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><p class="sb-h">Order</p><button class="sb-i" type="button" data-sb="start"><svg viewBox="0 0 24 24"><path d="M12 3.2l7.6 4.4v8.8L12 20.8l-7.6-4.4V7.6z"/></svg><span>Sweetie</span></button><button class="sb-i" type="button" data-sb="discover"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M15.2 8.8l-1.9 4.5-4.5 1.9 1.9-4.5z"/></svg><span>Discover</span></button><button class="sb-i" type="button" data-sb="builder"><svg viewBox="0 0 24 24"><path d="M3.5 11.5h17a8.5 7 0 0 1-17 0z"/><path d="M8 8.5c.8-1.8 2.8-2 4-.6M13 7.6c1.1-1.5 3-1.3 3.8.4"/></svg><span>Bowl builder</span></button><button class="sb-i" type="button" data-sb="chat"><svg viewBox="0 0 24 24"><path d="M4.5 5.5h15v10h-9.5l-4 3.3v-3.3H4.5z"/></svg><span>Chat with ingredients</span></button><button class="sb-i" type="button" data-sb="bag"><svg viewBox="0 0 24 24"><path d="M6 8.5h12l-1 11H7z"/><path d="M9 8.5a3 3 0 0 1 6 0"/></svg><span>Bag</span></button><p class="sb-h">You</p><button class="sb-i" type="button" data-sb="orders"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>Order history</span></button><button class="sb-i" type="button" data-sb="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.3"/><path d="M5.5 19.5c1.3-3.2 3.8-4.8 6.5-4.8s5.2 1.6 6.5 4.8"/></svg><span>Dietary &amp; profile</span></button></aside>
 </div>
 
 <nav class="flowbar" aria-label="Flows">
@@ -2494,6 +2525,36 @@ function route(){
   if(scr==='builder'&&act==='demo') builderDemo();
   return true;
 }
+/* ═════════════ Presenter sidebar · hold one spot for 4 s (finger or mouse) anywhere to open ═════════════ */
+(()=>{ const SB=$('#sb'), SC=$('#sb-scrim'), HOLD=4000, SLOP=12;
+  const ring=document.createElement('div'); ring.className='sb-ring';
+  ring.innerHTML='<svg viewBox="0 0 56 56"><circle class="bg" cx="28" cy="28" r="25"/><circle class="fg" cx="28" cy="28" r="25"/></svg>';
+  document.body.appendChild(ring);
+  let t=null,t1=null,p=null,swallowUntil=0;
+  const isOpen=()=>SB.classList.contains('open');
+  function cancel(){ clearTimeout(t); clearTimeout(t1); t=t1=p=null; ring.classList.remove('on'); }
+  function open(){ cancel(); if(typeof closeMenus==='function') closeMenus();
+    const cur=$('#sheet').classList.contains('open')?'profile':app.dataset.screen;
+    $$('.sb-i',SB).forEach(b=>b.classList.toggle('on',b.dataset.sb===cur));
+    SB.classList.add('open'); SC.classList.add('on'); SB.setAttribute('aria-hidden','false'); swallowUntil=performance.now()+800; }
+  function close(){ SB.classList.remove('open'); SC.classList.remove('on'); SB.setAttribute('aria-hidden','true'); }
+  document.addEventListener('pointerdown',e=>{
+    if(p){ cancel(); return; }                       // a second finger cancels
+    if(isOpen()||!e.isPrimary||e.button>0) return;
+    p={id:e.pointerId,x:e.clientX,y:e.clientY};
+    t1=setTimeout(()=>{ ring.style.left=p.x+'px'; ring.style.top=p.y+'px'; ring.classList.add('on'); },HOLD-3400);
+    t=setTimeout(open,HOLD); },true);
+  document.addEventListener('pointermove',e=>{ if(p&&e.pointerId===p.id&&Math.hypot(e.clientX-p.x,e.clientY-p.y)>SLOP) cancel(); },true);
+  ['pointerup','pointercancel'].forEach(n=>document.addEventListener(n,e=>{ if(p&&e.pointerId===p.id) cancel(); },true));
+  // the finger lifting after the hold must not also tap whatever was under it
+  document.addEventListener('click',e=>{ if(performance.now()<swallowUntil&&!e.target.closest('#sb')){ e.preventDefault(); e.stopPropagation(); } },true);
+  document.addEventListener('contextmenu',e=>{ if(p) e.preventDefault(); },true);
+  SC.addEventListener('click',close); $('#sb-x').onclick=close;
+  addEventListener('keydown',e=>{ if(e.key==='Escape'&&isOpen()) close(); });
+  $$('.sb-i',SB).forEach(b=>b.onclick=()=>{ close(); const to=b.dataset.sb;
+    if(typeof closeSheet==='function') closeSheet();
+    history.replaceState(null,'','#'+to); route(); });
+})();
 if(!route()) ENTER.start();
 addEventListener('hashchange',route);
 </script>
